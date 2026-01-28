@@ -1,0 +1,15 @@
+{
+  "name": "breadcrumbs",
+  "display_name": "Breadcrumbs",
+  "component_group_name": "Utilities",
+  "is_nestable": true,
+  "schema": {
+    "items": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
+    }
+  }
+}

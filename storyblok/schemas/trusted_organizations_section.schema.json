@@ -1,0 +1,16 @@
+{
+  "name": "trusted_organizations_section",
+  "display_name": "Trusted Organizations Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+  "logos": {
+  "type": "asset",
+  "maximum": 0
+}
+
+  }
+}

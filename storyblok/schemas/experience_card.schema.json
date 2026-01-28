@@ -1,0 +1,52 @@
+{
+  "name": "experience_card",
+  "display_name": "Experience Card",
+  "component_group_name": "Cards",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "image": {
+      "type": "asset"
+    },
+    "location": {
+      "type": "text"
+    },
+    "price": {
+      "type": "number"
+    },
+    "sustainability_score": {
+      "type": "number",
+      "min": 1,
+      "max": 5,
+      "display_name": "Sustainability Score (1-5)",
+      "description": "Rate the sustainability impact of this experience"
+    },
+    "community_impact": {
+      "type": "textarea",
+      "display_name": "Community Impact",
+      "description": "Describe how this experience supports local communities"
+    },
+    "guide_name": {
+      "type": "text",
+      "display_name": "Guide Name",
+      "description": "Name of the local guide or expert"
+    },
+    "guide_story": {
+      "type": "richtext",
+      "display_name": "Guide Story",
+      "description": "Background and story of the local guide"
+    },
+    "why_it_matters": {
+      "type": "richtext",
+      "display_name": "Why It Matters",
+      "description": "Explain the cultural or environmental significance of this experience"
+    },
+    "cultural_tips": {
+      "type": "richtext",
+      "display_name": "Cultural Tips",
+      "description": "Important cultural guidelines and etiquette for participants"
+    }
+  }
+}

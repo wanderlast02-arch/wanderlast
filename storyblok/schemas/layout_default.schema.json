@@ -1,0 +1,21 @@
+{
+  "name": "layout_default",
+  "display_name": "Layout: Default",
+  "component_group_name": "Layout",
+  "is_nestable": true,
+  "schema": {
+    "seo": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "seo"
+      ]
+    },
+    "header_style": {
+      "type": "text"
+    },
+    "footer_style": {
+      "type": "text"
+    }
+  }
+}

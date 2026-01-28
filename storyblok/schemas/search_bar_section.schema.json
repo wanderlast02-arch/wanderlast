@@ -1,0 +1,14 @@
+{
+  "name": "search_bar_section",
+  "display_name": "Search Bar Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "placeholder": {
+      "type": "text"
+    },
+    "cta_label": {
+      "type": "text"
+    }
+  }
+}

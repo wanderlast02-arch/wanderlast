@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="sunset" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1C2A36"/>
+      <stop offset="0.4" stop-color="#3B4B5A"/>
+      <stop offset="1" stop-color="#F2AE5C"/>
+    </linearGradient>
+    <linearGradient id="pagoda" x1="0" y1="0" x2="0" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C75B2B"/>
+      <stop offset="1" stop-color="#F2AE5C"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sunset)"/>
+  <circle cx="1260" cy="200" r="140" fill="#F7F5F1" fill-opacity="0.5"/>
+  <path d="M0 720 Q220 660 520 700 T1040 680 T1600 620 V900 H0 Z" fill="#0F1E28" fill-opacity="0.6"/>
+  <g transform="translate(360 260)">
+    <polygon points="180,0 240,80 120,80" fill="#7BA68E"/>
+    <rect x="120" y="80" width="120" height="60" fill="#F7F5F1"/>
+    <polygon points="140,140 220,140 180,220" fill="#2D5F4F"/>
+    <rect x="140" y="220" width="80" height="160" fill="url(#pagoda)"/>
+    <rect x="140" y="240" width="80" height="20" fill="#0F1E28" opacity="0.2"/>
+    <rect x="160" y="260" width="40" height="80" fill="#0F1E28" opacity="0.25"/>
+  </g>
+  <text x="120" y="160" fill="#F7F5F1" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="42" font-weight="700">Bagan Plains</text>
+  <text x="120" y="210" fill="#F7F5F1" opacity="0.85" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="20">UNESCO Heritage, Myanmar</text>
+</svg>

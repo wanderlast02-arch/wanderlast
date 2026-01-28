@@ -1,0 +1,19 @@
+{
+  "name": "why_wanderlast_section",
+  "display_name": "Why Wanderlast Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "description": {
+      "type": "textarea"
+    },
+    "value_statement": {
+      "type": "richtext",
+      "display_name": "Value Statement",
+      "description": "Short description of how this section reflects Wanderlast's values: authenticity, sustainability, and human-centered travel"
+    }
+  }
+}

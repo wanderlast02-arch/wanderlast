@@ -1,0 +1,14 @@
+{
+  "name": "city_card",
+  "display_name": "City Card",
+  "component_group_name": "Cards",
+  "is_nestable": true,
+  "schema": {
+    "name": {
+      "type": "text"
+    },
+    "image": {
+      "type": "asset"
+    }
+  }
+}

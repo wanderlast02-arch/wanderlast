@@ -1,0 +1,14 @@
+{
+  "name": "icon_tag",
+  "display_name": "Icon Tag",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "label": {
+      "type": "text"
+    },
+    "icon": {
+      "type": "asset"
+    }
+  }
+}

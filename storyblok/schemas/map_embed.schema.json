@@ -1,0 +1,11 @@
+{
+  "name": "map_embed",
+  "display_name": "Map Embed",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "map_url": {
+      "type": "text"
+    }
+  }
+}

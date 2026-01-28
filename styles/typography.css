@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;700&display=swap');
+
+:root {
+  /* Typography Scale - Noto Sans */
+  
+  /* H1 - Noto Sans Light */
+  --font-h1-size: 72pt;
+  --font-h1-line-height: 100%;
+  --font-h1-letter-spacing: 8%;
+  --font-h1-weight: 300;
+  
+  /* H2 - Noto Sans Regular */
+  --font-h2-size: 56pt;
+  --font-h2-line-height: 100%;
+  --font-h2-letter-spacing: 0;
+  --font-h2-weight: 400;
+  
+  /* H3 - AN Regular */
+  --font-h3-size: 32pt;
+  --font-h3-line-height: 120%;
+  --font-h3-letter-spacing: 0;
+  --font-h3-weight: 400;
+  
+  /* H4 Bold - AN Bold */
+  --font-h4-bold-size: 20pt;
+  --font-h4-bold-line-height: 120%;
+  --font-h4-bold-letter-spacing: 0;
+  --font-h4-bold-weight: 700;
+  
+  /* H4 Medium - AN Medium */
+  --font-h4-medium-size: 20pt;
+  --font-h4-medium-line-height: 120%;
+  --font-h4-medium-letter-spacing: 0;
+  --font-h4-medium-weight: 500;
+  
+  /* H5 - AN Regular */
+  --font-h5-size: 16pt;
+  --font-h5-line-height: 120%;
+  --font-h5-letter-spacing: 0;
+  --font-h5-weight: 400;
+  
+  /* H6 - AN Regular */
+  --font-h6-size: 14pt;
+  --font-h6-line-height: 120%;
+  --font-h6-letter-spacing: 0;
+  --font-h6-weight: 400;
+  
+  /* Small Text - AN Regular */
+  --font-small-size: 12pt;
+  --font-small-line-height: 120%;
+  --font-small-letter-spacing: 0;
+  --font-small-weight: 400;
+  
+  /* Legacy sizes (for backward compatibility) */
+  --font-display-xl: 48px;
+  --font-display-l: 40px;
+  --font-h1: 32px;
+  --font-h2: 28px;
+  --font-h3: 24px;
+  --font-subtitle: 20px;
+  --font-body-l: 18px;
+  --font-body-m: 16px;
+  --font-body-s: 14px;
+  --font-label: 12px;
+  --font-caption: 11px;
+}
+
+/* CSS utility classes for typography */
+h1 {
+  font-size: var(--font-h1-size);
+  font-weight: var(--font-h1-weight);
+  line-height: var(--font-h1-line-height);
+  letter-spacing: var(--font-h1-letter-spacing);
+}
+
+h2 {
+  font-size: var(--font-h2-size);
+  font-weight: var(--font-h2-weight);
+  line-height: var(--font-h2-line-height);
+  letter-spacing: var(--font-h2-letter-spacing);
+}
+
+h3 {
+  font-size: var(--font-h3-size);
+  font-weight: var(--font-h3-weight);
+  line-height: var(--font-h3-line-height);
+  letter-spacing: var(--font-h3-letter-spacing);
+}
+
+h4 {
+  font-size: var(--font-h4-bold-size);
+  font-weight: var(--font-h4-bold-weight);
+  line-height: var(--font-h4-bold-line-height);
+  letter-spacing: var(--font-h4-bold-letter-spacing);
+}
+
+h5 {
+  font-size: var(--font-h5-size);
+  font-weight: var(--font-h5-weight);
+  line-height: var(--font-h5-line-height);
+  letter-spacing: var(--font-h5-letter-spacing);
+}
+
+h6 {
+  font-size: var(--font-h6-size);
+  font-weight: var(--font-h6-weight);
+  line-height: var(--font-h6-line-height);
+  letter-spacing: var(--font-h6-letter-spacing);
+}
+
+.small-text {
+  font-size: var(--font-small-size);
+  font-weight: var(--font-small-weight);
+  line-height: var(--font-small-line-height);
+  letter-spacing: var(--font-small-letter-spacing);
+}

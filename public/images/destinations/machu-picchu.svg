@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F2F4A"/>
+      <stop offset="0.45" stop-color="#1E5872"/>
+      <stop offset="1" stop-color="#8BC6E6"/>
+    </linearGradient>
+    <linearGradient id="mountain" x1="0" y1="0" x2="1600" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F6B59"/>
+      <stop offset="1" stop-color="#4E8E74"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="1280" cy="200" r="120" fill="#F7F5F1" fill-opacity="0.45"/>
+  <path d="M0 760 L280 520 L520 660 L760 420 L940 540 L1120 380 L1360 620 L1600 440 V900 H0 Z" fill="#12382C" fill-opacity="0.7"/>
+  <path d="M200 760 L520 460 L760 620 L980 420 L1260 640 L1600 520 V900 H200 Z" fill="url(#mountain)"/>
+  <path d="M620 740 L760 580 L880 660 L1020 540 L1180 640 L1340 560 L1520 660 L1520 900 H620 Z" fill="#2D5F4F" fill-opacity="0.8"/>
+  <text x="120" y="180" fill="#F7F5F1" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="42" font-weight="700">Machu Picchu</text>
+  <text x="120" y="230" fill="#F7F5F1" opacity="0.8" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="20">UNESCO World Heritage, Peru</text>
+</svg>

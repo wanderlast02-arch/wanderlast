@@ -1,0 +1,20 @@
+{
+  "name": "seo",
+  "display_name": "SEO",
+  "component_group_name": "Utilities",
+  "is_nestable": true,
+  "schema": {
+    "meta_title": {
+      "type": "text"
+    },
+    "meta_description": {
+      "type": "text"
+    },
+    "og_image": {
+      "type": "asset"
+    },
+    "no_index": {
+      "type": "boolean"
+    }
+  }
+}

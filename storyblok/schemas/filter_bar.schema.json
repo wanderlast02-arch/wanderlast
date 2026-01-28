@@ -1,0 +1,15 @@
+{
+  "name": "filter_bar",
+  "display_name": "Filter Bar",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "filters": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
+    }
+  }
+}

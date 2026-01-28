@@ -1,0 +1,23 @@
+{
+  "name": "featured_experiences_section",
+  "display_name": "Featured Experiences Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "experiences": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "experience_card"
+      ]
+    },
+    "value_statement": {
+      "type": "richtext",
+      "display_name": "Value Statement",
+      "description": "Short description of how this section reflects Wanderlast's values: authenticity, sustainability, and human-centered travel"
+    }
+  }
+}

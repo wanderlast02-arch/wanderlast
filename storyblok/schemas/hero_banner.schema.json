@@ -1,0 +1,20 @@
+{
+  "name": "hero_banner",
+  "display_name": "Hero Banner",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "cta_label": {
+      "type": "text"
+    },
+    "image": {
+      "type": "asset"
+    }
+  }
+}

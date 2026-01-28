@@ -1,0 +1,93 @@
+{
+  "name": "page_experience",
+  "display_name": "Page: Experience",
+  "component_group_name": "Pages",
+  "is_nestable": false,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "subtitle": {
+      "type": "text"
+    },
+    "cover_image": {
+      "type": "asset"
+    },
+    "rating": {
+      "type": "number"
+    },
+    "review_count": {
+      "type": "number"
+    },
+    "location": {
+      "type": "text"
+    },
+    "price_from": {
+      "type": "number"
+    },
+    "duration": {
+      "type": "text"
+    },
+    "categories": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag",
+        "icon_tag"
+      ]
+    },
+    "highlights": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "icon_tag",
+        "tag"
+      ]
+    },
+    "description_long": {
+      "type": "richtext"
+    },
+    "gallery": {
+      "type": "asset",
+      "maximum": 6
+    },
+    "included_items": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
+    },
+    "excluded_items": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
+    },
+    "important_info": {
+      "type": "richtext"
+    },
+    "meeting_point": {
+      "type": "text"
+    },
+    "map_embed": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "map_embed"
+      ]
+    },
+    "similar_experiences": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "experience_grid"
+      ]
+    },
+    "body": {
+      "type": "bloks",
+      "restrict_components": false
+    }
+  }
+}

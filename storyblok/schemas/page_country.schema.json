@@ -1,0 +1,35 @@
+{
+  "name": "page_country",
+  "display_name": "Page: Country",
+  "component_group_name": "Pages",
+  "is_nestable": false,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "hero_image": {
+      "type": "asset"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "body": {
+      "type": "bloks",
+      "restrict_components": false
+    },
+    "map_embed": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "map_embed"
+      ]
+    },
+    "nearby_destinations": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "destination_card"
+      ]
+    }
+  }
+}

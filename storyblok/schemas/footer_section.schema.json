@@ -1,0 +1,11 @@
+{
+  "name": "footer_section",
+  "display_name": "Footer Section",
+  "component_group_name": "Sections",
+  "is_nestable": false,
+  "schema": {
+    "text": {
+      "type": "text"
+    }
+  }
+}

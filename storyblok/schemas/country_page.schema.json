@@ -1,0 +1,59 @@
+{
+  "name": "country_page",
+  "display_name": "Country Page",
+  "component_group_uuid": null,
+  "schema": {
+    "title": {
+      "type": "text",
+      "display_name": "Title",
+      "pos": 0
+    },
+    "hero_image": {
+      "type": "asset",
+      "display_name": "Hero Image",
+      "pos": 1
+    },
+    "tagline": {
+      "type": "text",
+      "display_name": "Tagline",
+      "pos": 2
+    },
+    "description": {
+      "type": "textarea",
+      "display_name": "Description",
+      "pos": 3
+    },
+    "destinations": {
+      "type": "multilink",
+      "display_name": "Destinations",
+      "pos": 4,
+      "filter_content_type": ["destination_page"]
+    },
+    "featured_experiences": {
+      "type": "multilink",
+      "display_name": "Featured Experiences",
+      "pos": 5,
+      "filter_content_type": ["experience_page"]
+    },
+    "travel_tips": {
+      "type": "blocks",
+      "display_name": "Travel Tips",
+      "pos": 6
+    },
+    "sustainability_message": {
+      "type": "richtext",
+      "display_name": "Sustainability Message",
+      "pos": 7
+    },
+    "nearby_countries": {
+      "type": "multilink",
+      "display_name": "Nearby Countries",
+      "pos": 8,
+      "filter_content_type": ["country_page"]
+    }
+  },
+  "image": null,
+  "preview_tmpl": null,
+  "is_root": false,
+  "preview_field": "title"
+}

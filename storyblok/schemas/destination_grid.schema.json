@@ -1,0 +1,15 @@
+{
+  "name": "destination_grid",
+  "display_name": "Destination Grid",
+  "component_group_name": "Grids",
+  "is_nestable": true,
+  "schema": {
+    "items": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "destination_card"
+      ]
+    }
+  }
+}

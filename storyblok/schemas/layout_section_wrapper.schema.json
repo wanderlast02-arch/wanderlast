@@ -1,0 +1,21 @@
+{
+  "name": "layout_section_wrapper",
+  "display_name": "Layout: Section Wrapper",
+  "component_group_name": "Layout",
+  "is_nestable": true,
+  "schema": {
+    "section_id": {
+      "type": "text"
+    },
+    "padding_top": {
+      "type": "number"
+    },
+    "padding_bottom": {
+      "type": "number"
+    },
+    "content": {
+      "type": "bloks",
+      "restrict_components": false
+    }
+  }
+}

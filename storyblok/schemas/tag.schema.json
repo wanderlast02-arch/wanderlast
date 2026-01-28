@@ -1,0 +1,11 @@
+{
+  "name": "tag",
+  "display_name": "Tag",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "label": {
+      "type": "text"
+    }
+  }
+}

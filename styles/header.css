@@ -1,0 +1,33 @@
+@media (max-width: 768px) {
+  .header-mobile-button {
+    display: block !important;
+  }
+
+  .header-nav {
+    display: none !important;
+  }
+
+  .header-nav-open {
+    display: flex !important;
+    flex-direction: column !important;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .header-nav-open a {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (min-width: 769px) {
+  .header-mobile-button {
+    display: none !important;
+  }
+}

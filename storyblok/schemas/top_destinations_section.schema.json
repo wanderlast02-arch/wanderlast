@@ -1,0 +1,23 @@
+{
+  "name": "top_destinations_section",
+  "display_name": "Top Destinations Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "destinations": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "destination_card"
+      ]
+    },
+    "value_statement": {
+      "type": "richtext",
+      "display_name": "Value Statement",
+      "description": "Short description of how this section reflects Wanderlast's values: authenticity, sustainability, and human-centered travel"
+    }
+  }
+}

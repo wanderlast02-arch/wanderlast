@@ -1,0 +1,15 @@
+{
+  "name": "category_chips",
+  "display_name": "Category Chips",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "items": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
+    }
+  }
+}

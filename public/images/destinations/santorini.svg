@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C2F5C"/>
+      <stop offset="0.5" stop-color="#0F4E7A"/>
+      <stop offset="1" stop-color="#3DA3D9"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="1200" y1="120" x2="1320" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6D365"/>
+      <stop offset="1" stop-color="#FDA085"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sea)"/>
+  <circle cx="1250" cy="180" r="110" fill="url(#sun)"/>
+  <path d="M0 620 Q200 560 420 580 T820 560 T1200 600 T1600 540 V900 H0 Z" fill="#0B2342" fill-opacity="0.7"/>
+  <g opacity="0.9">
+    <rect x="220" y="380" width="180" height="240" fill="#F7F5F1"/>
+    <rect x="400" y="420" width="160" height="200" fill="#F7F5F1"/>
+    <rect x="320" y="340" width="140" height="80" fill="#2D5F4F"/>
+    <circle cx="390" cy="340" r="50" fill="#0C2F5C"/>
+    <circle cx="510" cy="420" r="44" fill="#0C2F5C"/>
+    <rect x="260" y="460" width="40" height="60" fill="#0C2F5C"/>
+    <rect x="460" y="480" width="36" height="56" fill="#0C2F5C"/>
+  </g>
+  <text x="80" y="160" fill="#F7F5F1" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="42" font-weight="700">Santorini Caldera</text>
+  <text x="80" y="210" fill="#F7F5F1" opacity="0.8" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="20">UNESCO Heritage, Greece</text>
+</svg>

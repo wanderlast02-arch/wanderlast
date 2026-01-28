@@ -1,0 +1,12 @@
+{
+  "name": "page_home",
+  "display_name": "Page: Home",
+  "component_group_name": "Pages",
+  "is_nestable": false,
+  "schema": {
+    "body": {
+      "type": "bloks",
+      "restrict_components": false
+    }
+  }
+}

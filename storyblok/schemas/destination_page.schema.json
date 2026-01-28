@@ -1,0 +1,55 @@
+{
+  "name": "destination_page",
+  "display_name": "Destination Page",
+  "component_group_uuid": null,
+  "schema": {
+    "title": {
+      "type": "text",
+      "display_name": "Title",
+      "pos": 0
+    },
+    "country": {
+      "type": "multilink",
+      "display_name": "Country",
+      "pos": 1,
+      "filter_content_type": ["country_page"],
+      "max_items": 1
+    },
+    "hero_image": {
+      "type": "asset",
+      "display_name": "Hero Image",
+      "pos": 2
+    },
+    "short_description": {
+      "type": "text",
+      "display_name": "Short Description",
+      "pos": 3
+    },
+    "about_destination": {
+      "type": "richtext",
+      "display_name": "About Destination",
+      "pos": 4
+    },
+    "experiences": {
+      "type": "multilink",
+      "display_name": "Experiences",
+      "pos": 5,
+      "filter_content_type": ["experience_page"]
+    },
+    "travel_tips": {
+      "type": "blocks",
+      "display_name": "Travel Tips",
+      "pos": 6
+    },
+    "nearby_destinations": {
+      "type": "multilink",
+      "display_name": "Nearby Destinations",
+      "pos": 7,
+      "filter_content_type": ["destination_page"]
+    }
+  },
+  "image": null,
+  "preview_tmpl": null,
+  "is_root": false,
+  "preview_field": "title"
+}

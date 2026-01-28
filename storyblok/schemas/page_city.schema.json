@@ -1,0 +1,21 @@
+{
+  "name": "page_city",
+  "display_name": "Page: City",
+  "component_group_name": "Pages",
+  "is_nestable": false,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "featured_image": {
+      "type": "asset"
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "body": {
+      "type": "bloks",
+      "restrict_components": false
+    }
+  }
+}

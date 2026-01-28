@@ -1,0 +1,18 @@
+{
+  "name": "top_experiences_section",
+  "display_name": "Top Experiences Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "experiences": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "experience_card"
+      ]
+    }
+  }
+}

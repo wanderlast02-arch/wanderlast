@@ -1,0 +1,67 @@
+{
+  "destinations": {
+    "thailand": {
+      "hero": "/images/destinations/thailand-temple.jpg",
+      "description": "Temple in Ayutthaya, Thailand",
+      "cities": [
+        {
+          "name": "Bangkok",
+          "image": "/images/destinations/thailand-map.jpg"
+        }
+      ]
+    },
+    "india": {
+      "hero": "/images/destinations/india-palace.jpg",
+      "description": "Maharaja Palace in India",
+      "landmarks": [
+        {
+          "name": "Mehrangarh Fort",
+          "image": "/images/destinations/india-fort-jodhpur.jpg"
+        }
+      ]
+    }
+  },
+  "experiences": {
+    "adventure": [
+      {
+        "name": "Mountain Hiking",
+        "image": "/images/experiences/hiking-mountains.jpg",
+        "description": "Trek through scenic mountain landscapes"
+      },
+      {
+        "name": "Forest Trekking",
+        "image": "/images/experiences/forest-trek.jpg",
+        "description": "Explore lush forest trails with local guides"
+      },
+      {
+        "name": "Cave Exploration",
+        "image": "/images/experiences/cave-adventure.jpg",
+        "description": "Discover hidden caves and natural wonders"
+      }
+    ],
+    "cultural": [
+      {
+        "name": "Temple Visits",
+        "image": "/images/experiences/temple-spiritual.jpg",
+        "description": "Experience spiritual heritage"
+      },
+      {
+        "name": "Religious Sites",
+        "image": "/images/experiences/religious-landmark.jpg",
+        "description": "Visit sacred religious monuments"
+      }
+    ],
+    "nature": [
+      {
+        "name": "Forest Exploration",
+        "image": "/images/experiences/forest-nature.jpg",
+        "description": "Immerse in pristine nature"
+      },
+      {
+        "name": "Plant & Wildlife",
+        "image": "/images/experiences/jungle-plants.jpg",
+        "description": "Discover local flora and fauna"
+      }
+    ]
+  }
+}

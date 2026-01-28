@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F2A2E"/>
+      <stop offset="0.45" stop-color="#1E515A"/>
+      <stop offset="1" stop-color="#7BA68E"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#dusk)"/>
+  <circle cx="320" cy="200" r="120" fill="#F7F5F1" fill-opacity="0.4"/>
+  <path d="M0 720 Q240 640 480 700 T960 680 T1600 620 V900 H0 Z" fill="#0A1E24" fill-opacity="0.65"/>
+  <g transform="translate(260 360)">
+    <rect x="0" y="160" width="360" height="160" fill="#F7F5F1"/>
+    <rect x="60" y="120" width="240" height="40" fill="#C1423A"/>
+    <rect x="40" y="80" width="280" height="40" fill="#7BA68E"/>
+    <rect x="20" y="40" width="320" height="40" fill="#2D5F4F"/>
+    <rect x="150" y="0" width="60" height="40" fill="#0F2A2E"/>
+    <rect x="80" y="220" width="40" height="60" fill="#0F2A2E"/>
+    <rect x="240" y="220" width="40" height="60" fill="#0F2A2E"/>
+  </g>
+  <text x="980" y="200" fill="#F7F5F1" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="42" font-weight="700">Kyoto Temples</text>
+  <text x="980" y="250" fill="#F7F5F1" opacity="0.82" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="20">UNESCO Heritage, Japan</text>
+</svg>

@@ -1,0 +1,15 @@
+{
+  "name": "experience_grid",
+  "display_name": "Experience Grid",
+  "component_group_name": "Grids",
+  "is_nestable": true,
+  "schema": {
+    "items": {
+      "type": "bloks",
+      "restrict_components": true,
+      "component_whitelist": [
+        "experience_card"
+      ]
+    }
+  }
+}

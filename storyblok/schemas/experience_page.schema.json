@@ -1,0 +1,89 @@
+{
+  "name": "experience_page",
+  "display_name": "Experience Page",
+  "component_group_uuid": null,
+  "schema": {
+    "title": {
+      "type": "text",
+      "display_name": "Title",
+      "pos": 0
+    },
+    "hero_image": {
+      "type": "asset",
+      "display_name": "Hero Image",
+      "pos": 1
+    },
+    "destination": {
+      "type": "multilink",
+      "display_name": "Destination",
+      "pos": 2,
+      "filter_content_type": ["destination_page"],
+      "max_items": 1
+    },
+    "country": {
+      "type": "multilink",
+      "display_name": "Country",
+      "pos": 3,
+      "filter_content_type": ["country_page"],
+      "max_items": 1
+    },
+    "price": {
+      "type": "number",
+      "display_name": "Price (USD)",
+      "pos": 4
+    },
+    "duration": {
+      "type": "text",
+      "display_name": "Duration",
+      "pos": 5
+    },
+    "sustainability_score": {
+      "type": "number",
+      "display_name": "Sustainability Score (1-5)",
+      "pos": 6
+    },
+    "about_experience": {
+      "type": "richtext",
+      "display_name": "About Experience",
+      "pos": 7
+    },
+    "highlights": {
+      "type": "custom",
+      "display_name": "Highlights",
+      "pos": 8,
+      "field_type": "textarea"
+    },
+    "itinerary": {
+      "type": "richtext",
+      "display_name": "Itinerary",
+      "pos": 9
+    },
+    "included": {
+      "type": "custom",
+      "display_name": "Included",
+      "pos": 10,
+      "field_type": "textarea"
+    },
+    "not_included": {
+      "type": "custom",
+      "display_name": "Not Included",
+      "pos": 11,
+      "field_type": "textarea"
+    },
+    "call_to_action_text": {
+      "type": "text",
+      "display_name": "Call to Action Text",
+      "pos": 12
+    },
+    "merchant": {
+      "type": "multilink",
+      "display_name": "Merchant",
+      "pos": 13,
+      "max_items": 1
+    }
+  },
+  "image": null,
+  "preview_tmpl": null,
+  "is_root": false,
+  "preview_field": "title"
+}

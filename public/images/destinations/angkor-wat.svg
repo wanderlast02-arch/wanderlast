@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <defs>
+    <linearGradient id="dawn" x1="0" y1="0" x2="0" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F1F33"/>
+      <stop offset="0.35" stop-color="#1D3B4A"/>
+      <stop offset="1" stop-color="#7BA68E"/>
+    </linearGradient>
+    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4C5A62"/>
+      <stop offset="1" stop-color="#8899A3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#dawn)"/>
+  <circle cx="280" cy="180" r="110" fill="#F7F5F1" fill-opacity="0.45"/>
+  <path d="M0 700 Q240 640 520 680 T1040 660 T1600 600 V900 H0 Z" fill="#0B1A28" fill-opacity="0.6"/>
+  <g transform="translate(460 260)">
+    <polygon points="140,0 200,80 80,80" fill="#2D5F4F"/>
+    <rect x="80" y="80" width="120" height="40" fill="#7BA68E"/>
+    <rect x="60" y="120" width="160" height="60" fill="url(#stone)"/>
+    <rect x="40" y="180" width="200" height="140" fill="url(#stone)"/>
+    <rect x="100" y="200" width="80" height="80" fill="#F7F5F1"/>
+  </g>
+  <text x="980" y="200" fill="#F7F5F1" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="42" font-weight="700">Angkor Wat</text>
+  <text x="980" y="250" fill="#F7F5F1" opacity="0.85" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="20">UNESCO Heritage, Cambodia</text>
+</svg>

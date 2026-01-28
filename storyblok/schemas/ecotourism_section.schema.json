@@ -1,0 +1,14 @@
+{
+  "name": "ecotourism_section",
+  "display_name": "Ecotourism Section",
+  "component_group_name": "Sections",
+  "is_nestable": true,
+  "schema": {
+    "title": {
+      "type": "text"
+    },
+    "description": {
+      "type": "textarea"
+    }
+  }
+}
