@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { getStoryblokApi } from "@storyblok/react";
 
-const FIGMA_COUNTRY_IMAGE = "/images/figma/Country%20page.png";
-const FIGMA_HOME_IMAGE = "/images/figma/Home%20Page.png";
+const FIGMA_COUNTRY_IMAGE = "/images/figma/country-page.png";
+const FIGMA_HOME_IMAGE = "/images/figma/home-page.png";
 
 async function getCountryData(slug, preview = false) {
   try {

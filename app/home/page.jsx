@@ -73,7 +73,7 @@ function ArrowPattern() {
 }
 
 // Inline mock data (homepage only)
-const HERO_IMG = "/images/figma/Home Page.png";
+const HERO_IMG = "/images/figma/home-page.png";
 const MOCK = {
   bestOffers: [
     { slug: "caldera-sunset-catamaran", title: "Caldera Sunset by Catamaran", subtitle: "Santorini, Greece", price: 120, rating: 4.8 },

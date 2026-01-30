@@ -1,12 +1,12 @@
 const fs = require('fs');
 const paths = [
   './public/images/figma/destinations/thailand/hero.jpg',
-  './public/images/figma/destinations/thailand/cities/Ko-Chang.jpg',
-  './public/images/figma/destinations/thailand/cities/Hat-Yai.jpg',
-  './public/images/figma/destinations/thailand/cities/Satun.jpg',
-  './public/images/figma/destinations/thailand/cities/Pak-Chong.jpg',
-  './public/images/figma/destinations/thailand/cities/Chumphon.jpg',
-  './public/images/figma/destinations/thailand/cities/Mae-Hong-Son.jpg'
+  './public/images/figma/destinations/thailand/cities/ko-chang.jpg',
+  './public/images/figma/destinations/thailand/cities/hat-yai.jpg',
+  './public/images/figma/destinations/thailand/cities/satun.jpg',
+  './public/images/figma/destinations/thailand/cities/pak-chong.jpg',
+  './public/images/figma/destinations/thailand/cities/chumphon.jpg',
+  './public/images/figma/destinations/thailand/cities/mae-hong-son.jpg'
 ];
 
 paths.forEach((p) => {

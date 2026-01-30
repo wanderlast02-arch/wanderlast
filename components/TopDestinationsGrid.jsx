@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-const FIGMA_COUNTRY_IMAGE = "/images/figma/Country%20page.png";
+const FIGMA_COUNTRY_IMAGE = "/images/figma/country-page.png";
 
 function pickImage(primary, fallback = FIGMA_COUNTRY_IMAGE) {
   return primary?.filename || fallback;

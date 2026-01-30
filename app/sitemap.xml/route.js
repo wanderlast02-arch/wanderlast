@@ -4,6 +4,18 @@ async function getSitemapData() {
   try {
     const storyblokApi = getStoryblokApi();
 
+    // If Storyblok API is not initialized (e.g., during static build without env), bail out gracefully
+    if (!storyblokApi || typeof storyblokApi.get !== 'function') {
+      console.warn('Storyblok API unavailable; returning empty sitemap lists');
+      return {
+        countries: [],
+        destinations: [],
+        experiences: [],
+        collections: [],
+        merchants: [],
+      };
+    }
+
     // Fetch all countries, destinations, experiences, collections, merchants
     const [countries, destinations, experiences, collections, merchants] = await Promise.all([
       storyblokApi.get("cdn/stories", { starts_with: "country/" }),

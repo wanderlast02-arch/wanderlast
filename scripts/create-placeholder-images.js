@@ -18,6 +18,7 @@ const targets = [
   'public/images/figma/destinations/japan.jpg',
   'public/images/figma/destinations/peru.jpg',
   'public/images/figma/destinations/cambodia.jpg',
+  'public/images/figma/destinations/malaysia.jpg',
   'public/images/figma/destinations/thailand/hero.jpg',
   'public/images/figma/destinations/thailand/cities/ko-chang.jpg',
   'public/images/figma/destinations/thailand/cities/hat-yai.jpg',
@@ -37,8 +38,8 @@ const targets = [
   'public/images/figma/experiences/thailand/bangkok/street-food.jpg',
   'public/images/figma/experiences/thailand/bangkok/grand-palace.jpg',
   'public/images/figma/experiences/thailand/phuket/island-hopping.jpg',
-  'public/images/figma/Country%20page.png',
-  'public/images/figma/Home%20Page.png',
+  'public/images/figma/country-page.png',
+  'public/images/figma/home-page.png',
   'public/images/figma/logo.svg'
 ];
 
