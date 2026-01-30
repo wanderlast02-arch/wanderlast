@@ -45,6 +45,24 @@ function pickExperienceImage(item) {
   // Fallback chain if needed: .jpg → .png → placeholder.jpg → placeholder.png
 }
 
+// Map experience slugs to filenames when they differ from slug
+function experienceImgBySlug(slug) {
+  if (!slug || !slug.trim().length) return "/images/figma/placeholder.jpg";
+  return `/images/figma/experiences/${slug}.jpg`;
+}
+
+// Map collection slugs to filenames
+function collectionImgBySlug(slug) {
+  if (!slug || !slug.trim().length) return "/images/figma/placeholder.jpg";
+  return `/images/figma/collections/${slug}.jpg`;
+}
+
+// Safe image resolver wrapper used in templates (returns fallback when missing)
+function safeImg(src, fallback = "/images/figma/placeholder.jpg") {
+  if (!src || !src.trim().length) return fallback;
+  return img(src);
+}
+
 // Arrow pattern for hover effect (4x4 dot grid with green arrows)
 function ArrowPattern() {
   return (
@@ -58,15 +76,15 @@ function ArrowPattern() {
 const HERO_IMG = "/images/figma/Home Page.png";
 const MOCK = {
   bestOffers: [
-    { slug: "caldera-sunset-catamaran", title: "Caldera Sunset by Catamaran", subtitle: "Santorini, Greece", price: 120, rating: 4.8, image: "/images/figma/experiences/greece.jpg" },
-    { slug: "acropolis-walking-tour", title: "Acropolis & Ancient Agora Tour", subtitle: "Athens, Greece", price: 45, rating: 4.9, image: "/images/figma/experiences/greece.jpg" },
-    { slug: "bangkok-street-food-tour", title: "Bangkok Street Food Night Tour", subtitle: "Bangkok, Thailand", price: 35, rating: 4.7, image: "/images/figma/experiences/thailand.jpg" },
+    { slug: "caldera-sunset-catamaran", title: "Caldera Sunset by Catamaran", subtitle: "Santorini, Greece", price: 120, rating: 4.8 },
+    { slug: "acropolis-walking-tour", title: "Acropolis & Ancient Agora Tour", subtitle: "Athens, Greece", price: 45, rating: 4.9 },
+    { slug: "bangkok-street-food-tour", title: "Bangkok Street Food Night Tour", subtitle: "Bangkok, Thailand", price: 35, rating: 4.7 },
   ],
   featured: [
-    { slug: "santorini-sailing", title: "Aegean Sailing Experience", subtitle: "Santorini, Greece", price: 140, rating: 4.8, image: "/images/figma/experiences/greece.jpg" },
-    { slug: "athens-history-walk", title: "Athens History Walk", subtitle: "Athens, Greece", price: 35, rating: 4.7, image: "/images/figma/experiences/japan.jpg" },
-    { slug: "tokyo-night-neon", title: "Tokyo Night Neon Stroll", subtitle: "Tokyo, Japan", price: 60, rating: 4.9, image: "/images/figma/experiences/japan.jpg" },
-    { slug: "thailand-island-hop", title: "Thailand Island Hopping", subtitle: "Phuket, Thailand", price: 110, rating: 4.6, image: "/images/figma/experiences/thailand.jpg" },
+    { slug: "santorini-sailing", title: "Aegean Sailing Experience", subtitle: "Santorini, Greece", price: 140, rating: 4.8 },
+    { slug: "athens-history-walk", title: "Athens History Walk", subtitle: "Athens, Greece", price: 35, rating: 4.7 },
+    { slug: "tokyo-night-neon", title: "Tokyo Night Neon Stroll", subtitle: "Tokyo, Japan", price: 60, rating: 4.9 },
+    { slug: "thailand-island-hop", title: "Thailand Island Hopping", subtitle: "Phuket, Thailand", price: 110, rating: 4.6 },
   ],
   logos: [
     "/images/figma/placeholder.jpg",
@@ -76,9 +94,9 @@ const MOCK = {
     "/images/figma/placeholder.jpg",
   ],
   collections: [
-    { slug: "eco-tourism", title: "Rainforest Trek", subtitle: "Chiang Mai, Thailand", price: 55, rating: 4.7, image: "/images/figma/experiences/thailand.jpg" },
-    { slug: "eco-diving", title: "Coral Reef Dive", subtitle: "Phuket, Thailand", price: 90, rating: 4.8, image: "/images/figma/experiences/cambodia.jpg" },
-    { slug: "eco-biking", title: "Countryside Biking", subtitle: "Ubud, Indonesia", price: 40, rating: 4.6, image: "/images/figma/experiences/peru.jpg" },
+    { slug: "eco-tourism", title: "Rainforest Trek", subtitle: "Chiang Mai, Thailand", price: 55, rating: 4.7 },
+    { slug: "eco-diving", title: "Coral Reef Dive", subtitle: "Phuket, Thailand", price: 90, rating: 4.8 },
+    { slug: "eco-biking", title: "Countryside Biking", subtitle: "Ubud, Indonesia", price: 40, rating: 4.6 },
   ],
   destinations: [
     { slug: "greece", title: "Greece", image: "/images/figma/destinations/greece.jpg" },
@@ -88,9 +106,9 @@ const MOCK = {
     { slug: "cambodia", title: "Cambodia", image: "/images/figma/destinations/cambodia.jpg" },
   ],
   tokyoPopular: [
-    { slug: "tsukiji-food-walk", title: "Tsukiji Food Walk", subtitle: "Tokyo, Japan", price: 48, rating: 4.8, image: "/images/figma/experiences/japan.jpg" },
-    { slug: "asakusa-temple-tour", title: "Asakusa Temple Tour", subtitle: "Tokyo, Japan", price: 42, rating: 4.7, image: "/images/figma/experiences/japan.jpg" },
-    { slug: "shibuya-nightlife", title: "Shibuya Nightlife", subtitle: "Tokyo, Japan", price: 59, rating: 4.9, image: "/images/figma/experiences/japan.jpg" },
+    { slug: "tsukiji-food-walk", title: "Tsukiji Food Walk", subtitle: "Tokyo, Japan", price: 48, rating: 4.8 },
+    { slug: "asakusa-temple-tour", title: "Asakusa Temple Tour", subtitle: "Tokyo, Japan", price: 42, rating: 4.7 },
+    { slug: "shibuya-nightlife", title: "Shibuya Nightlife", subtitle: "Tokyo, Japan", price: 59, rating: 4.9 },
   ],
   tags: ["Tokyo", "Kyoto", "Osaka", "Mt. Fuji", "Nara", "Sapporo", "Nikko", "Hakone", "Okinawa"],
 };
@@ -222,7 +240,7 @@ export default function HomePage() {
             {MOCK.bestOffers.map((e, idx) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
-                  <Image src={img(pickExperienceImage(e))} alt={e.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+                  <Image src={safeImg(e.image || experienceImgBySlug(e.slug))} alt={e.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
                   <ArrowPattern />
                   
                   {/* Badge — rotating between "GO NOW" and "TOP" */}
@@ -278,7 +296,7 @@ export default function HomePage() {
             {MOCK.featured.slice(0, 4).map((e, idx) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
-                  <Image src={img(pickExperienceImage(e))} alt={e.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
+                  <Image src={safeImg(e.image || experienceImgBySlug(e.slug))} alt={e.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" />
                   <ArrowPattern />
                   
                   {/* Price badge overlay */}
@@ -331,7 +349,7 @@ export default function HomePage() {
             {MOCK.collections.map((c, idx) => (
               <div key={c.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
-                  <Image src={img(pickExperienceImage(c))} alt={c.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 768px) 33vw, 100vw" />
+                  <Image src={safeImg(c.image || collectionImgBySlug(c.slug))} alt={c.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 768px) 33vw, 100vw" />
                   <ArrowPattern />
                   
                   {/* GO NOW badge */}
@@ -428,7 +446,7 @@ export default function HomePage() {
             {MOCK.tokyoPopular.map((e) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
-                  <Image src={img(pickExperienceImage(e))} alt={e.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+                  <Image src={safeImg(e.image || experienceImgBySlug(e.slug))} alt={e.title} fill className="object-cover group-hover:brightness-75 transition-all duration-200" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
                   
                   {/* TOP badge */}
                   <div className="absolute top-4 left-4 bg-black text-white text-xs px-3 py-1.5 rounded-md font-semibold">

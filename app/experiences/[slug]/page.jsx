@@ -2,7 +2,6 @@
 // Structure: Hero → Sticky Action Bar → Overview → Sustainability → Included/Not Included → Itinerary → Reviews → Host Card → Related
 
 import Link from "next/link";
-import Image from "next/image";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
 
@@ -27,7 +26,7 @@ const EXPERIENCES_DB = {
     price: 38,
     rating: 4.8,
     reviewCount: 124,
-    image: "/images/figma/experiences/thailand.jpg",
+    image: "/images/figma/experiences/bangkok-street-food.jpg",
     type: "Small group",
     guide: "Local guide",
     description: [
@@ -86,7 +85,7 @@ const EXPERIENCES_DB = {
         price: 42,
         rating: 4.9,
         reviewCount: 295,
-        image: "/images/figma/experiences/thailand.jpg",
+        image: "/images/figma/experiences/grand-palace-tour.jpg",
       },
       {
         id: "floating-markets",
@@ -94,7 +93,7 @@ const EXPERIENCES_DB = {
         price: 55,
         rating: 4.8,
         reviewCount: 168,
-        image: "/images/figma/experiences/thailand.jpg",
+        image: "/images/figma/experiences/floating-markets.jpg",
       },
       {
         id: "cooking-school",
@@ -102,7 +101,7 @@ const EXPERIENCES_DB = {
         price: 45,
         rating: 4.9,
         reviewCount: 156,
-        image: "/images/figma/experiences/thailand.jpg",
+        image: "/images/figma/experiences/cooking-school.jpg",
       },
     ],
   },
@@ -134,12 +133,10 @@ function RelatedCard({ exp }) {
       <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
         {/* Image */}
         <div className="relative h-40 bg-gray-200 overflow-hidden">
-          <Image
+          <img
             src={safeImg(exp.image)}
             alt={exp.title}
-            fill
-            className="object-cover group-hover:brightness-110 transition-all"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            className="w-full h-full object-cover group-hover:brightness-110 transition-all"
           />
           <div className="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs font-bold rounded">TOP</div>
         </div>
@@ -198,12 +195,10 @@ export default function ExperiencePage({ params }) {
       {/* ========== SECTION 1: HERO ========== */}
       <section className="relative w-full min-h-[60vh] flex items-end px-4 overflow-hidden bg-gray-900">
         {/* Background image */}
-        <Image
-          src={safeImg(experience.image)}
+        <img
+          src={safeImg(experience.image || "/images/figma/placeholder.jpg")}
           alt={experience.title}
-          fill
-          className="object-cover"
-          priority
+          className="absolute inset-0 w-full h-full object-cover"
         />
 
         {/* Overlay gradient */}

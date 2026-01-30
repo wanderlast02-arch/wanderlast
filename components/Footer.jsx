@@ -80,9 +80,9 @@ export default function Footer() {
         <div>
           <h3 style={{ fontSize: "16px", fontWeight: 600, marginBottom: "24px" }}>Get in Touch</h3>
           <div style={{ marginBottom: "16px" }}>
-            <p style={{ fontSize: "14px", color: "#999", margin: "0 0 8px 0" }}>📞 +1 (555) 123-4567</p>
-            <p style={{ fontSize: "14px", color: "#999", margin: "0 0 8px 0" }}>✉️ info@wanderlast.com</p>
-            <p style={{ fontSize: "14px", color: "#999", margin: "0" }}>📍 123 Travel Street Adventure City, AC 12345</p>
+            <p style={{ fontSize: "14px", color: "#999", margin: "0 0 8px 0" }}>📞 +357 99645094</p>
+            <p style={{ fontSize: "14px", color: "#999", margin: "0 0 8px 0" }}>✉️ wanderlast02@gmail.com</p>
+            <p style={{ fontSize: "14px", color: "#999", margin: "0" }}>📍 Limmasol</p>
           </div>
           <div style={{ display: "flex", gap: "16px", marginTop: "20px" }}>
             <a href="#" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", textDecoration: "none" }}>f</a>
@@ -127,7 +127,7 @@ export default function Footer() {
           <a href="#" style={{ fontSize: "14px", color: "#999", textDecoration: "none" }}>Cookie Policy</a>
         </div>
         <p style={{ fontSize: "14px", color: "#999", margin: 0 }}>
-          © 2025 Wanderlast. All rights reserved.
+          © 2026 Wanderlast - Created with love in Cyprus&Crete
         </p>
       </div>
     </footer>

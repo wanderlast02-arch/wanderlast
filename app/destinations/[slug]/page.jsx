@@ -12,9 +12,12 @@ const FALLBACK = "/images/figma/placeholder.jpg";
 function safeImg(src, fallback = FALLBACK) {
   if (!src || !src.trim().length) return fallback;
   
-  // Hard-block color palette, home page, and press logos
-  const blocked = ["color palette", "home page", "press-logos"];
-  if (blocked.some(b => src.toLowerCase().includes(b))) return fallback;
+  const lower = src.toLowerCase();
+  
+  // Hard-block color palette, press logos, and home page (but allow /destinations/ and /cities/ paths)
+  const blocked = ["color palette", "press-logos"];
+  if (blocked.some(b => lower.includes(b))) return fallback;
+  if (lower.includes("home page") && !src.includes("/destinations/") && !src.includes("/cities/")) return fallback;
   
   // Treat relative filenames as /images/figma/${src}
   if (!src.includes("/")) src = `/images/figma/${src}`;
@@ -28,40 +31,40 @@ const pickImage = (src) => src || FALLBACK;
 // Local mock data for Thailand destination page (conditional by slug)
 const THAILAND_MOCK = {
   citiesInThailand: [
-    { slug: "ko-chang", name: "Ko Chang", image: "/images/figma/experiences/thailand.jpg" },
-    { slug: "hat-yai", name: "Hat Yai", image: "/images/figma/experiences/thailand.jpg" },
-    { slug: "satun", name: "Satun", image: "/images/figma/experiences/thailand.jpg" },
-    { slug: "pak-chong", name: "Pak Chong", image: "/images/figma/experiences/thailand.jpg" },
-    { slug: "chumphon", name: "Chumphon", image: "/images/figma/experiences/thailand.jpg" },
-    { slug: "mae-hong-son", name: "Mae Hong Son", image: "/images/figma/experiences/thailand.jpg" },
+    { slug: "ko-chang", name: "Ko Chang", image: "/images/figma/destinations/thailand/cities/ko-chang.jpg" },
+    { slug: "hat-yai", name: "Hat Yai", image: "/images/figma/destinations/thailand/cities/hat-yai.jpg" },
+    { slug: "satun", name: "Satun", image: "/images/figma/destinations/thailand/cities/satun.jpg" },
+    { slug: "pak-chong", name: "Pak Chong", image: "/images/figma/destinations/thailand/cities/pak-chong.jpg" },
+    { slug: "chumphon", name: "Chumphon", image: "/images/figma/destinations/thailand/cities/chumphon.jpg" },
+    { slug: "mae-hong-son", name: "Mae Hong Son", image: "/images/figma/destinations/thailand/cities/mae-hong-son.jpg" },
   ],
   topExperiencesByCity: {
     Bangkok: [
-      { slug: "bangkok-street-food", title: "Bangkok Street Food Tour", price: 35, rating: 4.7, ratingCount: 182, image: "/images/figma/experiences/thailand-street-food.jpg" },
-      { slug: "grand-palace-tour", title: "Grand Palace Tour", price: 42, rating: 4.9, ratingCount: 295, image: "/images/figma/experiences/thailand-palace.jpg" },
-      { slug: "floating-markets", title: "Floating Markets Experience", price: 55, rating: 4.8, ratingCount: 168, image: "/images/figma/experiences/thailand-markets.jpg" },
+      { slug: "bangkok-street-food", title: "Bangkok Street Food Tour", price: 35, rating: 4.7, ratingCount: 182, image: "/images/figma/experiences/bangkok-street-food.jpg" },
+      { slug: "grand-palace-tour", title: "Grand Palace Tour", price: 42, rating: 4.9, ratingCount: 295, image: "/images/figma/experiences/grand-palace-tour.jpg" },
+      { slug: "floating-markets", title: "Floating Markets Experience", price: 55, rating: 4.8, ratingCount: 168, image: "/images/figma/experiences/floating-markets.jpg" },
     ],
     Phuket: [
-      { slug: "similan-snorkel", title: "Similan Islands Snorkel", price: 85, rating: 4.9, ratingCount: 342, image: "/images/figma/experiences/thailand-snorkel.jpg" },
-      { slug: "old-town-walk", title: "Phuket Old Town Walk", price: 38, rating: 4.6, ratingCount: 124, image: "/images/figma/experiences/thailand-old-town.jpg" },
-      { slug: "sunset-catamaran", title: "Sunset Catamaran Cruise", price: 72, rating: 4.8, ratingCount: 267, image: "/images/figma/experiences/thailand-catamaran.jpg" },
+      { slug: "similan-snorkel", title: "Similan Islands Snorkel", price: 85, rating: 4.9, ratingCount: 342, image: "/images/figma/experiences/similan-snorkel.jpg" },
+      { slug: "old-town-walk", title: "Phuket Old Town Walk", price: 38, rating: 4.6, ratingCount: 124, image: "/images/figma/experiences/old-town-walk.jpg" },
+      { slug: "sunset-catamaran", title: "Sunset Catamaran Cruise", price: 72, rating: 4.8, ratingCount: 267, image: "/images/figma/experiences/sunset-catamaran.jpg" },
     ],
     Pattaya: [
-      { slug: "coral-island-tour", title: "Coral Island Day Tour", price: 48, rating: 4.5, ratingCount: 95, image: "/images/figma/experiences/thailand-coral.jpg" },
-      { slug: "sanctuary-visit", title: "Elephant Sanctuary Visit", price: 65, rating: 4.9, ratingCount: 512, image: "/images/figma/experiences/thailand-elephant.jpg" },
-      { slug: "motorcycle-tour", title: "Scenic Motorcycle Tour", price: 52, rating: 4.7, ratingCount: 141, image: "/images/figma/experiences/thailand-motorbike.jpg" },
+      { slug: "coral-island-tour", title: "Coral Island Day Tour", price: 48, rating: 4.5, ratingCount: 95, image: "/images/figma/experiences/coral-island-tour.jpg" },
+      { slug: "sanctuary-visit", title: "Elephant Sanctuary Visit", price: 65, rating: 4.9, ratingCount: 512, image: "/images/figma/experiences/sanctuary-visit.jpg" },
+      { slug: "motorcycle-tour", title: "Scenic Motorcycle Tour", price: 52, rating: 4.7, ratingCount: 141, image: "/images/figma/experiences/motorcycle-tour.jpg" },
     ],
   },
   allThingsMock: [
-    { slug: "muay-thai-class", title: "Muay Thai Boxing Class", city: "Bangkok", price: 40, rating: 4.8, image: "/images/figma/experiences/thailand-muay.jpg" },
-    { slug: "cooking-school", title: "Thai Cooking Class", city: "Chiang Mai", price: 45, rating: 4.9, image: "/images/figma/experiences/thailand-cooking.jpg" },
-    { slug: "jungle-trek", title: "Jungle Trek & Waterfall", city: "Khao Yai", price: 70, rating: 4.7, image: "/images/figma/experiences/thailand-jungle.jpg" },
-    { slug: "spa-day", title: "Traditional Thai Spa", city: "Bangkok", price: 55, rating: 4.8, image: "/images/figma/experiences/thailand-spa.jpg" },
-    { slug: "rock-climbing", title: "Rock Climbing Excursion", city: "Railay", price: 68, rating: 4.6, image: "/images/figma/experiences/thailand-climbing.jpg" },
-    { slug: "night-bazaar", title: "Night Bazaar Shopping Tour", city: "Chiang Mai", price: 30, rating: 4.5, image: "/images/figma/experiences/thailand-bazaar.jpg" },
-    { slug: "dive-liveaboard", title: "Dive Liveaboard Adventure", city: "Phuket", price: 350, rating: 4.9, image: "/images/figma/experiences/thailand-dive.jpg" },
-    { slug: "temple-monastery", title: "Sunrise Temple Monastery Visit", city: "Chiang Mai", price: 28, rating: 4.8, image: "/images/figma/experiences/thailand-temple.jpg" },
-    { slug: "kayak-tour", title: "Phang Nga Bay Kayaking", city: "Phuket", price: 75, rating: 4.7, image: "/images/figma/experiences/thailand-kayak.jpg" },
+    { slug: "muay-thai-class", title: "Muay Thai Boxing Class", city: "Bangkok", price: 40, rating: 4.8, image: "/images/figma/experiences/muay-thai-class.jpg" },
+    { slug: "cooking-school", title: "Thai Cooking Class", city: "Chiang Mai", price: 45, rating: 4.9, image: "/images/figma/experiences/cooking-school.jpg" },
+    { slug: "jungle-trek", title: "Jungle Trek & Waterfall", city: "Khao Yai", price: 70, rating: 4.7, image: "/images/figma/experiences/jungle-trek.jpg" },
+    { slug: "spa-day", title: "Traditional Thai Spa", city: "Bangkok", price: 55, rating: 4.8, image: "/images/figma/experiences/spa-day.jpg" },
+    { slug: "rock-climbing", title: "Rock Climbing Excursion", city: "Railay", price: 68, rating: 4.6, image: "/images/figma/experiences/rock-climbing.jpg" },
+    { slug: "night-bazaar", title: "Night Bazaar Shopping Tour", city: "Chiang Mai", price: 30, rating: 4.5, image: "/images/figma/experiences/night-bazaar.jpg" },
+    { slug: "dive-liveaboard", title: "Dive Liveaboard Adventure", city: "Phuket", price: 350, rating: 4.9, image: "/images/figma/experiences/dive-liveaboard.jpg" },
+    { slug: "temple-monastery", title: "Sunrise Temple Monastery Visit", city: "Chiang Mai", price: 28, rating: 4.8, image: "/images/figma/experiences/temple-monastery.jpg" },
+    { slug: "kayak-tour", title: "Phang Nga Bay Kayaking", city: "Phuket", price: 75, rating: 4.7, image: "/images/figma/experiences/kayak-tour.jpg" },
   ],
   nearbyDestinations: [
     { slug: "cambodia", name: "Cambodia", image: "/images/figma/destinations/cambodia.jpg" },
@@ -90,13 +93,10 @@ function ExperienceCard({ exp }) {
       <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
         {/* Image */}
         <div className="relative h-40 md:h-44 bg-gray-200 overflow-hidden">
-          <Image
+          <img
             src={safeImg(exp.image)}
             alt={exp.title}
-            fill
-            className="object-cover group-hover:brightness-110 transition-all"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            priority={false}
+            className="w-full h-full object-cover group-hover:brightness-110 transition-all"
           />
           {/* TOP badge */}
           <div className="absolute top-2 left-2 bg-black text-white px-2 py-1 text-xs font-bold rounded">
@@ -147,17 +147,21 @@ export default function DestinationPage({ params }) {
   const nearbyData = isThailand ? THAILAND_MOCK.nearbyDestinations : [];
   const popularPlaces = isThailand ? THAILAND_MOCK.popularPlaces : [];
 
+  // Determine hero image based on destination slug
+  // Use the project's hero file for Thailand as provided
+  const heroImage = isThailand
+    ? safeImg("/images/figma/destinations/thailand/hero.jpg")
+    : safeImg("/images/figma/placeholder.jpg");
+
   return (
     <main>
       {/* ========== SECTION 1: HERO ========== */}
       <section className="relative w-full min-h-[60vh] flex items-end pt-20 pb-16 px-4 overflow-hidden">
         {/* Background image element (fixed behind overlay) */}
-        <Image
-          src="/images/figma/Home%20Page.png"
-          alt="Thailand hero background"
-          fill
-          className="object-cover"
-          priority
+        <img
+          src={heroImage}
+          alt={country ? `${country.name} hero background` : `${params.slug} hero background`}
+          className="absolute inset-0 w-full h-full object-cover"
         />
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
@@ -216,12 +220,10 @@ export default function DestinationPage({ params }) {
               {citiesData.map((city) => (
                 <Link key={city.slug} href={`/experiences`} className="block group flex-shrink-0">
                   <div className="relative cursor-pointer w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
-                    <Image
+                    <img
                       src={safeImg(city.image)}
                       alt={city.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform"
-                      sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 160px"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                     />
                   </div>
                   <p className="text-center text-sm font-medium text-gray-900 mt-3">{city.name}</p>
@@ -416,7 +418,7 @@ export default function DestinationPage({ params }) {
               <div>
                 <div className="relative w-full h-80 md:h-96 rounded-xl shadow-sm border border-gray-300 overflow-hidden bg-white">
                   <Image
-                    src={safeImg("/images/figma/placeholder.jpg")}
+                    src={safeImg("/images/figma/destinations/thailand/travel-tips.jpg")}
                     alt="Thailand map"
                     fill
                     className="object-cover"
@@ -439,7 +441,7 @@ export default function DestinationPage({ params }) {
                 <Link key={dest.slug} href={`/destinations/${dest.slug}`} className="block group">
                   <div className="relative cursor-pointer mx-auto w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
                     <Image
-                      src={safeImg("/images/figma/experiences/thailand.jpg")}
+                      src={safeImg(dest.image)}
                       alt={dest.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform"
