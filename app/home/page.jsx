@@ -131,10 +131,10 @@ export default function HomePage() {
         <div className="relative text-center text-white px-4 max-w-4xl mx-auto py-16 flex flex-col items-center">
           {/* Two-line headline: refined hierarchy for Figma match */}
           <div className="text-center mb-12">
-            <div className="text-3xl md:text-4xl font-light leading-tight drop-shadow-lg opacity-85 mb-1">
+            <div className="text-3xl sm:text-4xl lg:text-5xl font-light leading-tight drop-shadow-lg opacity-85 mb-1">
               Let&apos;s start
             </div>
-            <div className="text-6xl md:text-7xl font-black tracking-[0.15em] drop-shadow-lg uppercase leading-[1.0]">
+            <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-[0.15em] drop-shadow-lg uppercase leading-[1.0]">
               YOUR JOURNEY!
             </div>
           </div>
@@ -197,7 +197,7 @@ export default function HomePage() {
             </div>
 
             {/* Right: 4-card grid with one highlighted */}
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { icon: "🍃", title: "Discover the possibilities", desc: "With nearly half a million attractions, hotels & more, you're sure to find the perfect fit.", highlight: true },
                 { icon: "💧", title: "Enjoy deals & delights", desc: "Quality activities. Great prices. Plus, earn credits to save more." },
@@ -401,10 +401,10 @@ export default function HomePage() {
               <Link href="/destinations" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="flex flex-nowrap justify-center gap-8 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 mb-4">
             {MOCK.destinations.map((d) => (
               <Link key={d.slug} href={`/destinations/${d.slug}`} className="group flex-shrink-0 snap-center">
-                <div className="relative w-40 h-40 rounded-full overflow-hidden shadow-sm">
+                <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden shadow-sm">
                   <Image src={img(d.image)} alt={d.title} fill className="object-cover" />
                   {/* Name + hover arrow pattern overlay */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">

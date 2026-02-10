@@ -178,9 +178,9 @@ export default function ExperiencePage({ params }) {
   // Show "Experience not found" state for unknown slugs (not a 404)
   if (!experience) {
     return (
-      <main className="min-h-[60vh] flex items-center justify-center px-4">
+      <main className="min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center max-w-md">
-          <h1 className="text-4xl font-semibold text-gray-900 mb-4">Experience not found</h1>
+          <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">Experience not found</h1>
           <p className="text-gray-600 mb-8">The experience you're looking for isn't available right now. Please check the URL or browse other experiences.</p>
           <Link href="/" className="inline-block px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
             Back to home
@@ -193,7 +193,7 @@ export default function ExperiencePage({ params }) {
   return (
     <main>
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="relative w-full min-h-[60vh] flex items-end px-4 overflow-hidden bg-gray-900">
+      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-end px-4 overflow-hidden bg-gray-900">
         {/* Background image */}
         <img
           src={safeImg(experience.image || "/images/figma/placeholder.jpg")}
@@ -205,32 +205,32 @@ export default function ExperiencePage({ params }) {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
 
         {/* Content */}
-        <div className="max-w-6xl mx-auto w-full relative z-10 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-end">
+        <div className="max-w-6xl mx-auto w-full relative z-10 py-12 sm:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-end">
             {/* Left: Title + Meta */}
             <div className="md:col-span-2">
-              <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-8">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6 sm:mb-8">
                 {experience.title}
               </h1>
 
               {/* Meta row */}
-              <div className="flex flex-wrap gap-6 text-white/90">
+              <div className="flex flex-wrap gap-3 sm:gap-6 text-white/90 text-xs sm:text-sm">
                 <div className="flex items-center gap-2">
                   <span className="text-amber-400">★</span>
-                  <span className="text-sm font-medium">
+                  <span className="font-medium">
                     {experience.rating} ({experience.reviewCount} reviews)
                   </span>
                 </div>
-                <span className="text-sm">{experience.location}</span>
-                <span className="text-sm">{experience.type}</span>
-                <span className="text-sm">{experience.guide.role}</span>
+                <span>{experience.location}</span>
+                <span>{experience.type}</span>
+                <span>{experience.guide.role}</span>
               </div>
             </div>
 
             {/* Right: Price Badge */}
-            <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg text-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg text-center">
               <p className="text-xs text-gray-600 mb-2">Starting price</p>
-              <p className="text-2xl font-bold text-gray-900">From ${experience.price}</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">From ${experience.price}</p>
               <p className="text-xs text-gray-600 mt-1">per person</p>
             </div>
           </div>

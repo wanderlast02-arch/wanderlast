@@ -219,7 +219,7 @@ export default function DestinationPage({ params }) {
             <div className="flex flex-wrap gap-6 justify-start">
               {citiesData.map((city) => (
                 <Link key={city.slug} href={`/experiences`} className="block group flex-shrink-0">
-                  <div className="relative cursor-pointer w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
+                  <div className="relative cursor-pointer w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
                     <img
                       src={safeImg(city.image)}
                       alt={city.name}
@@ -249,11 +249,11 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* Tabs (UI only) */}
-                <div className="flex gap-4 mb-10 border-b border-gray-300">
+                <div className="flex gap-2 sm:gap-4 overflow-x-auto sm:overflow-visible pb-3 border-b border-gray-300 -mx-4 px-4 sm:mx-0 sm:px-0 mb-0 sm:mb-10 scrollbar-hide">
                   {["Culture & Heritage", "Parks & Gardens", "Animals & Shows", "Food & Dining", "Shopping"].map((tab, idx) => (
                     <button
                       key={tab}
-                      className={`pb-3 text-sm font-medium transition ${
+                      className={`pb-3 text-xs sm:text-sm font-medium transition flex-shrink-0 whitespace-nowrap ${
                         idx === 0 ? "text-gray-900 border-b-2 border-gray-900" : "text-gray-500 border-b-2 border-transparent hover:text-gray-700"
                       }`}
                     >
@@ -359,7 +359,7 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* 3-column grid of cards (responsive: 1 mobile, 2 tablet, 3 desktop) */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 mb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 mb-10">
                   {THAILAND_MOCK.allThingsMock.map((exp) => (
                     <ExperienceCard key={exp.slug} exp={exp} />
                   ))}
