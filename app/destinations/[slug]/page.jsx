@@ -156,7 +156,7 @@ export default function DestinationPage({ params }) {
   return (
     <main>
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="relative w-full min-h-[60vh] flex items-end pt-20 pb-16 px-4 overflow-hidden">
+      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-end pt-24 sm:pt-28 pb-16 px-4 overflow-hidden">
         {/* Background image element (fixed behind overlay) */}
         <img
           src={heroImage}
@@ -337,18 +337,18 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* Filter chips + sort */}
-                <div className="flex flex-wrap gap-3 items-center mb-10 pb-6 border-b border-gray-300">
-                  <span className="text-xs text-gray-600 font-medium">Filter:</span>
-                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition">
+                <div className="flex gap-3 items-center mb-10 pb-6 border-b border-gray-300 overflow-x-auto whitespace-nowrap -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+                  <span className="text-xs text-gray-600 font-medium flex-shrink-0">Filter:</span>
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
                     Availability
                   </button>
-                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition">
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
                     Price range
                   </button>
-                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition">
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
                     Instant confirmation
                   </button>
-                  <div className="ml-auto">
+                  <div className="ml-auto flex-shrink-0">
                     <select className="text-sm px-3 py-1.5 border border-gray-300 rounded-lg bg-white hover:border-gray-400 transition">
                       <option>Recommended</option>
                       <option>Price: Low to High</option>

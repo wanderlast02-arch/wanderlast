@@ -124,11 +124,11 @@ export default function HomePage() {
   return (
     <div className="bg-white text-wl-text">
       {/* FIGMA_LOCK: Hero section locked to Figma design authority. Typography, spacing, shadow, overlay locked. Allowed: copy updates only. */}
-      <section className="relative min-h-[640px] flex items-center justify-center overflow-hidden">
+      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-24 sm:pt-28 overflow-hidden">
         <Image src={img(HERO_IMG)} alt="Wanderlast homepage hero" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/45" />
 
-        <div className="relative text-center text-white px-4 max-w-4xl mx-auto py-16 flex flex-col items-center">
+        <div className="relative text-center text-white px-4 max-w-4xl mx-auto pt-24 sm:pt-28 flex flex-col items-center">
           {/* Two-line headline: refined hierarchy for Figma match */}
           <div className="text-center mb-12">
             <div className="text-3xl sm:text-4xl lg:text-5xl font-light leading-tight drop-shadow-lg opacity-85 mb-1">
@@ -196,21 +196,17 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right: 4-card grid with one highlighted */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Right: advantages grid — two rows on larger screens; highlight only on hover */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 grid-rows-2">
               {[
                 { icon: "🍃", title: "Discover the possibilities", desc: "With nearly half a million attractions, hotels & more, you're sure to find the perfect fit.", highlight: true },
                 { icon: "💧", title: "Enjoy deals & delights", desc: "Quality activities. Great prices. Plus, earn credits to save more." },
                 { icon: "📱", title: "Exploring made easy", desc: "Book last minute, skip lines & get free cancellation for easier exploring." },
                 { icon: "🧭", title: "Travel you can trust", desc: "Read reviews & get reliable customer support. We are with you at every step." },
               ].map((c, idx) => (
-                <div 
-                  key={idx} 
-                  className={`rounded-lg border p-6 transition-all duration-200 cursor-pointer ${
-                    c.highlight 
-                      ? 'bg-green-50 border-green-200 hover:border-green-300 shadow-sm' 
-                      : 'bg-white border-gray-200 hover:bg-green-50 hover:border-green-300 shadow-sm'
-                  }`}
+                <div
+                  key={idx}
+                  className={`rounded-lg border p-6 transition-all duration-200 cursor-pointer bg-white border-gray-200 hover:bg-green-50 hover:border-green-200 shadow-sm`}
                 >
                   <div className="text-3xl mb-3">{c.icon}</div>
                   <h3 className="text-sm font-bold text-gray-900 mb-2">{c.title}</h3>
@@ -236,7 +232,7 @@ export default function HomePage() {
               <Link href="/experiences" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {MOCK.bestOffers.map((e, idx) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
@@ -345,7 +341,7 @@ export default function HomePage() {
               <Link href="/collections/eco-tourism" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {MOCK.collections.map((c, idx) => (
               <div key={c.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
@@ -401,10 +397,10 @@ export default function HomePage() {
               <Link href="/destinations" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 lg:gap-8 mb-4">
+          <div className="flex gap-4 sm:gap-6 lg:gap-8 mb-4 overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
             {MOCK.destinations.map((d) => (
               <Link key={d.slug} href={`/destinations/${d.slug}`} className="group flex-shrink-0 snap-center">
-                <div className="relative w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden shadow-sm">
+                <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-sm flex-shrink-0">
                   <Image src={img(d.image)} alt={d.title} fill className="object-cover" />
                   {/* Name + hover arrow pattern overlay */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -442,7 +438,7 @@ export default function HomePage() {
               <Link href="/experiences" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {MOCK.tokyoPopular.map((e) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">

@@ -206,7 +206,7 @@ export default function ExperiencePage({ params }) {
 
         {/* Content */}
         <div className="max-w-6xl mx-auto w-full relative z-10 py-12 sm:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-end">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-end">
             {/* Left: Title + Meta */}
             <div className="md:col-span-2">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6 sm:mb-8">
@@ -369,7 +369,7 @@ export default function ExperiencePage({ params }) {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-normal text-gray-900 mb-12">What guests say</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experience.reviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
             ))}
