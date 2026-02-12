@@ -231,10 +231,10 @@ export default function CityPage({ params }) {
 
   return (
     <main className="bg-white text-wl-text overflow-x-hidden">
-      <section className="relative w-full min-h-[55vh] sm:min-h-[65vh] flex items-end overflow-hidden">
+      <section className="relative w-full min-h-[42vh] sm:min-h-[60vh] flex items-end overflow-hidden">
         <img src={safeImg(city.heroImage)} alt={`${city.name} hero`} className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/20 to-black/50" />
-        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-10 relative z-10">
+        <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-6 sm:pb-10 relative z-10">
           <p className="text-white/80 text-xs uppercase tracking-[0.2em] mb-2">{city.country}</p>
           <h1 className="text-white text-3xl sm:text-5xl font-light leading-tight mb-3">Things To Do in {city.name}</h1>
           <p className="text-white/90 text-sm sm:text-base max-w-2xl">{city.intro}</p>
@@ -248,16 +248,16 @@ export default function CityPage({ params }) {
       </div>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Top things to do in {city.name}</h2>
           <Link href="/experiences" className="text-xs sm:text-sm text-wl-primary hover:opacity-80">View all offers</Link>
         </div>
 
-        <div className="flex gap-4 overflow-x-auto whitespace-nowrap pb-2 scrollbar-hide">
+        <div className="flex gap-4 overflow-x-auto whitespace-nowrap pb-2 scrollbar-hide snap-x snap-mandatory">
           {city.topThingsFilters.map((tab) => (
             <button
               key={tab}
-              className="px-4 py-2 rounded-full text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition flex-shrink-0"
+              className="px-4 py-2 rounded-full text-xs font-medium bg-gray-100 text-gray-700 hover:bg-gray-200 transition flex-shrink-0 snap-start"
             >
               {tab}
             </button>
@@ -272,7 +272,7 @@ export default function CityPage({ params }) {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Top attractions in {city.name}</h2>
           <Link href="/experiences" className="text-xs sm:text-sm text-wl-primary hover:opacity-80">Explore all</Link>
         </div>
@@ -284,11 +284,11 @@ export default function CityPage({ params }) {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Experiences by category</h2>
           <Link href="/experiences" className="text-xs sm:text-sm text-wl-primary hover:opacity-80">Explore all categories</Link>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {city.categories.map((cat) => (
             <div key={cat.slug} className="relative rounded-xl overflow-hidden shadow-sm border border-gray-200">
               <div className="relative h-40 sm:h-44 bg-gray-200">
@@ -304,7 +304,7 @@ export default function CityPage({ params }) {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Travel Basics</h2>
           <Link href="/experiences" className="text-xs sm:text-sm text-wl-primary hover:opacity-80">Read all articles</Link>
         </div>
@@ -325,7 +325,7 @@ export default function CityPage({ params }) {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">What Travelers Are Saying</h2>
           <Link href="/experiences" className="text-xs sm:text-sm text-wl-primary hover:opacity-80">Read all reviews</Link>
         </div>
@@ -375,7 +375,7 @@ export default function CityPage({ params }) {
       </section>
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-4 mb-4">
           <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Try Other Cities in Thailand</h2>
           <Link href="/experiences" className="text-xs sm:text-sm text-wl-primary hover:opacity-80">View all cities</Link>
         </div>
@@ -393,9 +393,9 @@ export default function CityPage({ params }) {
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Discover most popular places to visit in {city.name}</h2>
-        <div className="flex gap-4 overflow-x-auto whitespace-nowrap pb-2 scrollbar-hide">
+        <div className="flex gap-4 overflow-x-auto whitespace-nowrap pb-2 scrollbar-hide snap-x snap-mandatory">
           {city.popularChips.map((chip) => (
-            <button key={chip} className="px-4 py-2 rounded-full border border-gray-300 text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 transition flex-shrink-0">
+            <button key={chip} className="px-4 py-2 rounded-full border border-gray-300 text-xs font-medium text-gray-700 bg-white hover:bg-gray-50 transition flex-shrink-0 snap-start">
               {chip}
             </button>
           ))}

@@ -17,7 +17,7 @@ export default function DestinationsPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* HERO - Image-led */}
-      <section className="relative min-h-96 flex items-center justify-center overflow-hidden mb-24">
+      <section className="relative min-h-[45vh] sm:min-h-96 flex items-center justify-center overflow-hidden mb-12 sm:mb-24">
         <Image
           src="/images/destinations/santorini.svg"
           alt="All Destinations"
@@ -28,10 +28,10 @@ export default function DestinationsPage() {
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative text-center text-white px-4">
-          <h1 className="text-5xl md:text-6xl font-light leading-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight mb-4">
             All Destinations
           </h1>
-          <p className="text-lg md:text-xl font-light opacity-95">
+          <p className="text-base sm:text-lg md:text-xl font-light opacity-95">
             Explore authentic experiences in {countries.length} incredible destinations worldwide
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function DestinationsPage() {
             <Link
               key={country.slug}
               href={`/destinations/${country.slug}`}
-              className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all h-72"
+              className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all h-64 sm:h-72"
             >
               <Image
                 src={pickImage(country.heroImage)}

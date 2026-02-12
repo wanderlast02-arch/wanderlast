@@ -130,7 +130,7 @@ function ReviewCard({ review }) {
 function RelatedCard({ exp }) {
   return (
     <Link href={`/experiences/${exp.id}`} className="block group">
-      <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
         {/* Image */}
         <div className="relative h-40 bg-gray-200 overflow-hidden">
           <img
@@ -193,7 +193,7 @@ export default function ExperiencePage({ params }) {
   return (
     <main>
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-end px-4 overflow-hidden bg-gray-900">
+      <section className="relative w-full min-h-[45vh] sm:min-h-[65vh] flex items-end px-4 sm:px-6 lg:px-8 overflow-hidden bg-gray-900">
         {/* Background image */}
         <img
           src={safeImg(experience.image || "/images/figma/placeholder.jpg")}
@@ -205,7 +205,7 @@ export default function ExperiencePage({ params }) {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/50" />
 
         {/* Content */}
-        <div className="max-w-6xl mx-auto w-full relative z-10 py-12 sm:py-16">
+        <div className="max-w-6xl mx-auto w-full relative z-10 py-8 sm:py-12 md:py-16">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-end">
             {/* Left: Title + Meta */}
             <div className="md:col-span-2">
@@ -251,11 +251,11 @@ export default function ExperiencePage({ params }) {
       </div>
 
       {/* ========== SECTION 3: EXPERIENCE OVERVIEW ========== */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-5">About this experience</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">About this experience</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 space-y-4">
               {experience.description.map((para, idx) => (
                 <p key={idx} className="text-gray-700 leading-loose mb-6 text-base">
                   {para}
@@ -289,9 +289,9 @@ export default function ExperiencePage({ params }) {
       </section>
 
       {/* ========== SECTION 4: SUSTAINABILITY & LOCAL IMPACT ========== */}
-      <section className="py-16 px-4 bg-green-50">
+      <section className="py-10 md:py-16 px-4 sm:px-6 lg:px-8 bg-green-50 rounded-2xl">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-5">Local impact & sustainability</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">Local impact & sustainability</h2>
           <p className="text-gray-700 mb-8 max-w-3xl">
             We believe travel should benefit local communities. This tour is designed to support family-owned vendors and reduce environmental impact while giving you an authentic, memorable experience.
           </p>
@@ -307,9 +307,9 @@ export default function ExperiencePage({ params }) {
       </section>
 
       {/* ========== SECTION 5: WHAT'S INCLUDED / NOT INCLUDED ========== */}
-      <section className="py-16 px-4 bg-white">
+      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-12">What's included</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">What's included</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Included */}
             <div>
@@ -341,21 +341,21 @@ export default function ExperiencePage({ params }) {
       </section>
 
       {/* ========== SECTION 6: ITINERARY ========== */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-12">Itinerary</h2>
-          <div className="space-y-0">
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">Itinerary</h2>
+          <div className="space-y-6">
             {experience.itinerary.map((stop, idx) => (
-              <div key={idx} className="flex gap-6 pb-8 border-b border-gray-200 last:border-b-0">
+              <div key={idx} className="flex flex-col sm:flex-row gap-4 sm:gap-6 pb-8 border-b border-gray-200 last:border-b-0">
                 {/* Time badge */}
-                <div className="flex-shrink-0 w-20">
+                <div className="sm:flex-shrink-0 sm:w-20">
                   <div className="bg-white border border-gray-300 rounded-lg py-2 px-3 text-center">
                     <p className="text-sm font-semibold text-gray-900">{stop.time}</p>
                   </div>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 pt-2">
+                <div className="flex-1 sm:pt-2">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">{stop.title}</h3>
                   <p className="text-gray-700 text-sm">{stop.desc}</p>
                 </div>
@@ -366,9 +366,9 @@ export default function ExperiencePage({ params }) {
       </section>
 
       {/* ========== SECTION 7: REVIEWS PREVIEW ========== */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-12">What guests say</h2>
+      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto space-y-5">
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">What guests say</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experience.reviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
@@ -378,11 +378,11 @@ export default function ExperiencePage({ params }) {
       </section>
 
       {/* ========== SECTION 8: HOST / GUIDE CARD ========== */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-12">Meet your guide</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">Meet your guide</h2>
           <div className="bg-white border border-gray-200 rounded-xl p-8 max-w-xl">
-            <div className="flex items-start gap-6">
+            <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
               {/* Avatar */}
               <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex-shrink-0" />
 
@@ -395,7 +395,7 @@ export default function ExperiencePage({ params }) {
                 <p className="text-gray-700 mt-4 leading-relaxed text-base">{experience.guide.bio}</p>
 
                 {/* Stats */}
-                <div className="flex gap-6 mt-6 pt-6 border-t border-gray-200">
+                <div className="flex flex-wrap gap-6 mt-6 pt-6 border-t border-gray-200">
                   <div>
                     <p className="text-2xl font-bold text-gray-900">8+</p>
                     <p className="text-xs text-gray-600">Years guiding</p>
@@ -412,9 +412,9 @@ export default function ExperiencePage({ params }) {
       </section>
 
       {/* ========== SECTION 9: RELATED EXPERIENCES ========== */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl font-normal text-gray-900 mb-12">Similar experiences</h2>
+      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto space-y-6">
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">Similar experiences</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {experience.related.map((exp) => (
               <RelatedCard key={exp.id} exp={exp} />
@@ -437,7 +437,7 @@ export default function ExperiencePage({ params }) {
       </div>
 
       {/* Spacer for mobile fixed bar */}
-      <div className="lg:hidden h-20" />
+      <div className="lg:hidden h-[88px]" />
     </main>
   );
 }

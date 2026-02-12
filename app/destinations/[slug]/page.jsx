@@ -90,7 +90,7 @@ function StarRating({ rating, count }) {
 function ExperienceCard({ exp }) {
   return (
     <Link href={`/experiences/${exp.slug}`} className="block group">
-      <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
+      <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
         {/* Image */}
         <div className="relative h-40 md:h-44 bg-gray-200 overflow-hidden">
           <img
@@ -154,9 +154,9 @@ export default function DestinationPage({ params }) {
     : safeImg("/images/figma/placeholder.jpg");
 
   return (
-    <main>
+    <main className="overflow-x-hidden">
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-end pt-24 sm:pt-28 pb-16 px-4 overflow-hidden">
+      <section className="relative w-full min-h-[42vh] sm:min-h-[60vh] flex items-end pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 overflow-hidden">
         {/* Background image element (fixed behind overlay) */}
         <img
           src={heroImage}
@@ -175,12 +175,12 @@ export default function DestinationPage({ params }) {
             </div>
             
             {/* Big Title */}
-            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
               Thailand
             </h1>
             
             {/* Breadcrumb */}
-            <div className="text-xs uppercase text-white/80 font-light mb-10">
+            <div className="text-xs uppercase text-white/80 font-light mb-6 sm:mb-10">
               <Link href="/" className="hover:text-white/95 transition">
                 Home
               </Link>
@@ -212,13 +212,13 @@ export default function DestinationPage({ params }) {
 
       {/* ========== SECTION 2: CITIES IN THAILAND ========== */}
       {isThailand && (
-        <section className="py-16 px-4 bg-white">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-14">Cities in Thailand</h2>
+            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-8 sm:mb-14">Cities in Thailand</h2>
             {/* Horizontal scrollable/wrapping row of circles */}
-            <div className="flex flex-wrap gap-6 justify-start">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
               {citiesData.map((city) => (
-                <Link key={city.slug} href={`/experiences`} className="block group flex-shrink-0">
+                <Link key={city.slug} href={`/experiences`} className="group flex flex-col items-center gap-2 snap-start">
                   <div className="relative cursor-pointer w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
                     <img
                       src={safeImg(city.image)}
@@ -236,10 +236,10 @@ export default function DestinationPage({ params }) {
 
       {/* ========== SECTION 3: TOP EXPERIENCES BY CITY ========== */}
       {isThailand && (
-        <section className="py-16 px-4 bg-gray-50">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
           <div className="max-w-6xl mx-auto">
             {Object.entries(THAILAND_MOCK.topExperiencesByCity).map(([cityName, experiences]) => (
-              <div key={cityName} className="mb-16">
+              <div key={cityName} className="mb-10 sm:mb-16">
                 {/* City header */}
                 <div className="flex justify-between items-baseline mb-5">
                   <h2 className="text-4xl md:text-5xl font-medium text-gray-900">{cityName}</h2>
@@ -249,7 +249,7 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* Tabs (UI only) */}
-                <div className="flex gap-2 sm:gap-4 overflow-x-auto sm:overflow-visible pb-3 border-b border-gray-300 -mx-4 px-4 sm:mx-0 sm:px-0 mb-0 sm:mb-10 scrollbar-hide">
+                <div className="flex gap-2 sm:gap-4 overflow-x-auto sm:overflow-visible pb-3 border-b border-gray-300 mb-0 sm:mb-10 scrollbar-hide">
                   {["Culture & Heritage", "Parks & Gardens", "Animals & Shows", "Food & Dining", "Shopping"].map((tab, idx) => (
                     <button
                       key={tab}
@@ -263,7 +263,7 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* Cards grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
                   {experiences.map((exp) => (
                     <ExperienceCard key={exp.slug} exp={exp} />
                   ))}
@@ -276,10 +276,10 @@ export default function DestinationPage({ params }) {
 
       {/* ========== SECTION 4: ALL THINGS TO DO ========== */}
       {isThailand && (
-        <section className="py-20 px-4 bg-white">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
           <div className="max-w-6xl mx-auto">
             {/* Two-column layout: sidebar + content */}
-            <div className="grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-12">
+            <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4">
               {/* LEFT: Filters sidebar (desktop w-64, collapses on mobile) */}
               <div className="hidden lg:block space-y-8 bg-gray-50 border border-gray-200 rounded-xl p-4">
                 {/* Destinations tree */}
@@ -337,7 +337,7 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* Filter chips + sort */}
-                <div className="flex gap-3 items-center mb-10 pb-6 border-b border-gray-300 overflow-x-auto whitespace-nowrap -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+                <div className="flex gap-3 items-center mb-6 sm:mb-10 pb-6 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
                   <span className="text-xs text-gray-600 font-medium flex-shrink-0">Filter:</span>
                   <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
                     Availability
@@ -359,7 +359,7 @@ export default function DestinationPage({ params }) {
                 </div>
 
                 {/* 3-column grid of cards (responsive: 1 mobile, 2 tablet, 3 desktop) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 mb-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 mb-6 sm:mb-10">
                   {THAILAND_MOCK.allThingsMock.map((exp) => (
                     <ExperienceCard key={exp.slug} exp={exp} />
                   ))}
@@ -379,16 +379,16 @@ export default function DestinationPage({ params }) {
 
       {/* ========== SECTION 5: TRAVEL TIPS / ABOUT THAILAND ========== */}
       {isThailand && (
-        <section className="py-16 px-4 bg-gray-50">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* LEFT: Paragraphs + General info */}
               <div>
                 <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-5">Travel Tips for Thailand</h2>
                 <p className="text-gray-700 leading-loose mb-6 text-base">
                   Thailand is one of Southeast Asia's most enchanting destinations, known for its warm hospitality, stunning temples, and vibrant street food culture. Whether you're exploring the bustling streets of Bangkok or relaxing on pristine island beaches, Thailand offers unforgettable experiences for every traveler.
                 </p>
-                <p className="text-gray-700 leading-loose mb-10 text-base">
+                <p className="text-gray-700 leading-loose mb-6 sm:mb-10 text-base">
                   From world-class diving in the Andaman Sea to trekking through lush northern jungles, Thailand seamlessly blends adventure, culture, and relaxation. The key is to venture beyond the tourist hotspots and connect with local communities to experience authentic Thai life.
                 </p>
 
@@ -433,13 +433,13 @@ export default function DestinationPage({ params }) {
 
       {/* ========== SECTION 6: NEARBY DESTINATIONS ========== */}
       {isThailand && nearbyData.length > 0 && (
-        <section className="py-16 px-4 bg-white">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-14">Nearby Destinations</h2>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-8 sm:mb-14">Nearby Destinations</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
               {nearbyData.map((dest) => (
                 <Link key={dest.slug} href={`/destinations/${dest.slug}`} className="block group">
-                  <div className="relative cursor-pointer mx-auto w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
+                  <div className="relative cursor-pointer mx-auto w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
                     <Image
                       src={safeImg(dest.image)}
                       alt={dest.name}
@@ -458,7 +458,7 @@ export default function DestinationPage({ params }) {
 
       {/* Minimal fallback for non-Thailand slugs */}
       {!isThailand && (
-        <section className="py-20 px-4 bg-white">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">{country.name}</h2>
             <p className="text-gray-700">Destination page coming soon.</p>
@@ -468,14 +468,14 @@ export default function DestinationPage({ params }) {
 
       {/* ========== SECTION 7: DISCOVER MOST POPULAR PLACES ========== */}
       {isThailand && popularPlaces.length > 0 && (
-        <section className="py-16 px-4 bg-gray-50">
+        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
           <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-medium text-gray-900 mb-10">
+            <h2 className="text-4xl md:text-5xl font-medium text-gray-900 mb-6 sm:mb-10">
               Discover Most Popular Places to Visit in {country.name}
             </h2>
 
             {/* Two-toggle pill (UI only) */}
-            <div className="flex justify-center gap-2 mb-14">
+            <div className="flex justify-center gap-2 mb-8 sm:mb-14">
               <button className="px-6 py-2.5 bg-green-800 text-white text-sm font-semibold rounded-full shadow-sm hover:bg-green-900 transition">
                 Top things to do
               </button>

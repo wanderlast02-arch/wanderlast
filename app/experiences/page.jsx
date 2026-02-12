@@ -86,7 +86,7 @@ export default function ExperiencesPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* HERO - Image-led */}
-      <section className="relative min-h-96 flex items-center justify-center overflow-hidden mb-24">
+      <section className="relative min-h-[45vh] sm:min-h-96 flex items-center justify-center overflow-hidden mb-12 sm:mb-24">
         <Image
           src="/images/destinations/thailand-temple.svg"
           alt="All Experiences"
@@ -97,10 +97,10 @@ export default function ExperiencesPage() {
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="relative text-center text-white px-4">
-          <h1 className="text-5xl md:text-6xl font-light leading-tight mb-4">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light leading-tight mb-4">
             All Experiences
           </h1>
-          <p className="text-lg md:text-xl font-light opacity-95">
+          <p className="text-base sm:text-lg md:text-xl font-light opacity-95">
             Discover {EXPERIENCES.length} authentic experiences from around the world
           </p>
         </div>
@@ -108,19 +108,19 @@ export default function ExperiencesPage() {
 
       {/* Experiences Grid - Image-first with minimal padding */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {EXPERIENCES.map((exp) => (
             <Link
               key={exp.slug}
               href={`/experiences/${exp.slug}`}
-              className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all h-80"
+              className="group relative w-full overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all h-72 sm:h-80"
             >
               <Image
                 src={exp.image}
                 alt={exp.name}
                 fill
                 sizes="(min-width: 1280px) 20vw, (min-width: 768px) 33vw, 100vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-black/30 group-hover:bg-black/45 transition-colors" />
               <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 to-transparent">

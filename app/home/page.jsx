@@ -124,11 +124,11 @@ export default function HomePage() {
   return (
     <div className="bg-white text-wl-text">
       {/* FIGMA_LOCK: Hero section locked to Figma design authority. Typography, spacing, shadow, overlay locked. Allowed: copy updates only. */}
-      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-24 sm:pt-28 overflow-hidden">
+      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-20 sm:pt-28 overflow-hidden">
         <Image src={img(HERO_IMG)} alt="Wanderlast homepage hero" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/45" />
 
-        <div className="relative text-center text-white px-4 max-w-4xl mx-auto pt-24 sm:pt-28 flex flex-col items-center">
+        <div className="relative text-center text-white px-4 max-w-4xl mx-auto pt-20 sm:pt-28 flex flex-col items-center">
           {/* Two-line headline: refined hierarchy for Figma match */}
           <div className="text-center mb-12">
             <div className="text-3xl sm:text-4xl lg:text-5xl font-light leading-tight drop-shadow-lg opacity-85 mb-1">
@@ -178,7 +178,7 @@ export default function HomePage() {
 
       {/* FIGMA_LOCK: Why clients section locked to Figma. Card layout, spacing, icon sizes, colors locked. Allowed: text content updates only. */}
       {/* Why clients choose Wanderlast */}
-      <section className="py-20 px-4 bg-amber-50">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-amber-50">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left: Description */}
@@ -220,7 +220,7 @@ export default function HomePage() {
 
       {/* Best offers */}
       {/* FIGMA_LOCK: Best offers — 3-card grid, badges, wishlist icon, darker overlay, description right */}
-      <section className="py-20 px-4 bg-wl-surface">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -276,7 +276,7 @@ export default function HomePage() {
       </section>
 
       {/* FIGMA_LOCK: Featured Experiences — 4-card grid with arrow pattern hover, description right */}
-      <section className="py-20 px-4 bg-amber-50">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-amber-50">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -329,7 +329,7 @@ export default function HomePage() {
       </section>
 
       {/* FIGMA_LOCK: Sport/Ecotourism — 3-card grid with arrow pattern hover, description right */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -385,7 +385,7 @@ export default function HomePage() {
       </section>
 
       {/* Top Destinations */}
-      <section className="py-20 px-4 bg-wl-surface">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -397,9 +397,9 @@ export default function HomePage() {
               <Link href="/destinations" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="flex gap-4 sm:gap-6 lg:gap-8 mb-4 overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+          <div className="flex gap-4 sm:gap-6 mb-4 overflow-x-auto sm:overflow-visible scrollbar-hide snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:gap-6 lg:place-items-center lg:overflow-visible lg:snap-none">
             {MOCK.destinations.map((d) => (
-              <Link key={d.slug} href={`/destinations/${d.slug}`} className="group flex-shrink-0 snap-center">
+              <Link key={d.slug} href={`/destinations/${d.slug}`} className="group flex-shrink-0 snap-start">
                 <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-sm flex-shrink-0">
                   <Image src={img(d.image)} alt={d.title} fill className="object-cover" />
                   {/* Name + hover arrow pattern overlay */}
@@ -426,7 +426,7 @@ export default function HomePage() {
       </section>
 
       {/* The most popular things to do in Tokyo */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -497,7 +497,7 @@ export default function HomePage() {
       </section>
 
       {/* Book your next Trip */}
-      <section className="py-20 px-4 bg-wl-surface">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="relative h-72 md:h-96 rounded-2xl overflow-hidden shadow-md">
             <Image src={img(HERO_IMG)} alt="Book your next trip" fill className="object-cover" />
@@ -529,7 +529,7 @@ export default function HomePage() {
       </section>
 
       {/* Discover tickets most popular places to visit */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-light mb-12 text-center">Discover tickets most popular places to visit</h2>
           <div className="flex flex-wrap gap-3 justify-center mb-6">

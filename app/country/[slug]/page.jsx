@@ -69,13 +69,13 @@ export default async function CountryPage({ params, searchParams }) {
           <p className="text-white/80 text-sm mb-3 tracking-[0.2em] uppercase">Wanderlast</p>
           <h1 className="text-white text-4xl sm:text-5xl lg:text-6xl font-light leading-tight mb-3">{content.title}</h1>
           {content.tagline && (
-            <p className="text-white/90 text-lg max-w-2xl font-light">{content.tagline}</p>
+            <p className="text-white/90 text-base sm:text-lg max-w-2xl font-light">{content.tagline}</p>
           )}
         </div>
       </section>
 
       {/* 2. ABOUT THE COUNTRY */}
-      <section className="py-20 px-4 bg-white">
+      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-sm tracking-[0.2em] uppercase text-wl-muted mb-3">About the Country</p>
@@ -98,7 +98,7 @@ export default async function CountryPage({ params, searchParams }) {
 
       {/* 3. TOP DESTINATIONS */}
       {destinations.length > 0 && (
-        <section className="py-20 px-4 bg-wl-surface">
+        <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
               <h2 className="text-4xl font-light text-wl-text mb-3">Top Destinations</h2>
@@ -132,7 +132,7 @@ export default async function CountryPage({ params, searchParams }) {
 
       {/* 4. FEATURED EXPERIENCES */}
       {featuredExperiences.length > 0 && (
-        <section className="py-20 px-4 bg-white">
+        <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
               <h2 className="text-4xl font-light text-wl-text mb-3">Featured Experiences</h2>
@@ -171,7 +171,7 @@ export default async function CountryPage({ params, searchParams }) {
 
       {/* 5. TRAVEL TIPS */}
       {travelTips.length > 0 && (
-        <section className="py-20 px-4 bg-wl-surface">
+        <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
               <h2 className="text-4xl font-light text-wl-text mb-3">Travel Tips</h2>
@@ -203,10 +203,10 @@ export default async function CountryPage({ params, searchParams }) {
         />
         <div className="absolute inset-0 bg-black/55" />
         <div className="relative text-center text-white px-4 max-w-2xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-light leading-tight mb-6">
             Ready to explore {content.title}?
           </h2>
-          <p className="text-lg opacity-95 mb-8">
+          <p className="text-base sm:text-lg opacity-95 mb-8">
             Discover authentic destinations and experiences curated for you.
           </p>
           <div className="flex gap-4 justify-center flex-wrap">
