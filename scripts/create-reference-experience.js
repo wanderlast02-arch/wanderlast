@@ -140,7 +140,7 @@ const referenceStory = {
       happy_travelers_label: "Happy travelers",
       related_section_title: "Similar experiences",
       availability_widget:
-        "https://wa.me/35799645094?text=Hi%20I%20am%20interested%20in%20this%20reference%20experience",
+        "https://wa.me/306934126131?text=Hi%20I%20am%20interested%20in%20this%20reference%20experience",
       seo_title: "Curator Reference Experience",
       seo_description:
         "Reference Storyblok experience entry for curator guidance.",

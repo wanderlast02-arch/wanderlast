@@ -572,7 +572,7 @@ export default function ExperienceStoryblokPreview({ story: initialStory, slug }
     : ["Small group experience", "Local verified partner", "Curated by Wanderlast"]
   ).slice(0, 3);
   const message = `Hi, I'm staying at Galini Beach Hotel and I'm interested in ${experience.title}`;
-  const whatsappUrl = `https://wa.me/35799645094?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = `https://wa.me/306934126131?text=${encodeURIComponent(message)}`;
   const bookingUrl = experience.bookingUrl || whatsappUrl;
   const bookingTarget = bookingUrl.startsWith("http") ? "_blank" : undefined;
 

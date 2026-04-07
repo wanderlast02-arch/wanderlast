@@ -59,7 +59,7 @@ export default function Footer() {
         <div>
           <h3 className="text-base font-semibold mb-6">Get in Touch</h3>
           <div className="mb-4">
-            <p className="text-sm text-neutral-400 mb-2">📞 +357 99645094</p>
+            <p className="text-sm text-neutral-400 mb-2">📞 +30 693 412 6131</p>
             <p className="text-sm text-neutral-400 mb-2">✉️ wanderlast02@gmail.com</p>
             <p className="text-sm text-neutral-400">📍 Limmasol</p>
           </div>
