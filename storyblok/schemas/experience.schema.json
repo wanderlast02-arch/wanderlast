@@ -7,104 +7,124 @@
     "title": {
       "type": "text",
       "display_name": "Title",
-      "pos": 0
+      "pos": 0,
+      "description": "Main experience title shown in the hero and page metadata."
     },
     "slug": {
       "type": "text",
       "display_name": "Slug",
-      "pos": 1
+      "pos": 1,
+      "description": "URL slug, for example sunset-boat-tour."
     },
     "partner": {
       "type": "multilink",
       "display_name": "Partner",
       "pos": 2,
-      "max_items": 1
+      "max_items": 1,
+      "description": "Optional internal link to the partner entry when that content model is in use."
     },
     "short_description": {
       "type": "textarea",
       "display_name": "Short Description",
-      "pos": 3
+      "pos": 3,
+      "description": "Short sales-focused summary used in the about section and SEO fallback."
     },
     "price_display": {
       "type": "text",
       "display_name": "Price Display",
-      "pos": 4
+      "pos": 4,
+      "description": "Exact visible price text, for example 42 EUR or From 42 EUR."
     },
     "duration": {
       "type": "text",
       "display_name": "Duration",
-      "pos": 5
+      "pos": 5,
+      "description": "Visible duration label, for example 180min or 3.5 hours."
     },
     "included_items": {
       "type": "textarea",
       "display_name": "Included Items",
-      "pos": 6
+      "pos": 6,
+      "description": "One included item per line. Used in the included list if no blok items are present."
     },
     "images": {
       "type": "asset",
       "display_name": "Images",
       "pos": 7,
-      "maximum": 10
+      "maximum": 10,
+      "description": "Hero/gallery images. The first image is used as the main hero image."
     },
     "shopify_product_handle": {
       "type": "text",
       "display_name": "Shopify Product Handle",
-      "pos": 8
+      "pos": 8,
+      "description": "Optional Shopify product handle for future booking integration."
     },
     "availability_notes": {
       "type": "textarea",
       "display_name": "Availability Notes",
-      "pos": 9
+      "pos": 9,
+      "description": "Short urgency or booking note, for example Usually booked 2-3 days in advance."
     },
     "bokun_experience_id": {
       "type": "text",
       "display_name": "Bokun Experience ID",
-      "pos": 10
+      "pos": 10,
+      "description": "Optional Bokun experience identifier for future booking integration."
     },
     "availability_widget": {
       "type": "text",
       "display_name": "Availability Widget",
-      "pos": 11
+      "pos": 11,
+      "description": "Paste a booking URL or iframe/embed code. If a URL is found, the CTA will link to it."
     },
     "seo_title": {
       "type": "text",
       "display_name": "SEO Title",
-      "pos": 12
+      "pos": 12,
+      "description": "Optional SEO title override. Falls back to Title if empty."
     },
     "seo_description": {
       "type": "textarea",
       "display_name": "SEO Description",
-      "pos": 13
+      "pos": 13,
+      "description": "Optional SEO description override. Falls back to Short Description if empty."
     },
     "location": {
       "type": "text",
       "display_name": "Location",
-      "pos": 14
+      "pos": 14,
+      "description": "Visible destination text in the hero meta row."
     },
     "rating": {
       "type": "number",
       "display_name": "Rating",
-      "pos": 15
+      "pos": 15,
+      "description": "Visible review score, for example 4.8."
     },
     "reviews_count": {
       "type": "number",
       "display_name": "Reviews Count",
-      "pos": 16
+      "pos": 16,
+      "description": "Visible number of reviews, for example 124."
     },
     "group_type": {
       "type": "text",
       "display_name": "Group Type",
-      "pos": 17
+      "pos": 17,
+      "description": "Visible group type label, for example Small group or Private tour."
     },
     "trust_text": {
       "type": "textarea",
       "display_name": "Trust Text",
-      "pos": 18
+      "pos": 18,
+      "description": "Trust copy shown near the description. Use one short point per line if needed."
     },
     "urgency_text": {
       "type": "text",
       "display_name": "Urgency Text",
-      "pos": 19
+      "pos": 19,
+      "description": "Short urgency line below the main CTA."
     },
     "facts": {
       "type": "bloks",
@@ -113,12 +133,14 @@
       "restrict_components": true,
       "component_whitelist": [
         "fact_item"
-      ]
+      ],
+      "description": "Quick facts list. Add Fact Item blocks with label and value."
     },
     "not_included_items": {
       "type": "textarea",
       "display_name": "Not Included Items",
-      "pos": 21
+      "pos": 21,
+      "description": "One excluded item per line. Used in the not included list if no blok items are present."
     },
     "itinerary": {
       "type": "bloks",
@@ -127,37 +149,44 @@
       "restrict_components": true,
       "component_whitelist": [
         "itinerary_item"
-      ]
+      ],
+      "description": "Itinerary steps. Add Itinerary Item blocks with time, title, and description."
     },
     "sustainability_points": {
       "type": "textarea",
       "display_name": "Sustainability Points",
-      "pos": 23
+      "pos": 23,
+      "description": "One sustainability point per line."
     },
     "guide_name": {
       "type": "text",
       "display_name": "Guide Name",
-      "pos": 24
+      "pos": 24,
+      "description": "Guide or host name shown in the guide section."
     },
     "guide_description": {
       "type": "textarea",
       "display_name": "Guide Description",
-      "pos": 25
+      "pos": 25,
+      "description": "Short guide bio shown in the guide section."
     },
     "guide_image": {
       "type": "asset",
       "display_name": "Guide Image",
-      "pos": 26
+      "pos": 26,
+      "description": "Optional portrait for the guide section."
     },
     "guide_years": {
       "type": "text",
       "display_name": "Guide Years",
-      "pos": 27
+      "pos": 27,
+      "description": "Visible stat value, for example 8+."
     },
     "happy_travelers": {
       "type": "text",
       "display_name": "Happy Travelers",
-      "pos": 28
+      "pos": 28,
+      "description": "Visible stat value, for example 400+."
     },
     "reviews": {
       "type": "bloks",
@@ -166,7 +195,8 @@
       "restrict_components": true,
       "component_whitelist": [
         "review_item"
-      ]
+      ],
+      "description": "Guest reviews. Add Review Item blocks with name, rating, and text."
     },
     "highlights": {
       "type": "bloks",
@@ -176,102 +206,122 @@
       "component_whitelist": [
         "tag",
         "icon_tag"
-      ]
+      ],
+      "description": "Short highlight chips used in the Why this experience area."
     },
     "call_to_action_text": {
       "type": "text",
       "display_name": "Call To Action Text",
-      "pos": 31
+      "pos": 31,
+      "description": "Primary CTA button text."
     },
     "partner_label": {
       "type": "text",
       "display_name": "Partner Label",
-      "pos": 32
+      "pos": 32,
+      "description": "Visible partner line in the hero meta row. Optional, falls back to default if empty."
     },
     "verification_label": {
       "type": "text",
       "display_name": "Verification Label",
-      "pos": 33
+      "pos": 33,
+      "description": "Visible verification line in the hero meta row. Optional, falls back to default if empty."
     },
     "price_label": {
       "type": "text",
       "display_name": "Price Label",
-      "pos": 34
+      "pos": 34,
+      "description": "Label shown above the price, for example Starting price."
     },
     "price_suffix": {
       "type": "text",
       "display_name": "Price Suffix",
-      "pos": 35
+      "pos": 35,
+      "description": "Text shown after or below the price, for example per person."
     },
     "why_section_title": {
       "type": "text",
       "display_name": "Why Section Title",
-      "pos": 36
+      "pos": 36,
+      "description": "Section heading for the highlights area."
     },
     "about_section_title": {
       "type": "text",
       "display_name": "About Section Title",
-      "pos": 37
+      "pos": 37,
+      "description": "Section heading for the description area."
     },
     "facts_section_title": {
       "type": "text",
       "display_name": "Facts Section Title",
-      "pos": 38
+      "pos": 38,
+      "description": "Section heading for the quick facts card."
     },
     "sustainability_section_title": {
       "type": "text",
       "display_name": "Sustainability Section Title",
-      "pos": 39
+      "pos": 39,
+      "description": "Section heading for the sustainability area."
     },
     "sustainability_intro": {
       "type": "textarea",
       "display_name": "Sustainability Intro",
-      "pos": 40
+      "pos": 40,
+      "description": "Optional intro sentence above the sustainability bullet points."
     },
     "included_section_title": {
       "type": "text",
       "display_name": "Included Section Title",
-      "pos": 41
+      "pos": 41,
+      "description": "Section heading for the inclusion area."
     },
     "included_label": {
       "type": "text",
       "display_name": "Included Label",
-      "pos": 42
+      "pos": 42,
+      "description": "Subheading above the included items list."
     },
     "not_included_label": {
       "type": "text",
       "display_name": "Not Included Label",
-      "pos": 43
+      "pos": 43,
+      "description": "Subheading above the not included items list."
     },
     "itinerary_section_title": {
       "type": "text",
       "display_name": "Itinerary Section Title",
-      "pos": 44
+      "pos": 44,
+      "description": "Section heading for the itinerary area."
     },
     "reviews_section_title": {
       "type": "text",
       "display_name": "Reviews Section Title",
-      "pos": 45
+      "pos": 45,
+      "description": "Section heading for the reviews area."
     },
     "guide_section_title": {
       "type": "text",
       "display_name": "Guide Section Title",
-      "pos": 46
+      "pos": 46,
+      "description": "Section heading for the guide area."
     },
     "years_guiding_label": {
       "type": "text",
       "display_name": "Years Guiding Label",
-      "pos": 47
+      "pos": 47,
+      "description": "Label under the guide years stat."
     },
     "happy_travelers_label": {
       "type": "text",
       "display_name": "Happy Travelers Label",
-      "pos": 48
+      "pos": 48,
+      "description": "Label under the happy travelers stat."
     },
     "related_section_title": {
       "type": "text",
       "display_name": "Related Section Title",
-      "pos": 49
+      "pos": 49,
+      "description": "Section heading for the related experiences area."
     }
   }
 }
