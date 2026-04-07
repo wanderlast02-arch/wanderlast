@@ -13,72 +13,144 @@
       "display_name": "Hero Image",
       "pos": 1
     },
+    "location": {
+      "type": "text",
+      "display_name": "Location",
+      "pos": 2
+    },
+    "rating": {
+      "type": "number",
+      "display_name": "Rating",
+      "pos": 3
+    },
+    "reviews_count": {
+      "type": "number",
+      "display_name": "Reviews Count",
+      "pos": 4
+    },
+    "group_type": {
+      "type": "text",
+      "display_name": "Group Type",
+      "pos": 5
+    },
     "destination": {
       "type": "multilink",
       "display_name": "Destination",
-      "pos": 2,
+      "pos": 6,
       "filter_content_type": ["destination_page"],
       "max_items": 1
     },
     "country": {
       "type": "multilink",
       "display_name": "Country",
-      "pos": 3,
+      "pos": 7,
       "filter_content_type": ["country_page"],
       "max_items": 1
     },
     "price": {
       "type": "number",
       "display_name": "Price (USD)",
-      "pos": 4
+      "pos": 8
     },
     "duration": {
       "type": "text",
       "display_name": "Duration",
-      "pos": 5
+      "pos": 9
     },
     "sustainability_score": {
       "type": "number",
       "display_name": "Sustainability Score (1-5)",
-      "pos": 6
+      "pos": 10
     },
     "about_experience": {
       "type": "richtext",
       "display_name": "About Experience",
-      "pos": 7
+      "pos": 11
     },
     "highlights": {
-      "type": "custom",
+      "type": "bloks",
       "display_name": "Highlights",
-      "pos": 8,
-      "field_type": "textarea"
+      "pos": 12,
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag",
+        "icon_tag"
+      ]
+    },
+    "trust_text": {
+      "type": "textarea",
+      "display_name": "Trust Text",
+      "pos": 13
+    },
+    "facts": {
+      "type": "bloks",
+      "display_name": "Facts",
+      "pos": 14,
+      "restrict_components": true,
+      "component_whitelist": [
+        "fact_item"
+      ]
+    },
+    "included_items": {
+      "type": "bloks",
+      "display_name": "Included Items",
+      "pos": 15,
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
+    },
+    "not_included_items": {
+      "type": "bloks",
+      "display_name": "Not Included Items",
+      "pos": 16,
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag"
+      ]
     },
     "itinerary": {
-      "type": "richtext",
+      "type": "bloks",
       "display_name": "Itinerary",
-      "pos": 9
+      "pos": 17,
+      "restrict_components": true,
+      "component_whitelist": [
+        "itinerary_item"
+      ]
     },
-    "included": {
-      "type": "custom",
-      "display_name": "Included",
-      "pos": 10,
-      "field_type": "textarea"
+    "guide_name": {
+      "type": "text",
+      "display_name": "Guide Name",
+      "pos": 18
     },
-    "not_included": {
-      "type": "custom",
-      "display_name": "Not Included",
-      "pos": 11,
-      "field_type": "textarea"
+    "guide_description": {
+      "type": "textarea",
+      "display_name": "Guide Description",
+      "pos": 19
+    },
+    "guide_image": {
+      "type": "asset",
+      "display_name": "Guide Image",
+      "pos": 20
+    },
+    "reviews": {
+      "type": "bloks",
+      "display_name": "Reviews",
+      "pos": 21,
+      "restrict_components": true,
+      "component_whitelist": [
+        "review_item"
+      ]
     },
     "call_to_action_text": {
       "type": "text",
       "display_name": "Call to Action Text",
-      "pos": 12
+      "pos": 22
     },
     "merchant": {
       "type": "multilink",
       "display_name": "Merchant",
-      "pos": 13,
+      "pos": 23,
       "max_items": 1
     }
   },

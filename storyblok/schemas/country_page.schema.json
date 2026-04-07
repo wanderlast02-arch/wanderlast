@@ -33,10 +33,10 @@
       "type": "multilink",
       "display_name": "Featured Experiences",
       "pos": 5,
-      "filter_content_type": ["experience_page"]
+      "filter_content_type": ["experience_page", "experience"]
     },
     "travel_tips": {
-      "type": "blocks",
+      "type": "bloks",
       "display_name": "Travel Tips",
       "pos": 6
     },

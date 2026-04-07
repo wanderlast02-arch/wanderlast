@@ -21,22 +21,76 @@ const api = axios.create({
   },
 });
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function requestWithRetry(config, retries = 4) {
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    try {
+      return await api.request(config);
+    } catch (err) {
+      const status = err.response?.status;
+      const isRateLimit = status === 429 || `${err.response?.data?.error || ""}`.toLowerCase().includes("rate limit");
+
+      if (!isRateLimit || attempt === retries) {
+        throw err;
+      }
+
+      const retryAfterHeader = Number(err.response?.headers?.["retry-after"]);
+      const waitMs = Number.isFinite(retryAfterHeader) && retryAfterHeader > 0
+        ? retryAfterHeader * 1000
+        : 1200 * (attempt + 1);
+
+      console.warn(`Rate limit hit. Retrying in ${waitMs}ms...`);
+      await sleep(waitMs);
+    }
+  }
+}
+
+let groupCache = null;
+let componentCache = null;
+
+async function loadGroups() {
+  if (groupCache) {
+    return groupCache;
+  }
+
+  const groups = await requestWithRetry({ method: "get", url: "/component_groups" });
+  groupCache = groups.data.component_groups || [];
+  return groupCache;
+}
+
+async function loadComponents() {
+  if (componentCache) {
+    return componentCache;
+  }
+
+  const components = await requestWithRetry({ method: "get", url: "/components" });
+  componentCache = components.data.components || [];
+  return componentCache;
+}
+
 // -------------------------------
 // 1. Create component group if missing
 // -------------------------------
 
 async function ensureGroup(name) {
   try {
-    const groups = await api.get(`/component_groups`);
+    const groups = await loadGroups();
 
-    const exists = groups.data.component_groups.find((g) => g.name === name);
+    const exists = groups.find((g) => g.name === name);
     if (exists) return exists.id;
 
     console.log(`→ Creating component group: ${name}`);
 
-    const res = await api.post(`/component_groups`, {
+    const res = await requestWithRetry({
+      method: "post",
+      url: "/component_groups",
+      data: {
       component_group: { name },
+      },
     });
+
+    groupCache = [...groups, res.data.component_group];
 
     return res.data.component_group.id;
   } catch (err) {
@@ -65,26 +119,37 @@ async function pushComponent(schema, filename) {
     };
 
     // GET existing components
-    const existing = await api.get(`/components`);
-    const found = existing.data.components.find((c) => c.name === schema.name);
+    const existing = await loadComponents();
+    const found = existing.find((c) => c.name === schema.name);
 
     // UPDATE if exists
     if (found) {
       console.log(`✔ Updating existing component: ${schema.name}`);
 
-      await api.put(`/components/${found.id}`, {
-        component: componentPayload,
+      await requestWithRetry({
+        method: "put",
+        url: `/components/${found.id}`,
+        data: {
+          component: componentPayload,
+        },
       });
     } else {
       // CREATE if missing
       console.log(`➕ Creating new component: ${schema.name}`);
 
-      await api.post(`/components`, {
-        component: componentPayload,
+      const response = await requestWithRetry({
+        method: "post",
+        url: "/components",
+        data: {
+          component: componentPayload,
+        },
       });
+
+      componentCache = [...existing, response.data.component];
     }
 
     console.log(`✅ Done: ${schema.name}`);
+    await sleep(250);
   } catch (err) {
     console.error(`❌ Error for component ${schema.name}:`);
     console.error(err.response?.data || err.message);

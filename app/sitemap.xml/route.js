@@ -1,12 +1,40 @@
-import { getStoryblokApi } from "@storyblok/react";
+const STORYBLOK_API_BASE = "https://api.storyblok.com/v2/cdn/stories";
+
+function getStoryblokToken() {
+  return process.env.STORYBLOK_API_TOKEN || process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN;
+}
+
+async function fetchStories(startsWith) {
+  const token = getStoryblokToken();
+
+  if (!token) {
+    return [];
+  }
+
+  const params = new URLSearchParams({
+    version: "draft",
+    token,
+    starts_with: startsWith,
+  });
+
+  const res = await fetch(`${STORYBLOK_API_BASE}?${params.toString()}`, {
+    next: { revalidate: 3600 },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Storyblok sitemap fetch failed for ${startsWith}: ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data?.stories || [];
+}
 
 async function getSitemapData() {
   try {
-    const storyblokApi = getStoryblokApi();
+    const token = getStoryblokToken();
 
-    // If Storyblok API is not initialized (e.g., during static build without env), bail out gracefully
-    if (!storyblokApi || typeof storyblokApi.get !== 'function') {
-      console.warn('Storyblok API unavailable; returning empty sitemap lists');
+    if (!token) {
+      console.warn("Storyblok token unavailable; returning empty sitemap lists");
       return {
         countries: [],
         destinations: [],
@@ -16,21 +44,21 @@ async function getSitemapData() {
       };
     }
 
-    // Fetch all countries, destinations, experiences, collections, merchants
-    const [countries, destinations, experiences, collections, merchants] = await Promise.all([
-      storyblokApi.get("cdn/stories", { starts_with: "country/" }),
-      storyblokApi.get("cdn/stories", { starts_with: "destination/" }),
-      storyblokApi.get("cdn/stories", { starts_with: "experience/" }),
-      storyblokApi.get("cdn/stories", { starts_with: "collections/" }),
-      storyblokApi.get("cdn/stories", { starts_with: "merchant/" }),
+    const [countries, destinations, experiencesLegacy, experiencesCurrent, collections, merchants] = await Promise.all([
+      fetchStories("country/"),
+      fetchStories("destination/"),
+      fetchStories("experience/"),
+      fetchStories("experiences/"),
+      fetchStories("collections/"),
+      fetchStories("merchant/"),
     ]);
 
     return {
-      countries: countries.data.stories,
-      destinations: destinations.data.stories,
-      experiences: experiences.data.stories,
-      collections: collections.data.stories,
-      merchants: merchants.data.stories,
+      countries,
+      destinations,
+      experiences: [...experiencesLegacy, ...experiencesCurrent],
+      collections,
+      merchants,
     };
   } catch (error) {
     console.error("Error fetching sitemap data:", error);

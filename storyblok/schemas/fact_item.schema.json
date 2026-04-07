@@ -1,0 +1,16 @@
+{
+  "name": "fact_item",
+  "display_name": "Fact Item",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "label": {
+      "type": "text",
+      "display_name": "Label"
+    },
+    "value": {
+      "type": "text",
+      "display_name": "Value"
+    }
+  }
+}

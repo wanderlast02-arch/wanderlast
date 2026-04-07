@@ -1,0 +1,187 @@
+{
+  "name": "experience",
+  "display_name": "Experience",
+  "component_group_name": "Pages",
+  "is_nestable": false,
+  "schema": {
+    "title": {
+      "type": "text",
+      "display_name": "Title",
+      "pos": 0
+    },
+    "slug": {
+      "type": "text",
+      "display_name": "Slug",
+      "pos": 1
+    },
+    "partner": {
+      "type": "multilink",
+      "display_name": "Partner",
+      "pos": 2,
+      "max_items": 1
+    },
+    "short_description": {
+      "type": "textarea",
+      "display_name": "Short Description",
+      "pos": 3
+    },
+    "price_display": {
+      "type": "text",
+      "display_name": "Price Display",
+      "pos": 4
+    },
+    "duration": {
+      "type": "text",
+      "display_name": "Duration",
+      "pos": 5
+    },
+    "included_items": {
+      "type": "textarea",
+      "display_name": "Included Items",
+      "pos": 6
+    },
+    "images": {
+      "type": "asset",
+      "display_name": "Images",
+      "pos": 7,
+      "maximum": 10
+    },
+    "shopify_product_handle": {
+      "type": "text",
+      "display_name": "Shopify Product Handle",
+      "pos": 8
+    },
+    "availability_notes": {
+      "type": "textarea",
+      "display_name": "Availability Notes",
+      "pos": 9
+    },
+    "bokun_experience_id": {
+      "type": "text",
+      "display_name": "Bokun Experience ID",
+      "pos": 10
+    },
+    "availability_widget": {
+      "type": "text",
+      "display_name": "Availability Widget",
+      "pos": 11
+    },
+    "seo_title": {
+      "type": "text",
+      "display_name": "SEO Title",
+      "pos": 12
+    },
+    "seo_description": {
+      "type": "textarea",
+      "display_name": "SEO Description",
+      "pos": 13
+    },
+    "location": {
+      "type": "text",
+      "display_name": "Location",
+      "pos": 14
+    },
+    "rating": {
+      "type": "number",
+      "display_name": "Rating",
+      "pos": 15
+    },
+    "reviews_count": {
+      "type": "number",
+      "display_name": "Reviews Count",
+      "pos": 16
+    },
+    "group_type": {
+      "type": "text",
+      "display_name": "Group Type",
+      "pos": 17
+    },
+    "trust_text": {
+      "type": "textarea",
+      "display_name": "Trust Text",
+      "pos": 18
+    },
+    "urgency_text": {
+      "type": "text",
+      "display_name": "Urgency Text",
+      "pos": 19
+    },
+    "facts": {
+      "type": "bloks",
+      "display_name": "Facts",
+      "pos": 20,
+      "restrict_components": true,
+      "component_whitelist": [
+        "fact_item"
+      ]
+    },
+    "not_included_items": {
+      "type": "textarea",
+      "display_name": "Not Included Items",
+      "pos": 21
+    },
+    "itinerary": {
+      "type": "bloks",
+      "display_name": "Itinerary",
+      "pos": 22,
+      "restrict_components": true,
+      "component_whitelist": [
+        "itinerary_item"
+      ]
+    },
+    "sustainability_points": {
+      "type": "textarea",
+      "display_name": "Sustainability Points",
+      "pos": 23
+    },
+    "guide_name": {
+      "type": "text",
+      "display_name": "Guide Name",
+      "pos": 24
+    },
+    "guide_description": {
+      "type": "textarea",
+      "display_name": "Guide Description",
+      "pos": 25
+    },
+    "guide_image": {
+      "type": "asset",
+      "display_name": "Guide Image",
+      "pos": 26
+    },
+    "guide_years": {
+      "type": "text",
+      "display_name": "Guide Years",
+      "pos": 27
+    },
+    "happy_travelers": {
+      "type": "text",
+      "display_name": "Happy Travelers",
+      "pos": 28
+    },
+    "reviews": {
+      "type": "bloks",
+      "display_name": "Reviews",
+      "pos": 29,
+      "restrict_components": true,
+      "component_whitelist": [
+        "review_item"
+      ]
+    },
+    "highlights": {
+      "type": "bloks",
+      "display_name": "Highlights",
+      "pos": 30,
+      "restrict_components": true,
+      "component_whitelist": [
+        "tag",
+        "icon_tag"
+      ]
+    },
+    "call_to_action_text": {
+      "type": "text",
+      "display_name": "Call To Action Text",
+      "pos": 31
+    }
+  }
+}

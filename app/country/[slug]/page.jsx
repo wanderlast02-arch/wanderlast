@@ -1,15 +1,41 @@
 import { notFound } from "next/navigation";
-import { getStoryblokApi } from "@storyblok/react";
+import Image from "next/image";
+import Link from "next/link";
 
 const FIGMA_COUNTRY_IMAGE = "/images/figma/country-page.png";
 const FIGMA_HOME_IMAGE = "/images/figma/home-page.png";
 
+function getStoryblokToken() {
+  return process.env.STORYBLOK_API_TOKEN || process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN;
+}
+
 async function getCountryData(slug, preview = false) {
   try {
-    const storyblokApi = getStoryblokApi();
-    const { data } = await storyblokApi.get(`cdn/stories/country/${slug}`, {
+    const token = getStoryblokToken();
+
+    if (!token) {
+      console.warn("Missing Storyblok token for country page");
+      return null;
+    }
+
+    const params = new URLSearchParams({
       version: preview ? "draft" : "published",
+      token,
     });
+
+    const res = await fetch(`https://api.storyblok.com/v2/cdn/stories/country/${slug}?${params.toString()}`, {
+      next: { revalidate: preview ? 0 : 300 },
+    });
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        return null;
+      }
+
+      throw new Error(`Storyblok country fetch failed: ${res.status}`);
+    }
+
+    const data = await res.json();
     return data?.story || null;
   } catch (error) {
     console.error("Error fetching country:", error);

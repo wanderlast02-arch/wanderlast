@@ -1,0 +1,20 @@
+{
+  "name": "review_item",
+  "display_name": "Review Item",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "name": {
+      "type": "text",
+      "display_name": "Name"
+    },
+    "text": {
+      "type": "textarea",
+      "display_name": "Text"
+    },
+    "rating": {
+      "type": "number",
+      "display_name": "Rating"
+    }
+  }
+}

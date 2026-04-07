@@ -1,5 +1,6 @@
 // app/[...slug]/page.jsx
 import { StoryblokComponent } from "@storyblok/react";
+import StoryblokBridge from "../../components/StoryblokBridge";
 import PageHome from "../../storyblok/components/pages/PageHome";
 import PageCountry from "../../storyblok/components/pages/PageCountry";
 import PageGreece from "../../storyblok/components/pages/PageGreece";
@@ -53,7 +54,7 @@ const DEMO_CONTENT = {
   },
 };
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
   const slugSegments = Array.isArray(params.slug)
     ? params.slug.filter(Boolean)
     : params.slug
@@ -83,6 +84,10 @@ export default async function Page({ params }) {
         </p>
       </main>
     );
+  }
+
+  if (searchParams?._storyblok) {
+    return <StoryblokBridge story={story} preview />;
   }
 
   const content = story.content || {};

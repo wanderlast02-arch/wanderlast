@@ -1,0 +1,20 @@
+{
+  "name": "itinerary_item",
+  "display_name": "Itinerary Item",
+  "component_group_name": "Components",
+  "is_nestable": true,
+  "schema": {
+    "time": {
+      "type": "text",
+      "display_name": "Time"
+    },
+    "title": {
+      "type": "text",
+      "display_name": "Title"
+    },
+    "description": {
+      "type": "textarea",
+      "display_name": "Description"
+    }
+  }
+}

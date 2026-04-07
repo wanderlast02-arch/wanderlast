@@ -3,8 +3,42 @@
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import ExperienceStoryblokPreview from "../../../components/ExperienceStoryblokPreview";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
+
+function normalizeAssetList(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => {
+      if (typeof item === "string") {
+        return item;
+      }
+
+      if (item?.filename) {
+        return item.filename;
+      }
+
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function normalizeNumber(value) {
+  if (typeof value === "number") {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const parsed = Number(value.replace(/[^\d.]/g, ""));
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+
+  return null;
+}
 
 function normalizeHighlights(highlights) {
   if (Array.isArray(highlights)) {
@@ -25,6 +59,90 @@ function normalizeHighlights(highlights) {
   }
 
   return [];
+}
+
+function normalizeTagList(items) {
+  if (!Array.isArray(items)) {
+    return normalizeList(items);
+  }
+
+  return items
+    .map((item) => {
+      if (typeof item === "string") return item;
+      if (item?.label) return item.label;
+      if (item?.text) return item.text;
+      if (item?.title) return item.title;
+      if (item?.content?.label) return item.content.label;
+      if (item?.content?.text) return item.content.text;
+      return null;
+    })
+    .filter(Boolean);
+}
+
+function normalizeFacts(items) {
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return items
+    .map((item) => {
+      const content = item?.content || item;
+      if (!content?.label || !content?.value) {
+        return null;
+      }
+
+      return {
+        label: content.label,
+        value: content.value,
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeItineraryBlocks(items) {
+  if (!Array.isArray(items)) {
+    return normalizeItinerary(items);
+  }
+
+  return items
+    .map((item, index) => {
+      const content = item?.content || item;
+      const title = content?.title?.trim();
+      const desc = content?.description?.trim();
+
+      if (!title && !desc) {
+        return null;
+      }
+
+      return {
+        time: content?.time?.trim() || `${index + 1}`.padStart(2, "0") + ":00",
+        title: title || `Stop ${index + 1}`,
+        desc: desc || title || "",
+      };
+    })
+    .filter(Boolean);
+}
+
+function normalizeReviews(items) {
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return items
+    .map((item, index) => {
+      const content = item?.content || item;
+      if (!content?.name && !content?.text) {
+        return null;
+      }
+
+      return {
+        id: item?._uid || index + 1,
+        name: content.name || `Guest ${index + 1}`,
+        rating: content.rating || 5,
+        text: content.text || "",
+      };
+    })
+    .filter(Boolean);
 }
 
 function extractRichTextText(node) {
@@ -90,9 +208,20 @@ function normalizeItinerary(value) {
 const DEFAULT_EXPERIENCE_CONTENT = {
   location: "Bangkok, Thailand",
   price: 38,
+  priceDisplay: "$38",
   rating: 4.8,
   reviewCount: 124,
   type: "Small group",
+  duration: "3.5 hours",
+  storyHighlights: ["Small group experience", "Local verified partner", "Curated by Wanderlast"],
+  trustText: "Curated by Galini Beach Hotel\nTested local partners\nFast response booking",
+  urgencyText: "Usually booked 2-3 days in advance",
+  facts: [
+    { label: "Duration", value: "3.5 hours" },
+    { label: "Group size", value: "Up to 8 people" },
+    { label: "Level", value: "Easy (walking tour)" },
+    { label: "Language", value: "English" },
+  ],
   description: [
     "Experience the vibrant heart of Bangkok's street food culture on this immersive evening walking tour. Led by a licensed local guide, you'll explore the bustling lanes of Chinatown, discovering hidden food stalls and family-owned vendors that have served locals for generations.",
   ],
@@ -119,6 +248,9 @@ const DEFAULT_EXPERIENCE_CONTENT = {
     role: "Licensed Local Guide",
     location: "Bangkok, Thailand",
     bio: "Somchai has been guiding food tours for 8 years and is a true Bangkok native. His passion for street food and local culture is infectious, and he's known for his warm hospitality and deep knowledge of Chinatown's hidden gems.",
+    image: "",
+    yearsGuiding: "8+",
+    happyTravelers: "400+",
   },
   reviews: [
     {
@@ -169,6 +301,104 @@ const DEFAULT_EXPERIENCE_CONTENT = {
 };
 
 async function getExperience(slug) {
+  const story = await getExperienceStory(slug);
+
+  if (!story) {
+    return null;
+  }
+
+  try {
+    const data = { story };
+    const experience = {
+      title: data.story.content.title,
+      images: normalizeAssetList(data.story.content.images),
+      image:
+        data.story.content.images?.[0]?.filename ||
+        data.story.content.cover_image?.filename ||
+        data.story.content.hero_image?.filename ||
+        "/images/placeholder.jpg",
+      location: data.story.content.location,
+      rating: data.story.content.rating,
+      reviewCount: data.story.content.reviews_count,
+      price: normalizeNumber(data.story.content.price) ?? normalizeNumber(data.story.content.price_display),
+      priceDisplay: data.story.content.price_display,
+      groupType: data.story.content.group_type,
+      description: data.story.content.short_description || data.story.content.about_experience,
+      highlights: normalizeHighlights(data.story.content.highlights),
+      trustText: data.story.content.trust_text || data.story.content.availability_notes,
+      urgencyText: data.story.content.urgency_text || data.story.content.availability_notes,
+      facts: normalizeFacts(data.story.content.facts),
+      included: normalizeTagList(data.story.content.included_items || data.story.content.included || data.story.content.highlights),
+      notIncluded: normalizeTagList(data.story.content.not_included_items || data.story.content.not_included || data.story.content.excluded_items),
+      itinerary: normalizeItineraryBlocks(data.story.content.itinerary),
+      duration: data.story.content.duration,
+      sustainability: normalizeList(data.story.content.sustainability_points),
+      guideName: data.story.content.guide_name,
+      guideDescription: data.story.content.guide_description,
+      guideImage: data.story.content.guide_image?.filename,
+      guideYears: data.story.content.guide_years,
+      happyTravelers: data.story.content.happy_travelers,
+      reviews: normalizeReviews(data.story.content.reviews),
+      ctaText: data.story.content.call_to_action_text,
+      seoTitle: data.story.content.seo_title,
+      seoDescription: data.story.content.seo_description,
+    };
+
+    return {
+      ...DEFAULT_EXPERIENCE_CONTENT,
+      id: slug,
+      title: experience.title,
+      image: experience.image,
+      location: experience.location || DEFAULT_EXPERIENCE_CONTENT.location,
+      rating: experience.rating ?? DEFAULT_EXPERIENCE_CONTENT.rating,
+      reviewCount: experience.reviewCount ?? DEFAULT_EXPERIENCE_CONTENT.reviewCount,
+      price: experience.price ?? DEFAULT_EXPERIENCE_CONTENT.price,
+      priceDisplay: experience.priceDisplay || DEFAULT_EXPERIENCE_CONTENT.priceDisplay,
+      type: experience.groupType || DEFAULT_EXPERIENCE_CONTENT.type,
+      description: normalizeParagraphs(experience.description).length
+        ? normalizeParagraphs(experience.description)
+        : DEFAULT_EXPERIENCE_CONTENT.description,
+      duration: experience.duration ?? DEFAULT_EXPERIENCE_CONTENT.duration,
+      storyHighlights: experience.highlights.length ? experience.highlights : DEFAULT_EXPERIENCE_CONTENT.storyHighlights,
+      trustText: experience.trustText?.trim() || DEFAULT_EXPERIENCE_CONTENT.trustText,
+      urgencyText: experience.urgencyText?.trim() || DEFAULT_EXPERIENCE_CONTENT.urgencyText,
+      facts: experience.facts.length ? experience.facts : DEFAULT_EXPERIENCE_CONTENT.facts,
+      highlights: {
+        included: experience.included.length
+          ? experience.included
+          : experience.highlights.length
+          ? experience.highlights
+          : DEFAULT_EXPERIENCE_CONTENT.highlights.included,
+        notIncluded: experience.notIncluded.length
+          ? experience.notIncluded
+          : DEFAULT_EXPERIENCE_CONTENT.highlights.notIncluded,
+      },
+      itinerary: experience.itinerary.length ? experience.itinerary : DEFAULT_EXPERIENCE_CONTENT.itinerary,
+      sustainability: experience.sustainability.length
+        ? experience.sustainability
+        : DEFAULT_EXPERIENCE_CONTENT.sustainability,
+      guide: {
+        ...DEFAULT_EXPERIENCE_CONTENT.guide,
+        name: experience.guideName || DEFAULT_EXPERIENCE_CONTENT.guide.name,
+        role: experience.groupType || DEFAULT_EXPERIENCE_CONTENT.guide.role,
+        location: experience.location || DEFAULT_EXPERIENCE_CONTENT.guide.location,
+        bio: experience.guideDescription || DEFAULT_EXPERIENCE_CONTENT.guide.bio,
+        image: experience.guideImage || DEFAULT_EXPERIENCE_CONTENT.guide.image,
+        yearsGuiding: experience.guideYears || DEFAULT_EXPERIENCE_CONTENT.guide.yearsGuiding,
+        happyTravelers: experience.happyTravelers || DEFAULT_EXPERIENCE_CONTENT.guide.happyTravelers,
+      },
+      reviews: experience.reviews.length ? experience.reviews : DEFAULT_EXPERIENCE_CONTENT.reviews,
+      ctaText: experience.ctaText || "Check availability on WhatsApp",
+      seoTitle: experience.seoTitle,
+      seoDescription: experience.seoDescription,
+    };
+  } catch (error) {
+    console.error("Error fetching Storyblok experience:", error);
+    return null;
+  }
+}
+
+async function getExperienceStory(slug) {
   const token = process.env.STORYBLOK_API_TOKEN || process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN;
 
   if (!token) {
@@ -201,40 +431,7 @@ async function getExperience(slug) {
       return null;
     }
 
-    const experience = {
-      title: data.story.content.title,
-      image: data.story.content.cover_image?.filename || data.story.content.hero_image?.filename || "/images/placeholder.jpg",
-      price: data.story.content.price,
-      description: data.story.content.short_description || data.story.content.about_experience,
-      highlights: normalizeHighlights(data.story.content.highlights),
-      included: normalizeList(data.story.content.included || data.story.content.included_items),
-      notIncluded: normalizeList(data.story.content.not_included || data.story.content.excluded_items),
-      itinerary: normalizeItinerary(data.story.content.itinerary),
-      duration: data.story.content.duration,
-    };
-
-    return {
-      ...DEFAULT_EXPERIENCE_CONTENT,
-      id: slug,
-      title: experience.title,
-      image: experience.image,
-      price: experience.price ?? DEFAULT_EXPERIENCE_CONTENT.price,
-      description: normalizeParagraphs(experience.description).length
-        ? normalizeParagraphs(experience.description)
-        : DEFAULT_EXPERIENCE_CONTENT.description,
-      duration: experience.duration ?? DEFAULT_EXPERIENCE_CONTENT.duration,
-      highlights: {
-        included: experience.included.length
-          ? experience.included
-          : experience.highlights.length
-          ? experience.highlights
-          : DEFAULT_EXPERIENCE_CONTENT.highlights.included,
-        notIncluded: experience.notIncluded.length
-          ? experience.notIncluded
-          : DEFAULT_EXPERIENCE_CONTENT.highlights.notIncluded,
-      },
-      itinerary: experience.itinerary.length ? experience.itinerary : DEFAULT_EXPERIENCE_CONTENT.itinerary,
-    };
+    return data.story;
   } catch (error) {
     console.error("Error fetching Storyblok experience:", error);
     return null;
@@ -308,23 +505,41 @@ export async function generateMetadata({ params }) {
   if (!experience) return { title: "Experience Not Found" };
 
   return {
-    title: experience.title,
-    description: experience.description[0],
+    title: experience.seoTitle || experience.title,
+    description: experience.seoDescription || experience.description[0],
     openGraph: {
-      title: experience.title,
-      description: experience.description[0],
+      title: experience.seoTitle || experience.title,
+      description: experience.seoDescription || experience.description[0],
       image: experience.image,
     },
   };
 }
 
-export default async function ExperiencePage({ params }) {
+export default async function ExperiencePage({ params, searchParams }) {
   const { slug } = params;
+
+  if (searchParams?._storyblok) {
+    const story = await getExperienceStory(slug);
+
+    if (!story) {
+      return notFound();
+    }
+
+    return <ExperienceStoryblokPreview story={story} slug={slug} preview />;
+  }
+
   const experience = await getExperience(slug);
 
   if (!experience) {
     return notFound();
   }
+
+  const whyExperience = (experience.storyHighlights && experience.storyHighlights.length
+    ? experience.storyHighlights
+    : ["Small group experience", "Local verified partner", "Curated by Wanderlast"]
+  ).slice(0, 3);
+  const message = `Hi, I'm staying at Galini Beach Hotel and I'm interested in ${experience.title}`;
+  const whatsappUrl = `https://wa.me/35799645094?text=${encodeURIComponent(message)}`;
 
   return (
     <main>
@@ -357,18 +572,34 @@ export default async function ExperiencePage({ params }) {
                     {experience.rating} ({experience.reviewCount} reviews)
                   </span>
                 </div>
-                <span>{experience.location}</span>
+                <span>Curated by Wanderlast</span>
                 <span>{experience.type}</span>
+                <span>Local partner verified</span>
+                <span>{experience.location}</span>
                 <span>{experience.guide.role}</span>
+                <span>{experience.duration}</span>
               </div>
             </div>
 
             {/* Right: Price Badge */}
             <div className="bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg text-center">
               <p className="text-xs text-gray-600 mb-2">Starting price</p>
-              <p className="text-xl sm:text-2xl font-bold text-gray-900">From ${experience.price}</p>
+              <p className="text-xl sm:text-2xl font-bold text-gray-900">{experience.priceDisplay}</p>
               <p className="text-xs text-gray-600 mt-1">per person</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 mb-5">Why this experience</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {whyExperience.map((item) => (
+              <div key={item} className="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <p className="text-sm font-medium text-gray-900">{item}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -378,11 +609,16 @@ export default async function ExperiencePage({ params }) {
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
             <p className="text-xs text-gray-600">From</p>
-            <p className="text-2xl font-bold text-gray-900">${experience.price}/person</p>
+            <p className="text-2xl font-bold text-gray-900">{experience.priceDisplay}/person</p>
           </div>
-          <button className="px-8 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
-            Reserve a spot
-          </button>
+          <div className="text-right">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <button className="px-8 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
+                {experience.ctaText}
+              </button>
+            </a>
+            <p className="text-xs text-gray-600 mt-2">{experience.urgencyText}</p>
+          </div>
         </div>
       </div>
 
@@ -392,32 +628,29 @@ export default async function ExperiencePage({ params }) {
           <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">About this experience</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
-              {experience.description.map((para, idx) => (
-                <p key={idx} className="text-gray-700 leading-loose mb-6 text-base">
+              {experience.description.slice(0, 1).map((para, idx) => (
+                <p key={idx} className="text-gray-700 leading-loose mb-6 text-base line-clamp-3 max-w-3xl">
                   {para}
                 </p>
               ))}
+              <div className="bg-gray-50 rounded-xl p-5 border border-gray-200 max-w-3xl">
+                <p className="text-sm font-medium text-gray-900 whitespace-pre-line">
+                  {experience.trustText}
+                </p>
+              </div>
             </div>
             {/* Side info box */}
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 h-fit">
               <h3 className="text-sm font-medium text-gray-900 mb-4">Quick facts</h3>
               <ul className="space-y-3 text-sm text-gray-700">
-                <li className="flex gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span>Duration: 3.5 hours</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span>Group size: Up to 8 people</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span>Level: Easy (walking tour)</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-gray-400">•</span>
-                  <span>Language: English</span>
-                </li>
+                {experience.facts.map((fact) => (
+                  <li key={fact.label} className="flex gap-2">
+                    <span className="text-gray-400">•</span>
+                    <span>
+                      {fact.label}: {fact.value}
+                    </span>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -429,7 +662,7 @@ export default async function ExperiencePage({ params }) {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">Local impact & sustainability</h2>
           <p className="text-gray-700 mb-8 max-w-3xl">
-            We believe travel should benefit local communities. This tour is designed to support family-owned vendors and reduce environmental impact while giving you an authentic, memorable experience.
+            {experience.trustText.split("\n")[0]}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {experience.sustainability.map((item, idx) => (
@@ -520,7 +753,15 @@ export default async function ExperiencePage({ params }) {
           <div className="bg-white border border-gray-200 rounded-xl p-8 max-w-xl">
             <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
               {/* Avatar */}
-              <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex-shrink-0" />
+              {experience.guide.image ? (
+                <img
+                  src={safeImg(experience.guide.image)}
+                  alt={experience.guide.name}
+                  className="w-20 h-20 rounded-full flex-shrink-0 object-cover"
+                />
+              ) : (
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-red-500 rounded-full flex-shrink-0" />
+              )}
 
               {/* Info */}
               <div className="flex-1">
@@ -533,11 +774,11 @@ export default async function ExperiencePage({ params }) {
                 {/* Stats */}
                 <div className="flex flex-wrap gap-6 mt-6 pt-6 border-t border-gray-200">
                   <div>
-                    <p className="text-2xl font-bold text-gray-900">8+</p>
+                    <p className="text-2xl font-bold text-gray-900">{experience.guide.yearsGuiding}</p>
                     <p className="text-xs text-gray-600">Years guiding</p>
                   </div>
                   <div>
-                    <p className="text-2xl font-bold text-gray-900">400+</p>
+                    <p className="text-2xl font-bold text-gray-900">{experience.guide.happyTravelers}</p>
                     <p className="text-xs text-gray-600">Happy travelers</p>
                   </div>
                 </div>
@@ -564,11 +805,16 @@ export default async function ExperiencePage({ params }) {
         <div className="flex gap-4 items-center">
           <div>
             <p className="text-xs text-gray-600">From</p>
-            <p className="text-xl font-bold text-gray-900">${experience.price}</p>
+            <p className="text-xl font-bold text-gray-900">{experience.priceDisplay}</p>
           </div>
-          <button className="flex-1 px-4 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
-            Reserve
-          </button>
+          <div className="flex-1">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block">
+              <button className="w-full px-4 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
+                {experience.ctaText}
+              </button>
+            </a>
+            <p className="text-[11px] text-gray-600 mt-2 text-center">{experience.urgencyText}</p>
+          </div>
         </div>
       </div>
 
