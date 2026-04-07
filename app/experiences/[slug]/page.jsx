@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ExperienceStoryblokPreview from "../../../components/ExperienceStoryblokPreview";
+import { getStoryblokAssetFilename } from "../../../lib/storyblok/assets";
 import { isStoryblokPreview } from "../../../lib/storyblok/isPreview";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
@@ -314,9 +315,9 @@ async function getExperience(slug) {
       title: data.story.content.title,
       images: normalizeAssetList(data.story.content.images),
       image:
-        data.story.content.images?.[0]?.filename ||
-        data.story.content.cover_image?.filename ||
-        data.story.content.hero_image?.filename ||
+        getStoryblokAssetFilename(data.story.content.images) ||
+        getStoryblokAssetFilename(data.story.content.cover_image) ||
+        getStoryblokAssetFilename(data.story.content.hero_image) ||
         "/images/placeholder.jpg",
       location: data.story.content.location,
       rating: data.story.content.rating,
@@ -336,7 +337,7 @@ async function getExperience(slug) {
       sustainability: normalizeList(data.story.content.sustainability_points),
       guideName: data.story.content.guide_name,
       guideDescription: data.story.content.guide_description,
-      guideImage: data.story.content.guide_image?.filename,
+      guideImage: getStoryblokAssetFilename(data.story.content.guide_image),
       guideYears: data.story.content.guide_years,
       happyTravelers: data.story.content.happy_travelers,
       reviews: normalizeReviews(data.story.content.reviews),

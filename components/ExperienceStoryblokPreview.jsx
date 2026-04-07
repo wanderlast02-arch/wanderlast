@@ -2,12 +2,18 @@
 
 import Link from "next/link";
 import { useStoryblokState, storyblokEditable } from "@storyblok/react";
+import { getStoryblokAssetFilename } from "../lib/storyblok/assets";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
 
 function normalizeAssetList(value) {
-  if (!Array.isArray(value)) {
+  if (!value) {
     return [];
+  }
+
+  if (!Array.isArray(value)) {
+    const filename = getStoryblokAssetFilename(value);
+    return filename ? [filename] : [];
   }
 
   return value
@@ -281,9 +287,9 @@ function mapStoryToExperience(story, slug) {
   const experience = {
     title: content.title,
     image:
-      content.images?.[0]?.filename ||
-      content.cover_image?.filename ||
-      content.hero_image?.filename ||
+      getStoryblokAssetFilename(content.images) ||
+      getStoryblokAssetFilename(content.cover_image) ||
+      getStoryblokAssetFilename(content.hero_image) ||
       "/images/placeholder.jpg",
     location: content.location,
     rating: content.rating,
@@ -303,7 +309,7 @@ function mapStoryToExperience(story, slug) {
     sustainability: normalizeList(content.sustainability_points),
     guideName: content.guide_name,
     guideDescription: content.guide_description,
-    guideImage: content.guide_image?.filename,
+    guideImage: getStoryblokAssetFilename(content.guide_image),
     guideYears: content.guide_years,
     happyTravelers: content.happy_travelers,
     reviews: normalizeReviews(content.reviews),
