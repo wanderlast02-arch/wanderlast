@@ -133,7 +133,7 @@ export async function generateMetadata({ params }) {
     ? {
         name: "Crete",
         tagline: "A focused landing page for real bookable experiences across Crete",
-        heroImage: "/images/figma/destinations/greece.jpg",
+        heroImage: "/images/figma/home-page.png",
       }
     : data.getCountry(params.slug);
   if (!country) return { title: "Destination Not Found" };
@@ -155,7 +155,7 @@ export default function DestinationPage({ params }) {
         slug: "crete",
         name: "Crete",
         tagline: "A focused landing page for real bookable experiences across Crete",
-        heroImage: "/images/figma/destinations/greece.jpg",
+        heroImage: "/images/figma/home-page.png",
       }
     : data.getCountry(params.slug);
   if (!country) notFound();
@@ -171,7 +171,7 @@ export default function DestinationPage({ params }) {
   const heroImage = isThailand
     ? safeImg("/images/figma/destinations/thailand/hero.jpg")
     : isCrete
-    ? safeImg("/images/figma/destinations/greece.jpg")
+    ? safeImg("/images/figma/home-page.png")
     : safeImg("/images/figma/placeholder.jpg");
 
   if (isCrete) {
