@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { isStoryblokPreview } from "../../../lib/storyblok/isPreview";
 
 const FIGMA_COUNTRY_IMAGE = "/images/figma/country-page.png";
 const FIGMA_HOME_IMAGE = "/images/figma/home-page.png";
@@ -63,7 +64,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CountryPage({ params, searchParams }) {
-  const preview = searchParams?._storyblok || false;
+  const preview = isStoryblokPreview(searchParams);
   const story = await getCountryData(params.slug, preview);
 
   if (!story) {

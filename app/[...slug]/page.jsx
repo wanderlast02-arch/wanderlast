@@ -1,6 +1,7 @@
 // app/[...slug]/page.jsx
 import { StoryblokComponent } from "@storyblok/react";
 import StoryblokBridge from "../../components/StoryblokBridge";
+import { isStoryblokPreview } from "../../lib/storyblok/isPreview";
 import PageHome from "../../storyblok/components/pages/PageHome";
 import PageCountry from "../../storyblok/components/pages/PageCountry";
 import PageGreece from "../../storyblok/components/pages/PageGreece";
@@ -86,7 +87,7 @@ export default async function Page({ params, searchParams }) {
     );
   }
 
-  if (searchParams?._storyblok) {
+  if (isStoryblokPreview(searchParams)) {
     return <StoryblokBridge story={story} preview />;
   }
 

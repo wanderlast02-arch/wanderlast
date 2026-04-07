@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ExperienceStoryblokPreview from "../../../components/ExperienceStoryblokPreview";
+import { isStoryblokPreview } from "../../../lib/storyblok/isPreview";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
 
@@ -518,7 +519,7 @@ export async function generateMetadata({ params }) {
 export default async function ExperiencePage({ params, searchParams }) {
   const { slug } = params;
 
-  if (searchParams?._storyblok) {
+  if (isStoryblokPreview(searchParams)) {
     const story = await getExperienceStory(slug);
 
     if (!story) {
