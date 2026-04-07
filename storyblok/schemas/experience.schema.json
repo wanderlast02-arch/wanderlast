@@ -182,6 +182,96 @@
       "type": "text",
       "display_name": "Call To Action Text",
       "pos": 31
+    },
+    "partner_label": {
+      "type": "text",
+      "display_name": "Partner Label",
+      "pos": 32
+    },
+    "verification_label": {
+      "type": "text",
+      "display_name": "Verification Label",
+      "pos": 33
+    },
+    "price_label": {
+      "type": "text",
+      "display_name": "Price Label",
+      "pos": 34
+    },
+    "price_suffix": {
+      "type": "text",
+      "display_name": "Price Suffix",
+      "pos": 35
+    },
+    "why_section_title": {
+      "type": "text",
+      "display_name": "Why Section Title",
+      "pos": 36
+    },
+    "about_section_title": {
+      "type": "text",
+      "display_name": "About Section Title",
+      "pos": 37
+    },
+    "facts_section_title": {
+      "type": "text",
+      "display_name": "Facts Section Title",
+      "pos": 38
+    },
+    "sustainability_section_title": {
+      "type": "text",
+      "display_name": "Sustainability Section Title",
+      "pos": 39
+    },
+    "sustainability_intro": {
+      "type": "textarea",
+      "display_name": "Sustainability Intro",
+      "pos": 40
+    },
+    "included_section_title": {
+      "type": "text",
+      "display_name": "Included Section Title",
+      "pos": 41
+    },
+    "included_label": {
+      "type": "text",
+      "display_name": "Included Label",
+      "pos": 42
+    },
+    "not_included_label": {
+      "type": "text",
+      "display_name": "Not Included Label",
+      "pos": 43
+    },
+    "itinerary_section_title": {
+      "type": "text",
+      "display_name": "Itinerary Section Title",
+      "pos": 44
+    },
+    "reviews_section_title": {
+      "type": "text",
+      "display_name": "Reviews Section Title",
+      "pos": 45
+    },
+    "guide_section_title": {
+      "type": "text",
+      "display_name": "Guide Section Title",
+      "pos": 46
+    },
+    "years_guiding_label": {
+      "type": "text",
+      "display_name": "Years Guiding Label",
+      "pos": 47
+    },
+    "happy_travelers_label": {
+      "type": "text",
+      "display_name": "Happy Travelers Label",
+      "pos": 48
+    },
+    "related_section_title": {
+      "type": "text",
+      "display_name": "Related Section Title",
+      "pos": 49
     }
   }
 }

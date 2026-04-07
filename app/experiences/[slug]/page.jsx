@@ -9,6 +9,29 @@ import { isStoryblokPreview } from "../../../lib/storyblok/isPreview";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
 
+function extractBookingUrl(value) {
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const directUrl = value.match(/https?:\/\/[^\s"']+/i);
+  if (directUrl) {
+    return directUrl[0];
+  }
+
+  const srcUrl = value.match(/src=["']([^"']+)["']/i);
+  if (srcUrl?.[1]) {
+    return srcUrl[1];
+  }
+
+  const hrefUrl = value.match(/href=["']([^"']+)["']/i);
+  if (hrefUrl?.[1]) {
+    return hrefUrl[1];
+  }
+
+  return null;
+}
+
 function normalizeAssetList(value) {
   if (!Array.isArray(value)) {
     return [];
@@ -218,6 +241,25 @@ const DEFAULT_EXPERIENCE_CONTENT = {
   storyHighlights: ["Small group experience", "Local verified partner", "Curated by Wanderlast"],
   trustText: "Curated by Galini Beach Hotel\nTested local partners\nFast response booking",
   urgencyText: "Usually booked 2-3 days in advance",
+  partnerLabel: "Curated by Wanderlast",
+  verificationLabel: "Local partner verified",
+  priceLabel: "Starting price",
+  priceSuffix: "per person",
+  whySectionTitle: "Why this experience",
+  aboutSectionTitle: "About this experience",
+  factsSectionTitle: "Quick facts",
+  sustainabilitySectionTitle: "Local impact & sustainability",
+  sustainabilityIntro: "",
+  includedSectionTitle: "What's included",
+  includedLabel: "In your experience",
+  notIncludedLabel: "Not included",
+  itinerarySectionTitle: "Itinerary",
+  reviewsSectionTitle: "What guests say",
+  guideSectionTitle: "Meet your guide",
+  yearsGuidingLabel: "Years guiding",
+  happyTravelersLabel: "Happy travelers",
+  relatedSectionTitle: "Similar experiences",
+  bookingUrl: null,
   facts: [
     { label: "Duration", value: "3.5 hours" },
     { label: "Group size", value: "Up to 8 people" },
@@ -342,6 +384,25 @@ async function getExperience(slug) {
       happyTravelers: data.story.content.happy_travelers,
       reviews: normalizeReviews(data.story.content.reviews),
       ctaText: data.story.content.call_to_action_text,
+      partnerLabel: data.story.content.partner_label,
+      verificationLabel: data.story.content.verification_label,
+      priceLabel: data.story.content.price_label,
+      priceSuffix: data.story.content.price_suffix,
+      whySectionTitle: data.story.content.why_section_title,
+      aboutSectionTitle: data.story.content.about_section_title,
+      factsSectionTitle: data.story.content.facts_section_title,
+      sustainabilitySectionTitle: data.story.content.sustainability_section_title,
+      sustainabilityIntro: data.story.content.sustainability_intro,
+      includedSectionTitle: data.story.content.included_section_title,
+      includedLabel: data.story.content.included_label,
+      notIncludedLabel: data.story.content.not_included_label,
+      itinerarySectionTitle: data.story.content.itinerary_section_title,
+      reviewsSectionTitle: data.story.content.reviews_section_title,
+      guideSectionTitle: data.story.content.guide_section_title,
+      yearsGuidingLabel: data.story.content.years_guiding_label,
+      happyTravelersLabel: data.story.content.happy_travelers_label,
+      relatedSectionTitle: data.story.content.related_section_title,
+      bookingUrl: extractBookingUrl(data.story.content.availability_widget),
       seoTitle: data.story.content.seo_title,
       seoDescription: data.story.content.seo_description,
     };
@@ -364,6 +425,25 @@ async function getExperience(slug) {
       storyHighlights: experience.highlights.length ? experience.highlights : DEFAULT_EXPERIENCE_CONTENT.storyHighlights,
       trustText: experience.trustText?.trim() || DEFAULT_EXPERIENCE_CONTENT.trustText,
       urgencyText: experience.urgencyText?.trim() || DEFAULT_EXPERIENCE_CONTENT.urgencyText,
+      partnerLabel: experience.partnerLabel || DEFAULT_EXPERIENCE_CONTENT.partnerLabel,
+      verificationLabel: experience.verificationLabel || DEFAULT_EXPERIENCE_CONTENT.verificationLabel,
+      priceLabel: experience.priceLabel || DEFAULT_EXPERIENCE_CONTENT.priceLabel,
+      priceSuffix: experience.priceSuffix || DEFAULT_EXPERIENCE_CONTENT.priceSuffix,
+      whySectionTitle: experience.whySectionTitle || DEFAULT_EXPERIENCE_CONTENT.whySectionTitle,
+      aboutSectionTitle: experience.aboutSectionTitle || DEFAULT_EXPERIENCE_CONTENT.aboutSectionTitle,
+      factsSectionTitle: experience.factsSectionTitle || DEFAULT_EXPERIENCE_CONTENT.factsSectionTitle,
+      sustainabilitySectionTitle: experience.sustainabilitySectionTitle || DEFAULT_EXPERIENCE_CONTENT.sustainabilitySectionTitle,
+      sustainabilityIntro: experience.sustainabilityIntro || DEFAULT_EXPERIENCE_CONTENT.sustainabilityIntro,
+      includedSectionTitle: experience.includedSectionTitle || DEFAULT_EXPERIENCE_CONTENT.includedSectionTitle,
+      includedLabel: experience.includedLabel || DEFAULT_EXPERIENCE_CONTENT.includedLabel,
+      notIncludedLabel: experience.notIncludedLabel || DEFAULT_EXPERIENCE_CONTENT.notIncludedLabel,
+      itinerarySectionTitle: experience.itinerarySectionTitle || DEFAULT_EXPERIENCE_CONTENT.itinerarySectionTitle,
+      reviewsSectionTitle: experience.reviewsSectionTitle || DEFAULT_EXPERIENCE_CONTENT.reviewsSectionTitle,
+      guideSectionTitle: experience.guideSectionTitle || DEFAULT_EXPERIENCE_CONTENT.guideSectionTitle,
+      yearsGuidingLabel: experience.yearsGuidingLabel || DEFAULT_EXPERIENCE_CONTENT.yearsGuidingLabel,
+      happyTravelersLabel: experience.happyTravelersLabel || DEFAULT_EXPERIENCE_CONTENT.happyTravelersLabel,
+      relatedSectionTitle: experience.relatedSectionTitle || DEFAULT_EXPERIENCE_CONTENT.relatedSectionTitle,
+      bookingUrl: experience.bookingUrl || DEFAULT_EXPERIENCE_CONTENT.bookingUrl,
       facts: experience.facts.length ? experience.facts : DEFAULT_EXPERIENCE_CONTENT.facts,
       highlights: {
         included: experience.included.length
@@ -542,6 +622,8 @@ export default async function ExperiencePage({ params, searchParams }) {
   ).slice(0, 3);
   const message = `Hi, I'm staying at Galini Beach Hotel and I'm interested in ${experience.title}`;
   const whatsappUrl = `https://wa.me/35799645094?text=${encodeURIComponent(message)}`;
+  const bookingUrl = experience.bookingUrl || whatsappUrl;
+  const bookingTarget = bookingUrl.startsWith("http") ? "_blank" : undefined;
 
   return (
     <main>
@@ -574,9 +656,9 @@ export default async function ExperiencePage({ params, searchParams }) {
                     {experience.rating} ({experience.reviewCount} reviews)
                   </span>
                 </div>
-                <span>Curated by Wanderlast</span>
+                <span>{experience.partnerLabel}</span>
                 <span>{experience.type}</span>
-                <span>Local partner verified</span>
+                <span>{experience.verificationLabel}</span>
                 <span>{experience.location}</span>
                 <span>{experience.guide.role}</span>
                 <span>{experience.duration}</span>
@@ -585,9 +667,9 @@ export default async function ExperiencePage({ params, searchParams }) {
 
             {/* Right: Price Badge */}
             <div className="bg-white/95 backdrop-blur-sm rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-lg text-center">
-              <p className="text-xs text-gray-600 mb-2">Starting price</p>
+              <p className="text-xs text-gray-600 mb-2">{experience.priceLabel}</p>
               <p className="text-xl sm:text-2xl font-bold text-gray-900">{experience.priceDisplay}</p>
-              <p className="text-xs text-gray-600 mt-1">per person</p>
+              <p className="text-xs text-gray-600 mt-1">{experience.priceSuffix}</p>
             </div>
           </div>
         </div>
@@ -595,7 +677,7 @@ export default async function ExperiencePage({ params, searchParams }) {
 
       <section className="py-8 px-4 sm:px-6 lg:px-8 bg-white border-b border-gray-100">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 mb-5">Why this experience</h2>
+          <h2 className="text-2xl sm:text-3xl font-normal text-gray-900 mb-5">{experience.whySectionTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {whyExperience.map((item) => (
               <div key={item} className="rounded-xl border border-gray-200 bg-gray-50 p-4">
@@ -610,11 +692,11 @@ export default async function ExperiencePage({ params, searchParams }) {
       <div className="hidden lg:block sticky top-[72px] z-40 bg-white border-b border-gray-200 shadow-sm">
         <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
           <div>
-            <p className="text-xs text-gray-600">From</p>
-            <p className="text-2xl font-bold text-gray-900">{experience.priceDisplay}/person</p>
+            <p className="text-xs text-gray-600">{experience.priceLabel}</p>
+            <p className="text-2xl font-bold text-gray-900">{experience.priceDisplay}/{experience.priceSuffix}</p>
           </div>
           <div className="text-right">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+            <a href={bookingUrl} target={bookingTarget} rel="noopener noreferrer">
               <button className="px-8 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
                 {experience.ctaText}
               </button>
@@ -627,7 +709,7 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 3: EXPERIENCE OVERVIEW ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">About this experience</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">{experience.aboutSectionTitle}</h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-4">
               {experience.description.slice(0, 1).map((para, idx) => (
@@ -643,7 +725,7 @@ export default async function ExperiencePage({ params, searchParams }) {
             </div>
             {/* Side info box */}
             <div className="bg-gray-50 rounded-xl p-6 border border-gray-200 h-fit">
-              <h3 className="text-sm font-medium text-gray-900 mb-4">Quick facts</h3>
+              <h3 className="text-sm font-medium text-gray-900 mb-4">{experience.factsSectionTitle}</h3>
               <ul className="space-y-3 text-sm text-gray-700">
                 {experience.facts.map((fact) => (
                   <li key={fact.label} className="flex gap-2">
@@ -662,9 +744,9 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 4: SUSTAINABILITY & LOCAL IMPACT ========== */}
       <section className="py-10 md:py-16 px-4 sm:px-6 lg:px-8 bg-green-50 rounded-2xl">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">Local impact & sustainability</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-5">{experience.sustainabilitySectionTitle}</h2>
           <p className="text-gray-700 mb-8 max-w-3xl">
-            {experience.trustText.split("\n")[0]}
+            {experience.sustainabilityIntro || experience.trustText.split("\n")[0]}
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {experience.sustainability.map((item, idx) => (
@@ -680,11 +762,11 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 5: WHAT'S INCLUDED / NOT INCLUDED ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">What's included</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.includedSectionTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {/* Included */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-6">In your experience</h3>
+              <h3 className="text-sm font-medium text-gray-900 mb-6">{experience.includedLabel}</h3>
               <ul className="space-y-4">
                 {experience.highlights.included.map((item, idx) => (
                   <li key={idx} className="flex gap-3">
@@ -697,7 +779,7 @@ export default async function ExperiencePage({ params, searchParams }) {
 
             {/* Not Included */}
             <div>
-              <h3 className="text-sm font-medium text-gray-900 mb-6">Not included</h3>
+              <h3 className="text-sm font-medium text-gray-900 mb-6">{experience.notIncludedLabel}</h3>
               <ul className="space-y-4">
                 {experience.highlights.notIncluded.map((item, idx) => (
                   <li key={idx} className="flex gap-3">
@@ -714,7 +796,7 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 6: ITINERARY ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">Itinerary</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.itinerarySectionTitle}</h2>
           <div className="space-y-6">
             {experience.itinerary.map((stop, idx) => (
               <div key={idx} className="flex flex-col sm:flex-row gap-4 sm:gap-6 pb-8 border-b border-gray-200 last:border-b-0">
@@ -739,7 +821,7 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 7: REVIEWS PREVIEW ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto space-y-5">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">What guests say</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.reviewsSectionTitle}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experience.reviews.map((review) => (
               <ReviewCard key={review.id} review={review} />
@@ -751,7 +833,7 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 8: HOST / GUIDE CARD ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">Meet your guide</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.guideSectionTitle}</h2>
           <div className="bg-white border border-gray-200 rounded-xl p-8 max-w-xl">
             <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
               {/* Avatar */}
@@ -777,11 +859,11 @@ export default async function ExperiencePage({ params, searchParams }) {
                 <div className="flex flex-wrap gap-6 mt-6 pt-6 border-t border-gray-200">
                   <div>
                     <p className="text-2xl font-bold text-gray-900">{experience.guide.yearsGuiding}</p>
-                    <p className="text-xs text-gray-600">Years guiding</p>
+                    <p className="text-xs text-gray-600">{experience.yearsGuidingLabel}</p>
                   </div>
                   <div>
                     <p className="text-2xl font-bold text-gray-900">{experience.guide.happyTravelers}</p>
-                    <p className="text-xs text-gray-600">Happy travelers</p>
+                    <p className="text-xs text-gray-600">{experience.happyTravelersLabel}</p>
                   </div>
                 </div>
               </div>
@@ -793,7 +875,7 @@ export default async function ExperiencePage({ params, searchParams }) {
       {/* ========== SECTION 9: RELATED EXPERIENCES ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">Similar experiences</h2>
+          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.relatedSectionTitle}</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {experience.related.map((exp) => (
               <RelatedCard key={exp.id} exp={exp} />
@@ -806,11 +888,11 @@ export default async function ExperiencePage({ params, searchParams }) {
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg p-4 z-40">
         <div className="flex gap-4 items-center">
           <div>
-            <p className="text-xs text-gray-600">From</p>
+            <p className="text-xs text-gray-600">{experience.priceLabel}</p>
             <p className="text-xl font-bold text-gray-900">{experience.priceDisplay}</p>
           </div>
           <div className="flex-1">
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="block">
+            <a href={bookingUrl} target={bookingTarget} rel="noopener noreferrer" className="block">
               <button className="w-full px-4 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
                 {experience.ctaText}
               </button>
