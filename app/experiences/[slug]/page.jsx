@@ -2,8 +2,244 @@
 // Structure: Hero → Sticky Action Bar → Overview → Sustainability → Included/Not Included → Itinerary → Reviews → Host Card → Related
 
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
+
+function normalizeHighlights(highlights) {
+  if (Array.isArray(highlights)) {
+    return highlights
+      .map((item) => {
+        if (typeof item === "string") return item;
+        if (item && typeof item.text === "string") return item.text;
+        return null;
+      })
+      .filter(Boolean);
+  }
+
+  if (typeof highlights === "string") {
+    return highlights
+      .split(/\r?\n/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+function extractRichTextText(node) {
+  if (!node) return "";
+
+  if (typeof node === "string") {
+    return node;
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(extractRichTextText).filter(Boolean).join("\n");
+  }
+
+  if (typeof node.text === "string") {
+    return node.text;
+  }
+
+  if (Array.isArray(node.content)) {
+    return node.content
+      .map(extractRichTextText)
+      .filter(Boolean)
+      .join(node.type === "paragraph" ? "" : "\n");
+  }
+
+  return "";
+}
+
+function normalizeParagraphs(value) {
+  const text = typeof value === "string" ? value : extractRichTextText(value);
+
+  return text
+    .split(/\n{2,}|\r\n\r\n/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function normalizeList(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => `${item}`.trim()).filter(Boolean);
+  }
+
+  const text = typeof value === "string" ? value : extractRichTextText(value);
+
+  return text
+    .split(/\r?\n|,/)
+    .map((item) => item.replace(/^[\-•\*]\s*/, "").trim())
+    .filter(Boolean);
+}
+
+function normalizeItinerary(value) {
+  const items = normalizeParagraphs(value);
+
+  return items.map((item, index) => {
+    const [title, ...rest] = item.split(/[:\-]\s+/);
+    return {
+      time: `${index + 1}`.padStart(2, "0") + ":00",
+      title: rest.length ? title.trim() : `Stop ${index + 1}`,
+      desc: rest.length ? rest.join(": ").trim() : item,
+    };
+  });
+}
+
+const DEFAULT_EXPERIENCE_CONTENT = {
+  location: "Bangkok, Thailand",
+  price: 38,
+  rating: 4.8,
+  reviewCount: 124,
+  type: "Small group",
+  description: [
+    "Experience the vibrant heart of Bangkok's street food culture on this immersive evening walking tour. Led by a licensed local guide, you'll explore the bustling lanes of Chinatown, discovering hidden food stalls and family-owned vendors that have served locals for generations.",
+  ],
+  highlights: {
+    included: ["Food tastings (6-8 items)", "Local guide", "Cultural insights", "Walking tour", "Reusable water bottle"],
+    notIncluded: ["Hotel pickup", "Alcoholic drinks", "Travel insurance", "Photography guide"],
+  },
+  itinerary: [
+    { time: "18:00", title: "Meet in Chinatown", desc: "Gather at the entrance of Sampeng Lane market. Your guide will brief you on the evening ahead." },
+    { time: "18:30", title: "Street Food Tasting", desc: "Sample pad Thai from a family-run stall, followed by fresh spring rolls and local snacks." },
+    { time: "19:30", title: "Neighborhood Walk", desc: "Stroll through hidden alleyways and learn about the history and culture of Old Bangkok." },
+    { time: "20:00", title: "Sweet Finish", desc: "Enjoy local desserts including mango sticky rice and Thai custard (khao tom mud)." },
+    { time: "21:30", title: "Tour Ends", desc: "We'll part ways in the heart of Chinatown. You're welcome to stay and explore!" },
+  ],
+  sustainability: [
+    "Led by locally licensed guides who live and work in Bangkok",
+    "100% of tips support the family-owned food vendors we visit",
+    "Small groups (max 8) to minimize impact on local neighborhoods",
+    "Walk-based tour—zero carbon emissions from transportation",
+    "We use reusable water bottles and minimize single-use plastic",
+  ],
+  guide: {
+    name: "Somchai",
+    role: "Licensed Local Guide",
+    location: "Bangkok, Thailand",
+    bio: "Somchai has been guiding food tours for 8 years and is a true Bangkok native. His passion for street food and local culture is infectious, and he's known for his warm hospitality and deep knowledge of Chinatown's hidden gems.",
+  },
+  reviews: [
+    {
+      id: 1,
+      name: "Emma M.",
+      rating: 5,
+      text: "Absolutely incredible! Somchai made us feel like locals, not tourists. The food was authentic and delicious.",
+    },
+    {
+      id: 2,
+      name: "James K.",
+      rating: 4.8,
+      text: "Best food experience in Southeast Asia. The small group size made it personal and fun. Would do it again!",
+    },
+    {
+      id: 3,
+      name: "Sofia P.",
+      rating: 4.7,
+      text: "A real window into Bangkok street culture. Somchai's stories about each vendor brought everything to life.",
+    },
+  ],
+  related: [
+    {
+      id: "grand-palace-tour",
+      title: "Grand Palace Tour",
+      price: 42,
+      rating: 4.9,
+      reviewCount: 295,
+      image: "/images/figma/experiences/grand-palace-tour.jpg",
+    },
+    {
+      id: "floating-markets",
+      title: "Floating Markets Experience",
+      price: 55,
+      rating: 4.8,
+      reviewCount: 168,
+      image: "/images/figma/experiences/floating-markets.jpg",
+    },
+    {
+      id: "cooking-school",
+      title: "Thai Cooking Class",
+      price: 45,
+      rating: 4.9,
+      reviewCount: 156,
+      image: "/images/figma/experiences/cooking-school.jpg",
+    },
+  ],
+};
+
+async function getExperience(slug) {
+  const token = process.env.STORYBLOK_API_TOKEN || process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN;
+
+  if (!token) {
+    console.error("Missing Storyblok token for experience detail");
+    return null;
+  }
+
+  try {
+    const candidatePaths = [`experiences/${slug}`, `experience/${slug}`];
+    let data = null;
+
+    for (const path of candidatePaths) {
+      const res = await fetch(
+        `https://api.storyblok.com/v2/cdn/stories/${path}?version=draft&token=${token}`,
+        { next: { revalidate: 60 } }
+      );
+
+      if (!res.ok) {
+        continue;
+      }
+
+      data = await res.json();
+
+      if (data.story) {
+        break;
+      }
+    }
+
+    if (!data?.story) {
+      return null;
+    }
+
+    const experience = {
+      title: data.story.content.title,
+      image: data.story.content.cover_image?.filename || data.story.content.hero_image?.filename || "/images/placeholder.jpg",
+      price: data.story.content.price,
+      description: data.story.content.short_description || data.story.content.about_experience,
+      highlights: normalizeHighlights(data.story.content.highlights),
+      included: normalizeList(data.story.content.included || data.story.content.included_items),
+      notIncluded: normalizeList(data.story.content.not_included || data.story.content.excluded_items),
+      itinerary: normalizeItinerary(data.story.content.itinerary),
+      duration: data.story.content.duration,
+    };
+
+    return {
+      ...DEFAULT_EXPERIENCE_CONTENT,
+      id: slug,
+      title: experience.title,
+      image: experience.image,
+      price: experience.price ?? DEFAULT_EXPERIENCE_CONTENT.price,
+      description: normalizeParagraphs(experience.description).length
+        ? normalizeParagraphs(experience.description)
+        : DEFAULT_EXPERIENCE_CONTENT.description,
+      duration: experience.duration ?? DEFAULT_EXPERIENCE_CONTENT.duration,
+      highlights: {
+        included: experience.included.length
+          ? experience.included
+          : experience.highlights.length
+          ? experience.highlights
+          : DEFAULT_EXPERIENCE_CONTENT.highlights.included,
+        notIncluded: experience.notIncluded.length
+          ? experience.notIncluded
+          : DEFAULT_EXPERIENCE_CONTENT.highlights.notIncluded,
+      },
+      itinerary: experience.itinerary.length ? experience.itinerary : DEFAULT_EXPERIENCE_CONTENT.itinerary,
+    };
+  } catch (error) {
+    console.error("Error fetching Storyblok experience:", error);
+    return null;
+  }
+}
 
 // Safe image resolver: blocks problematic paths, URL-encodes spaces
 function safeImg(src, fallback = FALLBACK) {
@@ -16,96 +252,6 @@ function safeImg(src, fallback = FALLBACK) {
 
   return src.replace(/ /g, "%20");
 }
-
-// Mock experience data
-const EXPERIENCES_DB = {
-  "bangkok-street-food-tour": {
-    id: "bangkok-street-food-tour",
-    title: "Bangkok Street Food Tour",
-    location: "Bangkok, Thailand",
-    price: 38,
-    rating: 4.8,
-    reviewCount: 124,
-    image: "/images/figma/experiences/bangkok-street-food.jpg",
-    type: "Small group",
-    guide: "Local guide",
-    description: [
-      "Experience the vibrant heart of Bangkok's street food culture on this immersive evening walking tour. Led by a licensed local guide, you'll explore the bustling lanes of Chinatown, discovering hidden food stalls and family-owned vendors that have served locals for generations.",
-      "This isn't a typical tourist experience—we keep groups small (max 8 people) to ensure an authentic, personalized encounter. You'll taste regional specialties, learn the stories behind each dish, and connect with the vendors who have dedicated their lives to their craft.",
-      "Perfect for food lovers and adventurous travelers, this tour showcases why Bangkok is one of the world's greatest food cities, while supporting small businesses and sustainable travel practices.",
-    ],
-    highlights: {
-      included: ["Food tastings (6-8 items)", "Local guide", "Cultural insights", "Walking tour", "Reusable water bottle"],
-      notIncluded: ["Hotel pickup", "Alcoholic drinks", "Travel insurance", "Photography guide"],
-    },
-    itinerary: [
-      { time: "18:00", title: "Meet in Chinatown", desc: "Gather at the entrance of Sampeng Lane market. Your guide will brief you on the evening ahead." },
-      { time: "18:30", title: "Street Food Tasting", desc: "Sample pad Thai from a family-run stall, followed by fresh spring rolls and local snacks." },
-      { time: "19:30", title: "Neighborhood Walk", desc: "Stroll through hidden alleyways and learn about the history and culture of Old Bangkok." },
-      { time: "20:00", title: "Sweet Finish", desc: "Enjoy local desserts including mango sticky rice and Thai custard (khao tom mud)." },
-      { time: "21:30", title: "Tour Ends", desc: "We'll part ways in the heart of Chinatown. You're welcome to stay and explore!" },
-    ],
-    sustainability: [
-      "Led by locally licensed guides who live and work in Bangkok",
-      "100% of tips support the family-owned food vendors we visit",
-      "Small groups (max 8) to minimize impact on local neighborhoods",
-      "Walk-based tour—zero carbon emissions from transportation",
-      "We use reusable water bottles and minimize single-use plastic",
-    ],
-    guide: {
-      name: "Somchai",
-      role: "Licensed Local Guide",
-      location: "Bangkok, Thailand",
-      bio: "Somchai has been guiding food tours for 8 years and is a true Bangkok native. His passion for street food and local culture is infectious, and he's known for his warm hospitality and deep knowledge of Chinatown's hidden gems.",
-    },
-    reviews: [
-      {
-        id: 1,
-        name: "Emma M.",
-        rating: 5,
-        text: "Absolutely incredible! Somchai made us feel like locals, not tourists. The food was authentic and delicious.",
-      },
-      {
-        id: 2,
-        name: "James K.",
-        rating: 4.8,
-        text: "Best food experience in Southeast Asia. The small group size made it personal and fun. Would do it again!",
-      },
-      {
-        id: 3,
-        name: "Sofia P.",
-        rating: 4.7,
-        text: "A real window into Bangkok street culture. Somchai's stories about each vendor brought everything to life.",
-      },
-    ],
-    related: [
-      {
-        id: "grand-palace-tour",
-        title: "Grand Palace Tour",
-        price: 42,
-        rating: 4.9,
-        reviewCount: 295,
-        image: "/images/figma/experiences/grand-palace-tour.jpg",
-      },
-      {
-        id: "floating-markets",
-        title: "Floating Markets Experience",
-        price: 55,
-        rating: 4.8,
-        reviewCount: 168,
-        image: "/images/figma/experiences/floating-markets.jpg",
-      },
-      {
-        id: "cooking-school",
-        title: "Thai Cooking Class",
-        price: 45,
-        rating: 4.9,
-        reviewCount: 156,
-        image: "/images/figma/experiences/cooking-school.jpg",
-      },
-    ],
-  },
-};
 
 // Reusable review card
 function ReviewCard({ review }) {
@@ -158,7 +304,7 @@ function RelatedCard({ exp }) {
 }
 
 export async function generateMetadata({ params }) {
-  const experience = EXPERIENCES_DB[params.slug];
+  const experience = await getExperience(params.slug);
   if (!experience) return { title: "Experience Not Found" };
 
   return {
@@ -172,22 +318,12 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function ExperiencePage({ params }) {
-  const experience = EXPERIENCES_DB[params.slug];
-  
-  // Show "Experience not found" state for unknown slugs (not a 404)
+export default async function ExperiencePage({ params }) {
+  const { slug } = params;
+  const experience = await getExperience(slug);
+
   if (!experience) {
-    return (
-      <main className="min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center px-4">
-        <div className="text-center max-w-md">
-          <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 mb-4">Experience not found</h1>
-          <p className="text-gray-600 mb-8">The experience you're looking for isn't available right now. Please check the URL or browse other experiences.</p>
-          <Link href="/" className="inline-block px-6 py-3 bg-black text-white font-semibold rounded-lg hover:bg-gray-800 transition">
-            Back to home
-          </Link>
-        </div>
-      </main>
-    );
+    return notFound();
   }
 
   return (

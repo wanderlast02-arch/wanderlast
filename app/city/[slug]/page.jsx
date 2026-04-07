@@ -2,6 +2,81 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
+const STORYBLOK_EXPERIENCE_FALLBACK = "/images/placeholder.jpg";
+
+function normalizeHighlights(highlights) {
+  if (Array.isArray(highlights)) {
+    return highlights
+      .map((item) => {
+        if (typeof item === "string") return item;
+        if (item && typeof item.text === "string") return item.text;
+        return null;
+      })
+      .filter(Boolean);
+  }
+
+  if (typeof highlights === "string") {
+    return highlights
+      .split(/\r?\n/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
+async function getExperiences() {
+  const token = process.env.STORYBLOK_API_TOKEN || process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN;
+
+  if (!token) {
+    console.error("Missing Storyblok token for city experiences");
+    return [];
+  }
+
+  try {
+    let stories = [];
+
+    for (const startsWith of ["experiences/", "experience/"]) {
+      const params = new URLSearchParams({
+        starts_with: startsWith,
+        version: "draft",
+        token,
+      });
+
+      const res = await fetch(`https://api.storyblok.com/v2/cdn/stories?${params.toString()}`, {
+        next: { revalidate: 60 },
+      });
+
+      if (!res.ok) {
+        continue;
+      }
+
+      const data = await res.json();
+      if (Array.isArray(data.stories) && data.stories.length) {
+        stories = data.stories;
+        break;
+      }
+    }
+
+    if (!stories.length) {
+      console.error("Storyblok experiences fetch returned no stories");
+      return [];
+    }
+
+    return stories
+      .filter((story) => story?.content?.status === "active")
+      .map((story) => ({
+        title: story.content.title,
+        image: story.content.cover_image?.filename || STORYBLOK_EXPERIENCE_FALLBACK,
+        price: story.content.price,
+        description: story.content.short_description,
+        highlights: normalizeHighlights(story.content.highlights),
+      }));
+  } catch (error) {
+    console.error("Error fetching Storyblok experiences:", error);
+    return [];
+  }
+}
 
 function safeImg(src, fallback = FALLBACK) {
   if (!src || !src.trim().length) return fallback;
@@ -225,8 +300,10 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function CityPage({ params }) {
+export default async function CityPage({ params }) {
   const city = CITY_MOCKS[params.slug];
+  const experiences = await getExperiences();
+
   if (!city) notFound();
 
   return (
@@ -265,8 +342,8 @@ export default function CityPage({ params }) {
         </div>
 
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {city.topThings.map((item) => (
-            <ExperienceCard key={item.slug} item={item} />
+          {experiences.map((item, index) => (
+            <ExperienceCard key={`${item.title}-${index}`} item={{ ...item, rating: 4.8 }} />
           ))}
         </div>
       </section>
