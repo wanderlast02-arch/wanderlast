@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { storyblokInit, apiPlugin } from "@storyblok/react";
 
 // Import all components
@@ -74,6 +73,12 @@ const componentRegistry = {
   experience_grid: ExperienceGrid,
 };
 
+storyblokInit({
+  accessToken: process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN,
+  use: [apiPlugin],
+  components: componentRegistry,
+});
+
 // Suppress Storyblok component warnings during SSR and dev
 if (typeof window !== "undefined") {
   const originalWarn = console.warn;
@@ -109,14 +114,5 @@ if (typeof global !== "undefined") {
 }
 
 export default function StoryblokProvider({ children }) {
-  useEffect(() => {
-    // Initialize on module load
-    storyblokInit({
-      accessToken: process.env.NEXT_PUBLIC_STORYBLOK_API_TOKEN,
-      use: [apiPlugin],
-      components: componentRegistry,
-    });
-  }, []);
-
   return <>{children}</>;
 }

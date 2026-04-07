@@ -496,8 +496,8 @@ function RelatedCard({ exp }) {
   );
 }
 
-export default function ExperienceStoryblokPreview({ story: initialStory, slug, preview }) {
-  const story = useStoryblokState(initialStory, {}, preview);
+export default function ExperienceStoryblokPreview({ story: initialStory, slug }) {
+  const story = useStoryblokState(initialStory, {});
   const experience = mapStoryToExperience(story, slug);
   const whyExperience = (experience.storyHighlights && experience.storyHighlights.length
     ? experience.storyHighlights
