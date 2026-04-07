@@ -230,6 +230,71 @@ function normalizeItinerary(value) {
   });
 }
 
+function normalizeStoryLinkList(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(Boolean);
+}
+
+function getLinkedStoryPath(item) {
+  const source = item?.story || item;
+
+  if (typeof source?.full_slug === "string" && source.full_slug.trim()) {
+    return source.full_slug.replace(/^\/+/, "");
+  }
+
+  if (typeof source?.cached_url === "string" && source.cached_url.trim()) {
+    return source.cached_url.replace(/^\/+/, "");
+  }
+
+  if (typeof source?.url === "string" && source.url.trim()) {
+    return source.url.replace(/^\/+/, "");
+  }
+
+  if (typeof source?.slug === "string" && source.slug.trim()) {
+    return `experiences/${source.slug.replace(/^\/+/, "")}`;
+  }
+
+  return null;
+}
+
+function formatSlugTitle(slug) {
+  return `${slug}`
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function mapRelatedExperience(item) {
+  const source = item?.story || item;
+  const content = source?.content || item?.content || {};
+  const path = getLinkedStoryPath(item);
+  const slug = path?.split("/").filter(Boolean).pop();
+
+  if (!slug) {
+    return null;
+  }
+
+  const price = normalizeNumber(content.price) ?? normalizeNumber(content.price_display);
+
+  return {
+    id: slug,
+    title: content.title || source?.name || formatSlugTitle(slug),
+    price: price ?? DEFAULT_EXPERIENCE_CONTENT.price,
+    rating: normalizeNumber(content.rating) ?? DEFAULT_EXPERIENCE_CONTENT.rating,
+    reviewCount: normalizeNumber(content.reviews_count) ?? DEFAULT_EXPERIENCE_CONTENT.reviewCount,
+    image:
+      getStoryblokAssetFilename(content.images) ||
+      getStoryblokAssetFilename(content.cover_image) ||
+      getStoryblokAssetFilename(content.hero_image) ||
+      DEFAULT_EXPERIENCE_CONTENT.related[0]?.image ||
+      FALLBACK,
+  };
+}
+
 const DEFAULT_EXPERIENCE_CONTENT = {
   location: "Bangkok, Thailand",
   price: 38,
@@ -402,6 +467,9 @@ async function getExperience(slug) {
       yearsGuidingLabel: data.story.content.years_guiding_label,
       happyTravelersLabel: data.story.content.happy_travelers_label,
       relatedSectionTitle: data.story.content.related_section_title,
+      related: normalizeStoryLinkList(data.story.content.related_experiences)
+        .map(mapRelatedExperience)
+        .filter((item) => item && item.id !== slug),
       bookingUrl: extractBookingUrl(data.story.content.availability_widget),
       seoTitle: data.story.content.seo_title,
       seoDescription: data.story.content.seo_description,
@@ -470,6 +538,7 @@ async function getExperience(slug) {
         happyTravelers: experience.happyTravelers || DEFAULT_EXPERIENCE_CONTENT.guide.happyTravelers,
       },
       reviews: experience.reviews.length ? experience.reviews : DEFAULT_EXPERIENCE_CONTENT.reviews,
+      related: experience.related.length ? experience.related.slice(0, 3) : DEFAULT_EXPERIENCE_CONTENT.related,
       ctaText: experience.ctaText || "Check availability on WhatsApp",
       seoTitle: experience.seoTitle,
       seoDescription: experience.seoDescription,
@@ -493,8 +562,13 @@ async function getExperienceStory(slug) {
     let data = null;
 
     for (const path of candidatePaths) {
+      const url = new URL(`https://api.storyblok.com/v2/cdn/stories/${path}`);
+      url.searchParams.set("version", "draft");
+      url.searchParams.set("token", token);
+      url.searchParams.set("resolve_links", "story");
+
       const res = await fetch(
-        `https://api.storyblok.com/v2/cdn/stories/${path}?version=draft&token=${token}`,
+        url,
         { next: { revalidate: 60 } }
       );
 

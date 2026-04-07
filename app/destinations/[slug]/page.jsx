@@ -5,6 +5,11 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 const { data } = require("../../../lib/data");
+const {
+  getCreteLandingSlugs,
+  getStoryblokExperienceCards,
+  sortExperienceCardsForCrete,
+} = require("../../../lib/storyblok/experienceCards");
 
 const FALLBACK = "/images/figma/placeholder.jpg";
 
@@ -124,7 +129,13 @@ function ExperienceCard({ exp }) {
 }
 
 export async function generateMetadata({ params }) {
-  const country = data.getCountry(params.slug);
+  const country = params.slug === "crete"
+    ? {
+        name: "Crete",
+        tagline: "A focused landing page for real bookable experiences across Crete",
+        heroImage: "/images/figma/destinations/greece.jpg",
+      }
+    : data.getCountry(params.slug);
   if (!country) return { title: "Destination Not Found" };
   return {
     title: country.name,
@@ -138,7 +149,15 @@ export async function generateMetadata({ params }) {
 }
 
 export default function DestinationPage({ params }) {
-  const country = data.getCountry(params.slug);
+  const isCrete = params.slug === "crete";
+  const country = isCrete
+    ? {
+        slug: "crete",
+        name: "Crete",
+        tagline: "A focused landing page for real bookable experiences across Crete",
+        heroImage: "/images/figma/destinations/greece.jpg",
+      }
+    : data.getCountry(params.slug);
   if (!country) notFound();
 
   // Use Thailand mock data for /destinations/thailand
@@ -151,7 +170,13 @@ export default function DestinationPage({ params }) {
   // Use the project's hero file for Thailand as provided
   const heroImage = isThailand
     ? safeImg("/images/figma/destinations/thailand/hero.jpg")
+    : isCrete
+    ? safeImg("/images/figma/destinations/greece.jpg")
     : safeImg("/images/figma/placeholder.jpg");
+
+  if (isCrete) {
+    return <CreteLandingPage heroImage={heroImage} />;
+  }
 
   return (
     <main className="overflow-x-hidden">
@@ -498,6 +523,68 @@ export default function DestinationPage({ params }) {
           </div>
         </section>
       )}
+    </main>
+  );
+}
+
+async function CreteLandingPage({ heroImage }) {
+  const experiences = await getStoryblokExperienceCards({
+    includeSlugs: getCreteLandingSlugs(),
+    sortBy: sortExperienceCardsForCrete,
+  });
+
+  return (
+    <main className="overflow-x-hidden bg-white">
+      <section className="relative w-full min-h-[42vh] sm:min-h-[60vh] flex items-end pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 overflow-hidden">
+        <img
+          src={heroImage}
+          alt="Crete hero background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
+
+        <div className="max-w-6xl mx-auto w-full relative z-10">
+          <div>
+            <div className="text-xs uppercase tracking-widest text-white/80 mb-6 font-light">
+              Greece
+            </div>
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
+              Crete
+            </h1>
+            <div className="text-xs uppercase text-white/80 font-light mb-6 sm:mb-10">
+              <Link href="/" className="hover:text-white/95 transition">
+                Home
+              </Link>
+              {" / "}
+              <span>Crete</span>
+            </div>
+            <p className="text-white/90 text-sm sm:text-base max-w-2xl">
+              A streamlined landing page for guests scanning a QR code and choosing from real experiences around Crete.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-medium text-gray-900 mb-6 sm:mb-8">Best experiences for your stay</h2>
+          <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+            {experiences.map((exp) => (
+              <ExperienceCard
+                key={exp.slug}
+                exp={{
+                  slug: exp.slug,
+                  title: exp.title,
+                  price: exp.price,
+                  rating: exp.rating,
+                  ratingCount: 0,
+                  image: exp.image,
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

@@ -322,6 +322,13 @@
       "display_name": "Related Section Title",
       "pos": 49,
       "description": "Section heading for the related experiences area."
+    },
+    "related_experiences": {
+      "type": "multilink",
+      "display_name": "Related Experiences",
+      "pos": 50,
+      "filter_content_type": ["experience"],
+      "description": "Pick up to 3 real experience entries to show in the related experiences section."
     }
   }
 }

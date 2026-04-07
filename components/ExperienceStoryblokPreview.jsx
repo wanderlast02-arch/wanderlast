@@ -219,6 +219,71 @@ function normalizeItineraryBlocks(items) {
     .filter(Boolean);
 }
 
+function normalizeStoryLinkList(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value.filter(Boolean);
+}
+
+function getLinkedStoryPath(item) {
+  const source = item?.story || item;
+
+  if (typeof source?.full_slug === "string" && source.full_slug.trim()) {
+    return source.full_slug.replace(/^\/+/, "");
+  }
+
+  if (typeof source?.cached_url === "string" && source.cached_url.trim()) {
+    return source.cached_url.replace(/^\/+/, "");
+  }
+
+  if (typeof source?.url === "string" && source.url.trim()) {
+    return source.url.replace(/^\/+/, "");
+  }
+
+  if (typeof source?.slug === "string" && source.slug.trim()) {
+    return `experiences/${source.slug.replace(/^\/+/, "")}`;
+  }
+
+  return null;
+}
+
+function formatSlugTitle(slug) {
+  return `${slug}`
+    .split("-")
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function mapRelatedExperience(item) {
+  const source = item?.story || item;
+  const content = source?.content || item?.content || {};
+  const path = getLinkedStoryPath(item);
+  const slug = path?.split("/").filter(Boolean).pop();
+
+  if (!slug) {
+    return null;
+  }
+
+  const price = normalizeNumber(content.price) ?? normalizeNumber(content.price_display);
+
+  return {
+    id: slug,
+    title: content.title || source?.name || formatSlugTitle(slug),
+    price: price ?? DEFAULT_EXPERIENCE_CONTENT.price,
+    rating: normalizeNumber(content.rating) ?? DEFAULT_EXPERIENCE_CONTENT.rating,
+    reviewCount: normalizeNumber(content.reviews_count) ?? DEFAULT_EXPERIENCE_CONTENT.reviewCount,
+    image:
+      getStoryblokAssetFilename(content.images) ||
+      getStoryblokAssetFilename(content.cover_image) ||
+      getStoryblokAssetFilename(content.hero_image) ||
+      DEFAULT_EXPERIENCE_CONTENT.related[0]?.image ||
+      FALLBACK,
+  };
+}
+
 function normalizeReviews(items) {
   if (!Array.isArray(items)) {
     return [];
@@ -374,6 +439,9 @@ function mapStoryToExperience(story, slug) {
     yearsGuidingLabel: content.years_guiding_label,
     happyTravelersLabel: content.happy_travelers_label,
     relatedSectionTitle: content.related_section_title,
+    related: normalizeStoryLinkList(content.related_experiences)
+      .map(mapRelatedExperience)
+      .filter((item) => item && item.id !== slug),
     bookingUrl: extractBookingUrl(content.availability_widget),
   };
 
@@ -439,7 +507,7 @@ function mapStoryToExperience(story, slug) {
     },
     reviews: experience.reviews.length ? experience.reviews : DEFAULT_EXPERIENCE_CONTENT.reviews,
     ctaText: experience.ctaText || "Check availability on WhatsApp",
-    related: DEFAULT_EXPERIENCE_CONTENT.related,
+    related: experience.related.length ? experience.related.slice(0, 3) : DEFAULT_EXPERIENCE_CONTENT.related,
   };
 }
 
