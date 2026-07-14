@@ -10,12 +10,7 @@ export default function Header() {
       <nav className="max-w-6xl mx-auto px-6 flex items-center h-[72px]">
         {/* Logo only */}
         <Link href="/home" className="flex items-center">
-          <img
-            src="/images/figma/logo.svg"
-            alt="Wanderlast"
-            onError={(e) => { e.target.src = "/logo.svg"; }}
-            className="h-9 w-auto"
-          />
+          <span className="text-lg font-semibold text-gray-900">Galini Beach Hotel</span>
         </Link>
       </nav>
     </header>

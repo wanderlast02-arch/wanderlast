@@ -5,11 +5,7 @@ export default function Footer() {
     <footer className="mt-20 bg-neutral-900 text-white">
       {/* Logo Section */}
       <div className="border-b border-white/10 px-6 py-10 sm:py-12 max-w-7xl mx-auto">
-        <img
-          src="/logo-footer.svg"
-          alt="Wanderlast"
-          className="h-auto w-full max-w-xs sm:max-w-md"
-        />
+        <span className="text-2xl font-semibold text-white">Galini Beach Hotel</span>
       </div>
 
       {/* Terms Section */}
