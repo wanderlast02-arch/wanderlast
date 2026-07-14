@@ -551,13 +551,6 @@ async function CreteLandingPage({ heroImage }) {
             <h1 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
               Crete
             </h1>
-            <div className="text-xs uppercase text-white/80 font-light mb-6 sm:mb-10">
-              <Link href="/" className="hover:text-white/95 transition">
-                Home
-              </Link>
-              {" / "}
-              <span>Crete</span>
-            </div>
             <p className="text-white/90 text-sm sm:text-base max-w-2xl">
               A streamlined landing page for guests scanning a QR code and choosing from real experiences around Crete.
             </p>
