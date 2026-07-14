@@ -1,8 +1,7 @@
 // app/layout.jsx
 import "../styles/globals.css";
 import StoryblokProvider from "../storyblok/StoryblokProvider";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import LayoutClient from "./layout-client";
 import Script from "next/script";
 
 export const metadata = {
@@ -21,11 +20,7 @@ export default function RootLayout({ children }) {
       </head>
       <body>
         <StoryblokProvider>
-          <Header />
-          <main style={{ minHeight: "calc(100vh - 60px)" }}>
-            {children}
-          </main>
-          <Footer />
+          <LayoutClient>{children}</LayoutClient>
         </StoryblokProvider>
       </body>
     </html>
