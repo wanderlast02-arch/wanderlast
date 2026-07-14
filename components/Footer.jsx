@@ -5,7 +5,9 @@ export default function Footer() {
     <footer className="mt-20 bg-neutral-900 text-white">
       {/* Logo Section */}
       <div className="border-b border-white/10 px-6 py-10 sm:py-12 max-w-7xl mx-auto">
-        <span className="text-2xl font-semibold text-white">Galini Beach Hotel</span>
+        <a href="/destinations/crete" className="text-2xl font-semibold text-white hover:text-white/80 transition">
+          Galini Beach Hotel
+        </a>
       </div>
 
       {/* Terms Section */}
