@@ -558,7 +558,7 @@ async function CreteLandingPage({ heroImage }) {
         </div>
       </section>
 
-      <section className="py-8 sm:py-12 md:py-16 px-4 sm:px-6 lg:px-8 bg-white">
+      <section className="py-6 sm:py-8 md:py-12 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-medium text-gray-900 mb-6 sm:mb-8">Best experiences for your stay</h2>
           <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">

@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer className="mt-20 bg-neutral-900 text-white">
+    <footer className="bg-neutral-900 text-white">
       {/* Logo Section */}
       <div className="border-b border-white/10 px-6 py-10 sm:py-12 max-w-7xl mx-auto">
         <a href="/destinations/crete" className="text-2xl font-semibold text-white hover:text-white/80 transition">
