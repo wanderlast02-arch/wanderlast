@@ -18,7 +18,7 @@ export default function Footer() {
           <a href="#" className="text-sm text-neutral-400 hover:text-white transition">Cookie Policy</a>
         </div>
         <p className="text-sm text-neutral-400 m-0">
-          © 2026 Wanderlast - Created with love in Cyprus&Crete
+          © 2026 W - Created with love in Cyprus&Crete
         </p>
       </div>
     </footer>
