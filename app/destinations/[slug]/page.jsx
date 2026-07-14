@@ -148,7 +148,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default function DestinationPage({ params }) {
+export default async function DestinationPage({ params }) {
   const isCrete = params.slug === "crete";
   const country = isCrete
     ? {
@@ -175,7 +175,7 @@ export default function DestinationPage({ params }) {
     : safeImg("/images/figma/placeholder.jpg");
 
   if (isCrete) {
-    return <CreteLandingPage heroImage={heroImage} />;
+    return await CreteLandingPage({ heroImage });
   }
 
   return (
