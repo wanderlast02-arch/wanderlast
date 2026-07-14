@@ -946,18 +946,6 @@ export default async function ExperiencePage({ params, searchParams }) {
         </div>
       </section>
 
-      {/* ========== SECTION 9: RELATED EXPERIENCES ========== */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="max-w-6xl mx-auto space-y-6">
-          <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.relatedSectionTitle}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {experience.related.map((exp) => (
-              <RelatedCard key={exp.id} exp={exp} />
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ========== MOBILE CTA BAR (Fixed bottom) ========== */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg p-4 z-40">
         <div className="flex gap-4 items-center">
