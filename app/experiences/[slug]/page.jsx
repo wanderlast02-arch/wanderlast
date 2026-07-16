@@ -698,6 +698,9 @@ export default async function ExperiencePage({ params, searchParams }) {
   const whatsappUrl = `https://wa.me/306934126131?text=${encodeURIComponent(message)}`;
   const bookingUrl = experience.bookingUrl || whatsappUrl;
   const bookingTarget = bookingUrl.startsWith("http") ? "_blank" : undefined;
+  const bookingQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
+    bookingUrl
+  )}`;
 
   return (
     <main>
@@ -775,6 +778,10 @@ export default async function ExperiencePage({ params, searchParams }) {
                 {experience.ctaText}
               </button>
             </a>
+            <div className="mt-3 inline-flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
+              <img src={bookingQrUrl} alt="QR code for availability" className="w-20 h-20" loading="lazy" />
+              <p className="mt-2 text-[11px] text-gray-600">Scan to ask for availability</p>
+            </div>
             <p className="text-xs text-gray-600 mt-2">{experience.urgencyText}</p>
           </div>
         </div>
@@ -959,6 +966,10 @@ export default async function ExperiencePage({ params, searchParams }) {
                 {experience.ctaText}
               </button>
             </a>
+            <div className="mt-2 flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
+              <img src={bookingQrUrl} alt="QR code for availability" className="w-16 h-16" loading="lazy" />
+              <p className="mt-1 text-[10px] text-gray-600">Scan to ask for availability</p>
+            </div>
             <p className="text-[11px] text-gray-600 mt-2 text-center">{experience.urgencyText}</p>
           </div>
         </div>
