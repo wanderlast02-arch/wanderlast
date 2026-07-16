@@ -718,6 +718,14 @@ export default async function ExperiencePage({ params, searchParams }) {
 
         {/* Content */}
         <div className="max-w-6xl mx-auto w-full relative z-10 py-8 sm:py-12 md:py-16">
+          <div className="mb-5 sm:mb-6">
+            <Link
+              href="/destinations/crete"
+              className="inline-flex items-center px-3 py-1.5 rounded-full bg-white/90 text-gray-900 text-sm font-medium hover:bg-white transition"
+            >
+              ← Back
+            </Link>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-end">
             {/* Left: Title + Meta */}
             <div className="md:col-span-2">
@@ -778,7 +786,7 @@ export default async function ExperiencePage({ params, searchParams }) {
                 {experience.ctaText}
               </button>
             </a>
-            <div className="mt-3 inline-flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
+            <div className="mt-4 mb-2 inline-flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
               <img src={bookingQrUrl} alt="QR code for availability" className="w-20 h-20" loading="lazy" />
               <p className="mt-2 text-[11px] text-gray-600">Scan to ask for availability</p>
             </div>
@@ -966,7 +974,7 @@ export default async function ExperiencePage({ params, searchParams }) {
                 {experience.ctaText}
               </button>
             </a>
-            <div className="mt-2 flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
+            <div className="mt-3 mb-1 flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
               <img src={bookingQrUrl} alt="QR code for availability" className="w-16 h-16" loading="lazy" />
               <p className="mt-1 text-[10px] text-gray-600">Scan to ask for availability</p>
             </div>

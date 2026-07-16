@@ -528,6 +528,9 @@ export default async function DestinationPage({ params }) {
 }
 
 async function CreteLandingPage({ heroImage }) {
+  const creteUrl = "https://experiences.galinibeach.com/destinations/crete";
+  const creteQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(creteUrl)}`;
+
   const experiences = await getStoryblokExperienceCards({
     includeSlugs: getCreteLandingSlugs(),
     sortBy: sortExperienceCardsForCrete,
@@ -554,6 +557,10 @@ async function CreteLandingPage({ heroImage }) {
             <p className="text-white/90 text-sm sm:text-base max-w-2xl">
               A streamlined landing page for guests scanning a QR code and choosing from real experiences around Crete.
             </p>
+            <div className="mt-6 inline-flex flex-col items-center rounded-xl bg-white p-3 shadow-lg">
+              <img src={creteQrUrl} alt="QR code to open Crete destination page" className="w-24 h-24 sm:w-28 sm:h-28" loading="lazy" />
+              <p className="mt-2 text-xs text-gray-700">Scan to open this page on your phone</p>
+            </div>
           </div>
         </div>
       </section>
