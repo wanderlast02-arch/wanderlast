@@ -32,6 +32,27 @@ function extractBookingUrl(value) {
   return null;
 }
 
+function normalizeBookingUrl(value, fallback) {
+  if (typeof value !== "string") {
+    return fallback;
+  }
+
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return fallback;
+  }
+
+  if (/^https?:\/\//i.test(trimmed)) {
+    return trimmed;
+  }
+
+  if (/^wa\.me\//i.test(trimmed)) {
+    return `https://${trimmed}`;
+  }
+
+  return fallback;
+}
+
 function normalizeAssetList(value) {
   if (!Array.isArray(value)) {
     return [];
@@ -696,7 +717,7 @@ export default async function ExperiencePage({ params, searchParams }) {
   ).slice(0, 3);
   const message = `Hi, I'm staying at Galini Beach Hotel and I'm interested in ${experience.title}`;
   const whatsappUrl = `https://wa.me/306934126131?text=${encodeURIComponent(message)}`;
-  const bookingUrl = experience.bookingUrl || whatsappUrl;
+  const bookingUrl = normalizeBookingUrl(experience.bookingUrl, whatsappUrl);
   const bookingTarget = bookingUrl.startsWith("http") ? "_blank" : undefined;
   const bookingQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(
     bookingUrl
@@ -786,9 +807,9 @@ export default async function ExperiencePage({ params, searchParams }) {
                 {experience.ctaText}
               </button>
             </a>
-            <div className="mt-4 mb-2 inline-flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
+            <div className="mt-5 mb-2 ml-auto w-fit flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
               <img src={bookingQrUrl} alt="QR code for availability" className="w-20 h-20" loading="lazy" />
-              <p className="mt-2 text-[11px] text-gray-600">Scan to ask for availability</p>
+              <p className="mt-2 text-[11px] text-gray-600">OR scan to ask for availability</p>
             </div>
             <p className="text-xs text-gray-600 mt-2">{experience.urgencyText}</p>
           </div>
@@ -976,7 +997,7 @@ export default async function ExperiencePage({ params, searchParams }) {
             </a>
             <div className="mt-3 mb-1 flex flex-col items-center rounded-lg border border-gray-200 p-2 bg-white">
               <img src={bookingQrUrl} alt="QR code for availability" className="w-16 h-16" loading="lazy" />
-              <p className="mt-1 text-[10px] text-gray-600">Scan to ask for availability</p>
+              <p className="mt-1 text-[10px] text-gray-600">OR scan to ask for availability</p>
             </div>
             <p className="text-[11px] text-gray-600 mt-2 text-center">{experience.urgencyText}</p>
           </div>
