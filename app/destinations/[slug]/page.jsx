@@ -538,11 +538,12 @@ async function CreteLandingPage({ heroImage }) {
 
   return (
     <>
-      <section className="relative w-full min-h-[42vh] sm:min-h-[60vh] flex items-end pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 overflow-hidden">
+      <section className="relative w-full h-[38vh] sm:h-[45vh] flex items-end pt-16 sm:pt-20 pb-8 sm:pb-12 px-4 overflow-hidden">
         <img
           src={heroImage}
           alt="Crete hero background"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ objectPosition: "center 45%" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
 
