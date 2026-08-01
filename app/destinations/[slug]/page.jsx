@@ -171,7 +171,7 @@ export default async function DestinationPage({ params }) {
   const heroImage = isThailand
     ? safeImg("/images/figma/destinations/thailand/hero.jpg")
     : isCrete
-    ? safeImg("/images/figma/home-page.png")
+    ? safeImg("/images/destinations/crete-hero.jpg")
     : safeImg("/images/figma/placeholder.jpg");
 
   if (isCrete) {
