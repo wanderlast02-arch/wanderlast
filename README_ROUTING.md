@@ -1,4 +1,18 @@
-# ✅ WANDERLAST HIERARCHICAL ROUTING - COMPLETE & READY
+# Wanderlast routing
+
+> The sections below describe an earlier implementation plan and are not a
+> production-readiness guarantee. The current local pages use
+> `/destinations/[country]`, `/destinations/[country]/[city]`, and
+> `/experiences/[slug]`. The singular `/destination/...` and `/experience/...`
+> paths redirect to their plural equivalents. Bangkok is available at
+> `/destinations/thailand/bangkok`; the Ayutthaya page is at
+> `/experiences/ayutthaya-by-land-and-river`.
+>
+> Many listings and reviews are mock content. Availability requests currently
+> open an email; they do not create a booking or process a payment. Vendor
+> onboarding, verified listings, and real-time availability are not implemented.
+
+# Earlier implementation notes
 
 ## 🎉 Implementation Status: **COMPLETE**
 

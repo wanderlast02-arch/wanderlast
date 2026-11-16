@@ -451,8 +451,8 @@ function mapStoryToExperience(story, slug) {
     title: experience.title || story?.name || DEFAULT_EXPERIENCE_CONTENT.title,
     image: experience.image,
     location: experience.location || DEFAULT_EXPERIENCE_CONTENT.location,
-    rating: experience.rating ?? DEFAULT_EXPERIENCE_CONTENT.rating,
-    reviewCount: experience.reviewCount ?? DEFAULT_EXPERIENCE_CONTENT.reviewCount,
+    rating: normalizeNumber(experience.rating),
+    reviewCount: normalizeNumber(experience.reviewCount),
     price: experience.price ?? DEFAULT_EXPERIENCE_CONTENT.price,
     priceDisplay: experience.priceDisplay || DEFAULT_EXPERIENCE_CONTENT.priceDisplay,
     type: experience.groupType || DEFAULT_EXPERIENCE_CONTENT.type,
@@ -505,7 +505,7 @@ function mapStoryToExperience(story, slug) {
       yearsGuiding: experience.guideYears || DEFAULT_EXPERIENCE_CONTENT.guide.yearsGuiding,
       happyTravelers: experience.happyTravelers || DEFAULT_EXPERIENCE_CONTENT.guide.happyTravelers,
     },
-    reviews: experience.reviews.length ? experience.reviews : DEFAULT_EXPERIENCE_CONTENT.reviews,
+    reviews: experience.reviews,
     ctaText: experience.ctaText || "Check availability on WhatsApp",
     related: experience.related.length ? experience.related.slice(0, 3) : DEFAULT_EXPERIENCE_CONTENT.related,
   };
@@ -586,10 +586,12 @@ export default function ExperienceStoryblokPreview({ story: initialStory, slug }
             <div className="md:col-span-2">
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6 sm:mb-8">{experience.title}</h1>
               <div className="flex flex-wrap gap-3 sm:gap-6 text-white/90 text-xs sm:text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400">★</span>
-                  <span className="font-medium">{experience.rating} ({experience.reviewCount} reviews)</span>
-                </div>
+                {experience.rating != null && experience.reviewCount > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-amber-400">★</span>
+                    <span className="font-medium">{experience.rating} ({experience.reviewCount} reviews)</span>
+                  </div>
+                )}
                 <span>{experience.partnerLabel}</span>
                 <span>{experience.type}</span>
                 <span>{experience.verificationLabel}</span>
@@ -708,14 +710,14 @@ export default function ExperienceStoryblokPreview({ story: initialStory, slug }
           </div>
         </div>
       </section>
-      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      {experience.reviews.length > 0 && <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto space-y-5">
           <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.reviewsSectionTitle}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {experience.reviews.map((review) => <ReviewCard key={review.id} review={review} />)}
           </div>
         </div>
-      </section>
+      </section>}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.guideSectionTitle}</h2>

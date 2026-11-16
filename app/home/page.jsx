@@ -57,6 +57,12 @@ function collectionImgBySlug(slug) {
   return `/images/figma/collections/${slug}.jpg`;
 }
 
+function experienceHref(item) {
+  return item.slug === "bangkok-street-food-tour"
+    ? "/experiences/bangkok-street-food-tour"
+    : `mailto:wanderlast02@gmail.com?subject=${encodeURIComponent(`Availability inquiry: ${item.title}`)}`;
+}
+
 // Safe image resolver wrapper used in templates (returns fallback when missing)
 function safeImg(src, fallback = "/images/figma/placeholder.jpg") {
   if (!src || !src.trim().length) return fallback;
@@ -124,34 +130,36 @@ export default function HomePage() {
   return (
     <div className="bg-white text-wl-text">
       {/* FIGMA_LOCK: Hero section locked to Figma design authority. Typography, spacing, shadow, overlay locked. Allowed: copy updates only. */}
-      <section className="relative w-full min-h-[60vh] sm:min-h-[70vh] flex items-center justify-center pt-20 sm:pt-28 overflow-hidden">
+      <section className="relative min-h-[640px] flex items-center justify-center overflow-hidden">
         <Image src={img(HERO_IMG)} alt="Wanderlast homepage hero" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/45" />
 
-        <div className="relative text-center text-white px-4 max-w-4xl mx-auto pt-20 sm:pt-28 flex flex-col items-center">
+        <div className="relative text-center text-white px-4 w-full max-w-4xl mx-auto py-16 flex flex-col items-center">
           {/* Two-line headline: refined hierarchy for Figma match */}
           <div className="text-center mb-12">
-            <div className="text-3xl sm:text-4xl lg:text-5xl font-light leading-tight drop-shadow-lg opacity-85 mb-1">
+            <div className="text-3xl md:text-4xl font-light leading-tight drop-shadow-lg opacity-85 mb-1">
               Let&apos;s start
             </div>
-            <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-[0.15em] drop-shadow-lg uppercase leading-[1.0]">
+            <div className="text-4xl sm:text-6xl md:text-7xl font-black tracking-[0.1em] sm:tracking-[0.15em] drop-shadow-lg uppercase leading-[1.0]">
               YOUR JOURNEY!
             </div>
           </div>
 
           {/* Single pill search bar: premium polish */}
           <div className="max-w-[520px] w-full mx-auto">
-            <div className="bg-white/95 backdrop-blur-sm text-gray-700 rounded-full shadow-lg border border-gray-200 flex items-center h-14 overflow-hidden">
+            <form action="/experiences" className="bg-white/95 backdrop-blur-sm text-gray-700 rounded-full shadow-lg border border-gray-200 flex items-center h-14 overflow-hidden">
               <span className="text-gray-400 text-xl pl-5" aria-hidden="true">🔍</span>
               <input
                 type="text"
-                placeholder="Search journey destinations here"
-                className="flex-1 bg-transparent text-sm text-gray-700 placeholder-gray-500 focus:outline-none px-4"
+                name="q"
+                aria-label="Search featured Bangkok experiences"
+                placeholder="Search Bangkok experiences"
+                className="flex-1 min-w-0 bg-transparent text-sm text-gray-700 placeholder-gray-500 focus:outline-none px-4"
               />
               <button className="bg-wl-primary text-white px-7 h-12 rounded-full text-sm font-semibold hover:opacity-90 transition whitespace-nowrap mr-1 my-1">
                 Search
               </button>
-            </div>
+            </form>
           </div>
 
           {/* Explore CTA */}
@@ -178,7 +186,7 @@ export default function HomePage() {
 
       {/* FIGMA_LOCK: Why clients section locked to Figma. Card layout, spacing, icon sizes, colors locked. Allowed: text content updates only. */}
       {/* Why clients choose Wanderlast */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-amber-50">
+      <section id="about-wanderlast" className="py-20 px-4 bg-amber-50">
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-2 gap-12 items-start">
             {/* Left: Description */}
@@ -196,8 +204,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right: advantages grid — two rows on larger screens; highlight only on hover */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 grid-rows-2">
+            {/* Right: 4-card grid with one highlighted */}
+            <div className="grid grid-cols-2 gap-6">
               {[
                 { icon: "🍃", title: "Discover the possibilities", desc: "With nearly half a million attractions, hotels & more, you're sure to find the perfect fit.", highlight: true },
                 { icon: "💧", title: "Enjoy deals & delights", desc: "Quality activities. Great prices. Plus, earn credits to save more." },
@@ -206,7 +214,11 @@ export default function HomePage() {
               ].map((c, idx) => (
                 <div
                   key={idx}
-                  className={`rounded-lg border p-6 transition-all duration-200 cursor-pointer bg-white border-gray-200 hover:bg-green-50 hover:border-green-200 shadow-sm`}
+                  className={`rounded-lg border p-6 transition-all duration-200 cursor-pointer ${
+                    c.highlight
+                      ? 'bg-green-50 border-green-200 hover:border-green-300 shadow-sm'
+                      : 'bg-white border-gray-200 hover:bg-green-50 hover:border-green-300 shadow-sm'
+                  }`}
                 >
                   <div className="text-3xl mb-3">{c.icon}</div>
                   <h3 className="text-sm font-bold text-gray-900 mb-2">{c.title}</h3>
@@ -220,7 +232,7 @@ export default function HomePage() {
 
       {/* Best offers */}
       {/* FIGMA_LOCK: Best offers — 3-card grid, badges, wishlist icon, darker overlay, description right */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
+      <section className="py-20 px-4 bg-wl-surface">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -232,7 +244,7 @@ export default function HomePage() {
               <Link href="/experiences" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {MOCK.bestOffers.map((e, idx) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
@@ -264,8 +276,8 @@ export default function HomePage() {
                       <span className="text-xl font-bold text-gray-900">${e.price}</span>
                       <span className="text-sm text-gray-500 ml-1">per person</span>
                     </div>
-                    <Link href={`/experiences/${e.slug}`} className="px-6 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors">
-                      Buy now
+                    <Link href={experienceHref(e)} className="px-6 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors">
+                      {e.slug === "bangkok-street-food-tour" ? "View details" : "Ask about dates"}
                     </Link>
                   </div>
                 </div>
@@ -276,7 +288,7 @@ export default function HomePage() {
       </section>
 
       {/* FIGMA_LOCK: Featured Experiences — 4-card grid with arrow pattern hover, description right */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-amber-50">
+      <section className="py-20 px-4 bg-amber-50">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -304,8 +316,8 @@ export default function HomePage() {
                 {/* Card content below image */}
                 <div className="p-4 flex flex-col gap-2">
                   <h3 className="text-sm font-semibold text-gray-900 leading-tight">{e.title}</h3>
-                  <Link href={`/experiences/${e.slug}`} className="w-full px-4 py-2.5 rounded-md bg-teal-700 text-white text-xs font-semibold hover:bg-teal-800 transition-colors text-center">
-                    View details
+                  <Link href={experienceHref(e)} className="w-full px-4 py-2.5 rounded-md bg-teal-700 text-white text-xs font-semibold hover:bg-teal-800 transition-colors text-center">
+                    Ask about dates
                   </Link>
                 </div>
               </div>
@@ -329,7 +341,7 @@ export default function HomePage() {
       </section>
 
       {/* FIGMA_LOCK: Sport/Ecotourism — 3-card grid with arrow pattern hover, description right */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -341,7 +353,7 @@ export default function HomePage() {
               <Link href="/collections/eco-tourism" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {MOCK.collections.map((c, idx) => (
               <div key={c.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
@@ -373,8 +385,8 @@ export default function HomePage() {
                       <span className="text-xl font-bold text-gray-900">${c.price}</span>
                       <span className="text-sm text-gray-500 ml-1">per group/unit</span>
                     </div>
-                    <Link href={`/collections/${c.slug}`} className="px-6 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors">
-                      Buy now
+                    <Link href={`mailto:wanderlast02@gmail.com?subject=${encodeURIComponent(`Availability inquiry: ${c.title}`)}`} className="px-6 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors">
+                      Ask about dates
                     </Link>
                   </div>
                 </div>
@@ -385,7 +397,7 @@ export default function HomePage() {
       </section>
 
       {/* Top Destinations */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
+      <section className="py-20 px-4 bg-wl-surface">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -397,10 +409,10 @@ export default function HomePage() {
               <Link href="/destinations" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="flex gap-4 sm:gap-6 mb-4 overflow-x-auto sm:overflow-visible scrollbar-hide snap-x snap-mandatory lg:grid lg:grid-cols-5 lg:gap-6 lg:place-items-center lg:overflow-visible lg:snap-none">
+          <div className="flex flex-nowrap justify-center gap-8 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-hide">
             {MOCK.destinations.map((d) => (
-              <Link key={d.slug} href={`/destinations/${d.slug}`} className="group flex-shrink-0 snap-start">
-                <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden shadow-sm flex-shrink-0">
+              <Link key={d.slug} href={["greece", "thailand"].includes(d.slug) ? `/destinations/${d.slug}` : `mailto:wanderlast02@gmail.com?subject=${encodeURIComponent(`Travel inquiry: ${d.title}`)}`} className="group flex-shrink-0 snap-center">
+                <div className="relative w-40 h-40 rounded-full overflow-hidden shadow-sm">
                   <Image src={img(d.image)} alt={d.title} fill className="object-cover" />
                   {/* Name + hover arrow pattern overlay */}
                   <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -426,7 +438,7 @@ export default function HomePage() {
       </section>
 
       {/* The most popular things to do in Tokyo */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-12 gap-8">
             <div>
@@ -438,7 +450,7 @@ export default function HomePage() {
               <Link href="/experiences" className="text-wl-primary font-semibold hover:opacity-80 mt-4 inline-block">View all offers</Link>
             </div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {MOCK.tokyoPopular.map((e) => (
               <div key={e.slug} className="group rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white">
                 <div className="relative w-full h-56">
@@ -485,8 +497,8 @@ export default function HomePage() {
                       <span className="text-xl font-bold text-gray-900">${e.price}</span>
                       <span className="text-sm text-gray-500 ml-1">per person</span>
                     </div>
-                    <Link href={`/experiences/${e.slug}`} className="px-6 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors">
-                      Buy now
+                    <Link href={experienceHref(e)} className="px-6 py-2 rounded-md bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors">
+                      Ask about dates
                     </Link>
                   </div>
                 </div>
@@ -497,7 +509,7 @@ export default function HomePage() {
       </section>
 
       {/* Book your next Trip */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-wl-surface">
+      <section className="py-20 px-4 bg-wl-surface">
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-center">
           <div className="relative h-72 md:h-96 rounded-2xl overflow-hidden shadow-md">
             <Image src={img(HERO_IMG)} alt="Book your next trip" fill className="object-cover" />
@@ -511,7 +523,7 @@ export default function HomePage() {
               {[
                 { text: "Search & Discover", desc: "Explore thousands of activities and experiences handpicked for you" },
                 { text: "Select & Customize", desc: "Personalize your selection with special dates, tour guides and special details" },
-                { text: "Book & Confirm", desc: "Secure payment processing and instant confirmation. Get trip details sent to your email immediately" },
+                { text: "Request availability", desc: "Contact our team to confirm availability, pricing, and booking details." },
               ].map((item, idx) => (
                 <div key={item.text} className="flex items-start gap-4 p-5 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
                   <div className="h-10 w-10 rounded-full bg-wl-primary text-white flex items-center justify-center text-sm font-bold flex-shrink-0">
@@ -529,7 +541,7 @@ export default function HomePage() {
       </section>
 
       {/* Discover tickets most popular places to visit */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 bg-white">
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-light mb-12 text-center">Discover tickets most popular places to visit</h2>
           <div className="flex flex-wrap gap-3 justify-center mb-6">

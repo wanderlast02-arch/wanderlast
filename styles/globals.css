@@ -32,3 +32,43 @@ button, [role="button"] {
 .logo, .logo-text {
   font-family: 'Gilroy', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
+@media (max-width: 768px) {
+  .footer-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 28px 16px !important;
+    padding: 36px 18px !important;
+  }
+
+  .footer-columns > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .footer-social {
+    flex-wrap: wrap;
+    gap: 10px !important;
+  }
+
+  .footer-bottom {
+    flex-wrap: wrap;
+    justify-content: flex-start !important;
+    gap: 16px;
+    padding: 18px !important;
+  }
+
+  .footer-bottom > div {
+    flex-wrap: wrap;
+    gap: 12px !important;
+  }
+
+  .footer-bottom p {
+    line-height: 1.5;
+  }
+
+  .footer-legal,
+  .footer-legal > div {
+    flex-wrap: wrap;
+    gap: 12px !important;
+  }
+}

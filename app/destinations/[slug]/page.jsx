@@ -5,13 +5,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 const { data } = require("../../../lib/data");
-const {
-  getCreteLandingSlugs,
-  getStoryblokExperienceCards,
-  sortExperienceCardsForCrete,
-} = require("../../../lib/storyblok/experienceCards");
+const { getCreteLandingSlugs, getStoryblokExperienceCards, sortExperienceCardsForCrete } = require("../../../lib/storyblok/experienceCards");
 
-const FALLBACK = "/images/figma/placeholder.jpg";
+const FALLBACK = "/images/placeholders/hero.svg";
 
 // Safe image resolver: blocks problematic paths, URL-encodes spaces, handles relative paths
 function safeImg(src, fallback = FALLBACK) {
@@ -86,16 +82,21 @@ function StarRating({ rating, count }) {
     <div className="flex items-center gap-1">
       <span className="text-amber-400 text-xs">★</span>
       <span className="text-xs font-medium text-gray-500">{rating}</span>
-      <span className="text-[11px] text-gray-400">({count})</span>
+      {count != null && <span className="text-[11px] text-gray-400">({count})</span>}
     </div>
   );
 }
 
 // Helper: reusable card component (image-first style matching home page)
-function ExperienceCard({ exp }) {
+function ExperienceCard({ exp, useDetailLink = false }) {
+  const href = useDetailLink
+    ? `/experiences/${exp.slug}`
+    : exp.slug === "bangkok-street-food"
+    ? "/experiences/bangkok-street-food-tour"
+    : `mailto:wanderlast02@gmail.com?subject=${encodeURIComponent(`Availability inquiry: ${exp.title}`)}`;
   return (
-    <Link href={`/experiences/${exp.slug}`} className="block group">
-      <div className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
+    <Link href={href} className="block group">
+      <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-200">
         {/* Image */}
         <div className="relative h-40 md:h-44 bg-gray-200 overflow-hidden">
           <img
@@ -119,9 +120,9 @@ function ExperienceCard({ exp }) {
             <StarRating rating={exp.rating} count={exp.ratingCount} />
             <span className="text-sm font-medium text-gray-900 whitespace-nowrap">from ${exp.price}</span>
           </div>
-          <button className="w-full h-8 bg-black text-white text-sm font-semibold rounded-md hover:bg-gray-800 transition mt-1">
-            Buy now
-          </button>
+          <span className="w-full h-8 flex items-center justify-center bg-black text-white text-sm font-semibold rounded-md mt-1">
+            {useDetailLink || exp.slug === "bangkok-street-food" ? "View experience" : "Ask about dates"}
+          </span>
         </div>
       </div>
     </Link>
@@ -129,13 +130,13 @@ function ExperienceCard({ exp }) {
 }
 
 export async function generateMetadata({ params }) {
-  const country = params.slug === "crete"
-    ? {
-        name: "Crete",
-        tagline: "A focused landing page for real bookable experiences across Crete",
-        heroImage: "/images/figma/home-page.png",
-      }
-    : data.getCountry(params.slug);
+  if (params.slug === "crete") {
+    return {
+      title: "Crete",
+      description: "A focused landing page for real bookable experiences across Crete",
+    };
+  }
+  const country = data.getCountry(params.slug);
   if (!country) return { title: "Destination Not Found" };
   return {
     title: country.name,
@@ -148,16 +149,11 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function DestinationPage({ params }) {
-  const isCrete = params.slug === "crete";
-  const country = isCrete
-    ? {
-        slug: "crete",
-        name: "Crete",
-        tagline: "A focused landing page for real bookable experiences across Crete",
-        heroImage: "/images/figma/home-page.png",
-      }
-    : data.getCountry(params.slug);
+export default function DestinationPage({ params }) {
+  if (params.slug === "crete") {
+    return <CreteLandingPage />;
+  }
+  const country = data.getCountry(params.slug);
   if (!country) notFound();
 
   // Use Thailand mock data for /destinations/thailand
@@ -170,18 +166,12 @@ export default async function DestinationPage({ params }) {
   // Use the project's hero file for Thailand as provided
   const heroImage = isThailand
     ? safeImg("/images/figma/destinations/thailand/hero.jpg")
-    : isCrete
-    ? safeImg("/images/destinations/crete-hero.jpg")
     : safeImg("/images/figma/placeholder.jpg");
 
-  if (isCrete) {
-    return await CreteLandingPage({ heroImage });
-  }
-
   return (
-    <main className="overflow-x-hidden">
+    <main>
       {/* ========== SECTION 1: HERO ========== */}
-      <section className="relative w-full min-h-[42vh] sm:min-h-[60vh] flex items-end pt-20 sm:pt-28 pb-10 sm:pb-16 px-4 overflow-hidden">
+      <section className="relative w-full min-h-[60vh] flex items-end pt-20 pb-16 px-4 overflow-hidden">
         {/* Background image element (fixed behind overlay) */}
         <img
           src={heroImage}
@@ -200,17 +190,17 @@ export default async function DestinationPage({ params }) {
             </div>
             
             {/* Big Title */}
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
-              Thailand
+            <h1 className="text-5xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
+              {country.name}
             </h1>
             
             {/* Breadcrumb */}
-            <div className="text-xs uppercase text-white/80 font-light mb-6 sm:mb-10">
+            <div className="text-xs uppercase text-white/80 font-light mb-10">
               <Link href="/" className="hover:text-white/95 transition">
                 Home
               </Link>
               {" / "}
-              <span>Thailand</span>
+              <span>{country.name}</span>
             </div>
             
             {/* Category Chips Row */}
@@ -237,14 +227,14 @@ export default async function DestinationPage({ params }) {
 
       {/* ========== SECTION 2: CITIES IN THAILAND ========== */}
       {isThailand && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className="py-16 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-8 sm:mb-14">Cities in Thailand</h2>
+            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-14">Cities in Thailand</h2>
             {/* Horizontal scrollable/wrapping row of circles */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div className="flex flex-wrap gap-6 justify-start">
               {citiesData.map((city) => (
-                <Link key={city.slug} href={`/experiences`} className="group flex flex-col items-center gap-2 snap-start">
-                  <div className="relative cursor-pointer w-24 h-24 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
+                <Link key={city.slug} href={`/experiences`} className="block group flex-shrink-0">
+                  <div className="relative cursor-pointer w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
                     <img
                       src={safeImg(city.image)}
                       alt={city.name}
@@ -261,24 +251,24 @@ export default async function DestinationPage({ params }) {
 
       {/* ========== SECTION 3: TOP EXPERIENCES BY CITY ========== */}
       {isThailand && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <section className="py-16 px-4 bg-gray-50">
           <div className="max-w-6xl mx-auto">
             {Object.entries(THAILAND_MOCK.topExperiencesByCity).map(([cityName, experiences]) => (
-              <div key={cityName} className="mb-10 sm:mb-16">
+              <div key={cityName} className="mb-16">
                 {/* City header */}
                 <div className="flex justify-between items-baseline mb-5">
                   <h2 className="text-4xl md:text-5xl font-medium text-gray-900">{cityName}</h2>
-                  <Link href="/experiences" className="text-sm font-semibold text-green-700 hover:text-green-800 transition">
+                  <Link href={cityName === "Bangkok" ? "/destinations/thailand/bangkok" : "/experiences"} className="text-sm font-semibold text-green-700 hover:text-green-800 transition">
                     Explore {cityName} →
                   </Link>
                 </div>
 
                 {/* Tabs (UI only) */}
-                <div className="flex gap-2 sm:gap-4 overflow-x-auto sm:overflow-visible pb-3 border-b border-gray-300 mb-0 sm:mb-10 scrollbar-hide">
+                <div className="flex flex-wrap gap-4 mb-10 border-b border-gray-300">
                   {["Culture & Heritage", "Parks & Gardens", "Animals & Shows", "Food & Dining", "Shopping"].map((tab, idx) => (
                     <button
                       key={tab}
-                      className={`pb-3 text-xs sm:text-sm font-medium transition flex-shrink-0 whitespace-nowrap ${
+                      className={`pb-3 text-sm font-medium transition ${
                         idx === 0 ? "text-gray-900 border-b-2 border-gray-900" : "text-gray-500 border-b-2 border-transparent hover:text-gray-700"
                       }`}
                     >
@@ -288,7 +278,7 @@ export default async function DestinationPage({ params }) {
                 </div>
 
                 {/* Cards grid */}
-                <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {experiences.map((exp) => (
                     <ExperienceCard key={exp.slug} exp={exp} />
                   ))}
@@ -301,10 +291,10 @@ export default async function DestinationPage({ params }) {
 
       {/* ========== SECTION 4: ALL THINGS TO DO ========== */}
       {isThailand && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className="py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             {/* Two-column layout: sidebar + content */}
-            <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-[16rem_1fr] gap-12">
               {/* LEFT: Filters sidebar (desktop w-64, collapses on mobile) */}
               <div className="hidden lg:block space-y-8 bg-gray-50 border border-gray-200 rounded-xl p-4">
                 {/* Destinations tree */}
@@ -362,18 +352,18 @@ export default async function DestinationPage({ params }) {
                 </div>
 
                 {/* Filter chips + sort */}
-                <div className="flex gap-3 items-center mb-6 sm:mb-10 pb-6 border-b border-gray-300 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                  <span className="text-xs text-gray-600 font-medium flex-shrink-0">Filter:</span>
-                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
+                <div className="flex flex-wrap gap-3 items-center mb-10 pb-6 border-b border-gray-300">
+                  <span className="text-xs text-gray-600 font-medium">Filter:</span>
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition">
                     Availability
                   </button>
-                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition">
                     Price range
                   </button>
-                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition flex-shrink-0">
+                  <button className="px-3 py-1.5 bg-gray-100 text-gray-700 text-xs font-medium rounded-full hover:bg-gray-200 transition">
                     Instant confirmation
                   </button>
-                  <div className="ml-auto flex-shrink-0">
+                  <div className="ml-auto">
                     <select className="text-sm px-3 py-1.5 border border-gray-300 rounded-lg bg-white hover:border-gray-400 transition">
                       <option>Recommended</option>
                       <option>Price: Low to High</option>
@@ -384,7 +374,7 @@ export default async function DestinationPage({ params }) {
                 </div>
 
                 {/* 3-column grid of cards (responsive: 1 mobile, 2 tablet, 3 desktop) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 mb-6 sm:mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-6 mb-10">
                   {THAILAND_MOCK.allThingsMock.map((exp) => (
                     <ExperienceCard key={exp.slug} exp={exp} />
                   ))}
@@ -404,16 +394,16 @@ export default async function DestinationPage({ params }) {
 
       {/* ========== SECTION 5: TRAVEL TIPS / ABOUT THAILAND ========== */}
       {isThailand && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <section className="py-16 px-4 bg-gray-50">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
               {/* LEFT: Paragraphs + General info */}
               <div>
                 <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-5">Travel Tips for Thailand</h2>
                 <p className="text-gray-700 leading-loose mb-6 text-base">
                   Thailand is one of Southeast Asia's most enchanting destinations, known for its warm hospitality, stunning temples, and vibrant street food culture. Whether you're exploring the bustling streets of Bangkok or relaxing on pristine island beaches, Thailand offers unforgettable experiences for every traveler.
                 </p>
-                <p className="text-gray-700 leading-loose mb-6 sm:mb-10 text-base">
+                <p className="text-gray-700 leading-loose mb-10 text-base">
                   From world-class diving in the Andaman Sea to trekking through lush northern jungles, Thailand seamlessly blends adventure, culture, and relaxation. The key is to venture beyond the tourist hotspots and connect with local communities to experience authentic Thai life.
                 </p>
 
@@ -458,13 +448,13 @@ export default async function DestinationPage({ params }) {
 
       {/* ========== SECTION 6: NEARBY DESTINATIONS ========== */}
       {isThailand && nearbyData.length > 0 && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className="py-16 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-8 sm:mb-14">Nearby Destinations</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <h2 className="text-4xl md:text-5xl font-normal text-gray-900 mb-14">Nearby Destinations</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
               {nearbyData.map((dest) => (
-                <Link key={dest.slug} href={`/destinations/${dest.slug}`} className="block group">
-                  <div className="relative cursor-pointer mx-auto w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
+                <Link key={dest.slug} href={`mailto:wanderlast02@gmail.com?subject=${encodeURIComponent(`Travel inquiry: ${dest.name}`)}`} className="block group">
+                  <div className="relative cursor-pointer mx-auto w-28 h-28 md:w-32 md:h-32 rounded-full overflow-hidden shadow-sm group-hover:shadow-md transition-shadow border border-gray-200 hover:ring-2 hover:ring-green-600/40">
                     <Image
                       src={safeImg(dest.image)}
                       alt={dest.name}
@@ -483,7 +473,7 @@ export default async function DestinationPage({ params }) {
 
       {/* Minimal fallback for non-Thailand slugs */}
       {!isThailand && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+        <section className="py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-2xl font-semibold text-gray-900 mb-4">{country.name}</h2>
             <p className="text-gray-700">Destination page coming soon.</p>
@@ -493,14 +483,14 @@ export default async function DestinationPage({ params }) {
 
       {/* ========== SECTION 7: DISCOVER MOST POPULAR PLACES ========== */}
       {isThailand && popularPlaces.length > 0 && (
-        <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">
+        <section className="py-16 px-4 bg-gray-50">
           <div className="max-w-6xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-medium text-gray-900 mb-6 sm:mb-10">
+            <h2 className="text-4xl md:text-5xl font-medium text-gray-900 mb-10">
               Discover Most Popular Places to Visit in {country.name}
             </h2>
 
             {/* Two-toggle pill (UI only) */}
-            <div className="flex justify-center gap-2 mb-8 sm:mb-14">
+            <div className="flex justify-center gap-2 mb-14">
               <button className="px-6 py-2.5 bg-green-800 text-white text-sm font-semibold rounded-full shadow-sm hover:bg-green-900 transition">
                 Top things to do
               </button>
@@ -527,10 +517,9 @@ export default async function DestinationPage({ params }) {
   );
 }
 
-async function CreteLandingPage({ heroImage }) {
+async function CreteLandingPage() {
   const creteUrl = "https://experiences.galinibeach.com/destinations/crete";
   const creteQrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(creteUrl)}`;
-
   const experiences = await getStoryblokExperienceCards({
     includeSlugs: getCreteLandingSlugs(),
     sortBy: sortExperienceCardsForCrete,
@@ -540,48 +529,30 @@ async function CreteLandingPage({ heroImage }) {
     <>
       <section className="relative w-full h-[38vh] sm:h-[45vh] flex items-end pt-16 sm:pt-20 pb-8 sm:pb-12 px-4 overflow-hidden">
         <img
-          src={heroImage}
+          src="/images/destinations/crete-hero.jpg"
           alt="Crete hero background"
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ objectPosition: "center 45%" }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40" />
-
         <div className="max-w-6xl mx-auto w-full relative z-10">
-          <div>
-            <div className="text-xs uppercase tracking-widest text-white/80 mb-6 font-light">
-              Greece
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">
-              Crete
-            </h1>
-            <p className="text-white/90 text-sm sm:text-base max-w-2xl">
-              A streamlined landing page for guests scanning a QR code and choosing from real experiences around Crete.
-            </p>
-            <div className="mt-6 inline-flex flex-col items-center rounded-xl bg-white p-3 shadow-lg">
-              <img src={creteQrUrl} alt="QR code to open Crete destination page" className="w-24 h-24 sm:w-28 sm:h-28" loading="lazy" />
-              <p className="mt-2 text-xs text-gray-700">Scan to open this page on your phone</p>
-            </div>
+          <div className="text-xs uppercase tracking-widest text-white/80 mb-6 font-light">Greece</div>
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-semibold tracking-tight text-white drop-shadow-lg mb-6">Crete</h1>
+          <p className="text-white/90 text-sm sm:text-base max-w-2xl">
+            A streamlined landing page for guests scanning a QR code and choosing from real experiences around Crete.
+          </p>
+          <div className="mt-6 inline-flex flex-col items-center rounded-xl bg-white p-3 shadow-lg">
+            <img src={creteQrUrl} alt="QR code to open Crete destination page" className="w-24 h-24 sm:w-28 sm:h-28" loading="lazy" />
+            <p className="mt-2 text-xs text-gray-700">Scan to open this page on your phone</p>
           </div>
         </div>
       </section>
-
       <section className="py-6 sm:py-8 md:py-10 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-medium text-gray-900 mb-6 sm:mb-8">Best experiences for your stay</h2>
           <div className="space-y-6 sm:space-y-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
             {experiences.map((exp) => (
-              <ExperienceCard
-                key={exp.slug}
-                exp={{
-                  slug: exp.slug,
-                  title: exp.title,
-                  price: exp.price,
-                  rating: exp.rating,
-                  ratingCount: 0,
-                  image: exp.image,
-                }}
-              />
+              <ExperienceCard key={exp.slug} exp={{ ...exp, ratingCount: 0 }} useDetailLink />
             ))}
           </div>
         </div>

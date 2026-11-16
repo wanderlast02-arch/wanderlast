@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import ExperienceStoryblokPreview from "../../../components/ExperienceStoryblokPreview";
 import { getStoryblokAssetFilename } from "../../../lib/storyblok/assets";
 import { isStoryblokPreview } from "../../../lib/storyblok/isPreview";
+import BangkokStreetFoodPage, { generateMetadata as generateBangkokMetadata } from "./BangkokStreetFoodPage";
 
 const FALLBACK = "/images/figma/placeholder.jpg";
 
@@ -502,8 +503,8 @@ async function getExperience(slug) {
       title: experience.title,
       image: experience.image,
       location: experience.location || DEFAULT_EXPERIENCE_CONTENT.location,
-      rating: experience.rating ?? DEFAULT_EXPERIENCE_CONTENT.rating,
-      reviewCount: experience.reviewCount ?? DEFAULT_EXPERIENCE_CONTENT.reviewCount,
+      rating: normalizeNumber(experience.rating),
+      reviewCount: normalizeNumber(experience.reviewCount),
       price: experience.price ?? DEFAULT_EXPERIENCE_CONTENT.price,
       priceDisplay: experience.priceDisplay || DEFAULT_EXPERIENCE_CONTENT.priceDisplay,
       type: experience.groupType || DEFAULT_EXPERIENCE_CONTENT.type,
@@ -558,7 +559,7 @@ async function getExperience(slug) {
         yearsGuiding: experience.guideYears || DEFAULT_EXPERIENCE_CONTENT.guide.yearsGuiding,
         happyTravelers: experience.happyTravelers || DEFAULT_EXPERIENCE_CONTENT.guide.happyTravelers,
       },
-      reviews: experience.reviews.length ? experience.reviews : DEFAULT_EXPERIENCE_CONTENT.reviews,
+      reviews: experience.reviews,
       related: experience.related.length ? experience.related.slice(0, 3) : DEFAULT_EXPERIENCE_CONTENT.related,
       ctaText: experience.ctaText || "Check availability on WhatsApp",
       seoTitle: experience.seoTitle,
@@ -679,6 +680,7 @@ function RelatedCard({ exp }) {
 
 export async function generateMetadata({ params }) {
   const experience = await getExperience(params.slug);
+  if (!experience && params.slug === "bangkok-street-food-tour") return generateBangkokMetadata({ params });
   if (!experience) return { title: "Experience Not Found" };
 
   return {
@@ -708,6 +710,7 @@ export default async function ExperiencePage({ params, searchParams }) {
   const experience = await getExperience(slug);
 
   if (!experience) {
+    if (slug === "bangkok-street-food-tour") return <BangkokStreetFoodPage params={params} />;
     return notFound();
   }
 
@@ -756,12 +759,14 @@ export default async function ExperiencePage({ params, searchParams }) {
 
               {/* Meta row */}
               <div className="flex flex-wrap gap-3 sm:gap-6 text-white/90 text-xs sm:text-sm">
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400">★</span>
-                  <span className="font-medium">
-                    {experience.rating} ({experience.reviewCount} reviews)
-                  </span>
-                </div>
+                {experience.rating != null && experience.reviewCount > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-amber-400">★</span>
+                    <span className="font-medium">
+                      {experience.rating} ({experience.reviewCount} reviews)
+                    </span>
+                  </div>
+                )}
                 <span>{experience.partnerLabel}</span>
                 <span>{experience.type}</span>
                 <span>{experience.verificationLabel}</span>
@@ -929,7 +934,7 @@ export default async function ExperiencePage({ params, searchParams }) {
       </section>
 
       {/* ========== SECTION 7: REVIEWS PREVIEW ========== */}
-      <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
+      {experience.reviews.length > 0 && <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-6xl mx-auto space-y-5">
           <h2 className="text-3xl sm:text-4xl font-normal text-gray-900 mb-12">{experience.reviewsSectionTitle}</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -938,7 +943,7 @@ export default async function ExperiencePage({ params, searchParams }) {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* ========== SECTION 8: HOST / GUIDE CARD ========== */}
       <section className="py-8 sm:py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gray-50">

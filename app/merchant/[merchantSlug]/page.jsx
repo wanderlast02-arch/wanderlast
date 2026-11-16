@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 const merchants = {
 	"aurora-adventures": {
@@ -9,7 +10,7 @@ const merchants = {
 		rating: 4.8,
 		reviews: 214,
 		specialties: ["Arctic glamping", "Glacier hikes", "Eco-sailing"],
-		heroImage: "/images/destinations/aurora-placeholder.svg",
+		heroImage: "/images/placeholders/hero.svg",
 	},
 	"andes-trails": {
 		name: "Andes Trails",
@@ -31,16 +32,6 @@ const merchants = {
 	},
 };
 
-const fallbackMerchant = {
-	name: "Independent Host",
-	location: "Global",
-	tagline: "Curated stays and experiences crafted locally.",
-	rating: 4.6,
-	reviews: 120,
-	specialties: ["Boutique stays", "Local guides", "Seasonal menus"],
-	heroImage: "/images/placeholders/hero-01.svg",
-};
-
 function MerchantBadge({ label }) {
 	return (
 		<span className="inline-flex items-center rounded-full bg-surface px-3 py-1 text-xs font-medium text-wl-primary shadow-sm ring-1 ring-wl-primary/10">
@@ -56,7 +47,8 @@ export const metadata = {
 
 export default function MerchantPage({ params }) {
 	const slug = params?.merchantSlug;
-	const merchant = merchants[slug] || { ...fallbackMerchant, slug };
+	const merchant = merchants[slug];
+	if (!merchant) notFound();
 
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-[#f9fafb] via-white to-[#f3f4f6] text-slate-900">

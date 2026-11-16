@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import BangkokCityPage from "./BangkokCityPage";
 const { data } = require("../../../../lib/data");
 
 const FALLBACK = "/images/figma/placeholder.jpg";
@@ -10,6 +11,11 @@ export default function DestinationDetailPage({ params }) {
   const { countrySlug, destinationSlug } = params;
   const destination = data.getDestination(countrySlug, destinationSlug);
   if (!destination) notFound();
+
+  if (countrySlug === "thailand" && destinationSlug === "bangkok") {
+    return <BangkokCityPage />;
+  }
+
   const experiences = data.listExperiences({ countrySlug, destinationSlug });
 
   return (
@@ -52,7 +58,7 @@ export default function DestinationDetailPage({ params }) {
               {experiences.map((exp) => (
                 <Link
                   key={exp.slug}
-                  href={`/experience/${exp.slug}`}
+                  href={`/experiences/${exp.slug}`}
                   style={{
                     background: "white",
                     borderRadius: "12px",

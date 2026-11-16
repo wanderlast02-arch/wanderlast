@@ -2,23 +2,135 @@
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-900 text-white">
-      {/* Logo Section */}
-      <div className="border-b border-white/10 px-6 py-10 sm:py-12 max-w-7xl mx-auto">
-        <a href="/destinations/crete" className="text-2xl font-semibold text-white hover:text-white/80 transition">
-          Galini Beach Hotel
-        </a>
+    <footer style={{ backgroundColor: "var(--neutral-900)", color: "white", marginTop: "80px" }}>
+      <div
+        className="footer-columns"
+        style={{
+          maxWidth: "1400px",
+          margin: "0 auto",
+          padding: "60px 24px",
+          display: "grid",
+          gridTemplateColumns: "repeat(4, 1fr)",
+          gap: "40px",
+        }}
+      >
+        {/* Explore Destinations */}
+        <div>
+          <h3 style={{ fontSize: "16px", fontWeight: 600, marginBottom: "24px" }}>Explore Destinations</h3>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {["Europe", "Asia", "North America", "South America", "Africa", "Oceania", "Middle East"].map((link) => (
+              <li key={link} style={{ marginBottom: "12px" }}>
+                <a
+                  href="#"
+                  style={{
+                    color: "#999",
+                    textDecoration: "none",
+                    fontSize: "14px",
+                  }}
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Tours & Experience */}
+        <div>
+          <h3 style={{ fontSize: "16px", fontWeight: 600, marginBottom: "24px" }}>Tours & Experience</h3>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {["Tour Packages", "Flight Booking", "Hotel Reservations", "Transfers", "Passes & Tickets", "Car Rentals", "Travel Insurance", "Visa Assistance"].map((link) => (
+              <li key={link} style={{ marginBottom: "12px" }}>
+                <a
+                  href="#"
+                  style={{
+                    color: "#999",
+                    textDecoration: "none",
+                    fontSize: "14px",
+                  }}
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* About us */}
+        <div>
+          <h3 style={{ fontSize: "16px", fontWeight: 600, marginBottom: "24px" }}>About us</h3>
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {["Company", "Our Team", "Careers", "Press", "Blog", "Contact"].map((link) => (
+              <li key={link} style={{ marginBottom: "12px" }}>
+                <a
+                  href="#"
+                  style={{
+                    color: "#999",
+                    textDecoration: "none",
+                    fontSize: "14px",
+                  }}
+                >
+                  {link}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Get in Touch */}
+        <div>
+          <h3 style={{ fontSize: "16px", fontWeight: 600, marginBottom: "24px" }}>Get in Touch</h3>
+          <div style={{ marginBottom: "16px" }}>
+            <p style={{ fontSize: "14px", color: "#999", margin: "0 0 8px 0" }}>📞 +357 99645094</p>
+            <p style={{ fontSize: "14px", color: "#999", margin: "0 0 8px 0" }}>✉️ wanderlast02@gmail.com</p>
+            <p style={{ fontSize: "14px", color: "#999", margin: "0" }}>📍 Limmasol</p>
+          </div>
+          <div className="footer-social" style={{ display: "flex", gap: "16px", marginTop: "20px" }}>
+            <a href="#" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", textDecoration: "none" }}>f</a>
+            <a href="#" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", textDecoration: "none" }}>📷</a>
+            <a href="#" style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", color: "white", textDecoration: "none" }}>💬</a>
+            <a href="#" style={{ fontSize: "14px", color: "#4A90E2", textDecoration: "none", paddingLeft: "8px", lineHeight: "40px" }}>Subscribe</a>
+          </div>
+        </div>
       </div>
 
-      {/* Terms Section */}
-      <div className="border-t border-white/10 px-6 py-6 max-w-7xl mx-auto flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-wrap gap-4 items-center">
-          <a href="#" className="text-sm text-neutral-400 hover:text-white transition">Privacy Policy</a>
-          <a href="#" className="text-sm text-neutral-400 hover:text-white transition">Terms of Service</a>
-          <a href="#" className="text-sm text-neutral-400 hover:text-white transition">Cookie Policy</a>
+      {/* Logo Section */}
+      <div
+        className="footer-bottom"
+        style={{
+          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+          padding: "60px 24px",
+          maxWidth: "1400px",
+          margin: "0 auto",
+        }}
+      >
+        <img
+          src="/logo-footer.svg"
+          alt="Wanderlast"
+          style={{ height: "auto", width: "100%", maxWidth: "400px" }}
+        />
+      </div>
+
+      {/* Bottom Section */}
+      <div
+        className="footer-legal"
+        style={{
+          borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+          padding: "24px",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          maxWidth: "1400px",
+          margin: "0 auto",
+        }}
+      >
+        <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
+          <a href="#" style={{ fontSize: "14px", color: "#999", textDecoration: "none" }}>Privacy Policy</a>
+          <a href="#" style={{ fontSize: "14px", color: "#999", textDecoration: "none" }}>Terms of Service</a>
+          <a href="#" style={{ fontSize: "14px", color: "#999", textDecoration: "none" }}>Cookie Policy</a>
         </div>
-        <p className="text-sm text-neutral-400 m-0">
-          © 2026 W - Created with love in Cyprus&Crete
+        <p style={{ fontSize: "14px", color: "#999", margin: 0 }}>
+          © 2026 Wanderlast - Created with love in Cyprus&Crete
         </p>
       </div>
     </footer>

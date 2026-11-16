@@ -1,4 +1,28 @@
 @media (max-width: 768px) {
+  .site-navigation {
+    grid-template-columns: 1fr auto !important;
+    height: 60px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .header-primary-nav {
+    display: none !important;
+  }
+
+  .header-actions {
+    gap: 12px !important;
+    font-size: 12px !important;
+  }
+
+  .header-actions > a[href="#"] {
+    display: none !important;
+  }
+
+  .header-actions .mobile-explore-link {
+    display: inline-flex !important;
+  }
+
   .header-mobile-button {
     display: block !important;
   }
@@ -24,6 +48,10 @@
     padding: 12px 0;
     border-bottom: 1px solid var(--border);
   }
+}
+
+.mobile-explore-link {
+  display: none !important;
 }
 
 @media (min-width: 769px) {
